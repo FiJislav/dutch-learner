@@ -205,6 +205,10 @@ tr:hover td { background: #1e2d5a; }
 .verb-inp:focus { border-color: #c3b1e1; }
 .verb-inp.correct { border-color: #4caf93; background: #0d2b1e; color: #4caf93; }
 .verb-inp.wrong   { border-color: #e07070; background: #2b0d0d; color: #e07070; }
+.vcell-sentence { padding: 4px 2px 4px 10px; color: #a0c4ff; font-style: italic; font-size: 0.82rem; opacity: 0; transition: opacity 0.3s; }
+.vcell-sentence.show { opacity: 1; }
+.vcell-sentence button { background: transparent; border: none; cursor: pointer; color: #6c63ff; font-size: 0.85rem; padding: 0 3px; opacity: 0.7; vertical-align: middle; }
+.vcell-sentence button:hover { opacity: 1; }
 </style>
 </head>
 <body>
@@ -415,10 +419,12 @@ const DECK = [
   { id:"w080", type:"word", dutch:"het pak",                 english:"suit",               note:"", tag:"Ch 7", sentences:[] },
 
   // ── Verbs ──
-  { id:"v001", type:"verb", dutch:"zijn",    english:"to be",   tag:"verbs",
-    conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" } },
-  { id:"v002", type:"verb", dutch:"hebben",  english:"to have",  tag:"verbs",
-    conjugations:{ "ik":"heb", "jij / je":"hebt", "u":"hebt / heeft", "hij":"heeft", "zij / ze":"heeft", "het":"heeft", "wij / we":"hebben", "jullie":"hebben", "zij / ze (pl)":"hebben" } },
+  { id:"v001", type:"verb", dutch:"zijn", english:"to be", tag:"verbs",
+    conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" },
+    sentences:{   "ik":"Ik ben student.", "jij / je":"Jij bent mijn vriend.", "u":"U bent de leraar.", "hij":"Hij is ziek.", "zij / ze":"Zij is thuis.", "het":"Het is koud.", "wij / we":"Wij zijn hier.", "jullie":"Jullie zijn vroeg.", "zij / ze (pl)":"Zij zijn vrienden." } },
+  { id:"v002", type:"verb", dutch:"hebben", english:"to have", tag:"verbs",
+    conjugations:{ "ik":"heb", "jij / je":"hebt", "u":"hebt / heeft", "hij":"heeft", "zij / ze":"heeft", "het":"heeft", "wij / we":"hebben", "jullie":"hebben", "zij / ze (pl)":"hebben" },
+    sentences:{   "ik":"Ik heb een fiets.", "jij / je":"Jij hebt gelijk.", "u":"U heeft een afspraak.", "hij":"Hij heeft honger.", "zij / ze":"Zij heeft een hond.", "het":"Het heeft een naam.", "wij / we":"Wij hebben tijd.", "jullie":"Jullie hebben geluk.", "zij / ze (pl)":"Zij hebben een huis." } },
 ];
 
 // ── STATS ENGINE ──
@@ -789,8 +795,10 @@ function showVerbForm() {
     document.getElementById("verb-infinitive").textContent = card.dutch + " — " + card.english;
     tbody.innerHTML = "";
     Object.entries(card.conjugations).forEach(([pronoun, form]) => {
+      const sentence = (card.sentences || {})[pronoun] || "";
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td class="vcell-pronoun">${pronoun}</td><td class="vcell-input"><input class="verb-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-answer="${form}" /></td>`;
+      tr.dataset.sentence = sentence;
+      tr.innerHTML = `<td class="vcell-pronoun">${pronoun}</td><td class="vcell-input"><input class="verb-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-answer="${form}" /></td><td class="vcell-sentence"></td>`;
       tbody.appendChild(tr);
     });
     updateProgress();
@@ -837,6 +845,18 @@ function checkVerbForm() {
       sessionW++; fb.textContent = "✗ Correct answers shown in red"; fb.className = "ex-feedback wrong";
     }
     speakDutch(card.dutch);
+    // reveal example sentences
+    document.querySelectorAll("#verb-table-body tr").forEach(tr => {
+      const s = tr.dataset.sentence;
+      if (!s) return;
+      const td = tr.querySelector(".vcell-sentence");
+      td.textContent = s + " ";
+      const btn = document.createElement("button");
+      btn.textContent = "🔊"; btn.title = "Listen";
+      btn.addEventListener("click", () => speakDutch(s));
+      td.appendChild(btn);
+      td.classList.add("show");
+    });
     updateScoreBar();
   } else {
     if (verbAnswered) { verbCardIdx = (verbCardIdx + 1) % verbCardQueue.length; showVerbForm(); return; }
@@ -986,6 +1006,13 @@ document.getElementById("btn-verb-skip").addEventListener("click", () => {
       inputs.forEach(inp => { inp.value = inp.dataset.answer; inp.classList.add("wrong"); });
       const card = verbDeck[verbIdx];
       recordResult(card.id, false); speakDutch(card.dutch);
+      document.querySelectorAll("#verb-table-body tr").forEach(tr => {
+        const s = tr.dataset.sentence; if (!s) return;
+        const td = tr.querySelector(".vcell-sentence");
+        td.textContent = s + " ";
+        const btn = document.createElement("button"); btn.textContent = "🔊"; btn.title = "Listen";
+        btn.addEventListener("click", () => speakDutch(s)); td.appendChild(btn); td.classList.add("show");
+      });
     } else {
       const ex = verbCardQueue[verbCardIdx];
       const inp = document.getElementById("verb-card-input");
