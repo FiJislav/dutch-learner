@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nederlands — Leren</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+h1 { margin: 20px 0 6px; color: #a0c4ff; font-size: 1.6rem; }
+#subtitle { color: #888; margin-bottom: 14px; font-size: 0.9rem; }
+
+/* ── TOP CONTROLS ── */
+#top-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; justify-content: center; }
+#chapter-select {
+  background: #16213e; color: #a0c4ff; border: 2px solid #6c63ff;
+  border-radius: 8px; padding: 7px 14px; font-size: 0.9rem; cursor: pointer; outline: none;
+}
+#weak-toggle {
+  padding: 7px 16px; border: 2px solid #e07070; border-radius: 8px;
+  background: transparent; color: #e07070; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+#weak-toggle.active { background: #e07070; color: #1a1a2e; }
+
+/* ── MODE TABS ── */
+.mode-toggle {
+  display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 18px;
+  border: 2px solid #6c63ff; border-radius: 10px; overflow: hidden;
+}
+.mode-btn {
+  padding: 8px 16px; border: none; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  background: transparent; color: #888;
+  transition: background 0.2s, color 0.2s;
+}
+.mode-btn.active { background: #6c63ff; color: #fff; }
+
+/* ── NAV CONTROLS ── */
+.controls { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; justify-content: center; }
+button {
+  padding: 8px 18px; border: none; border-radius: 8px;
+  cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s;
+}
+button:hover { opacity: 0.85; }
+#btn-prev    { background: #444; color: #eee; }
+#btn-next    { background: #a0c4ff; color: #1a1a2e; }
+#btn-shuffle { background: #6c63ff; color: #fff; }
+#btn-reset   { background: #444; color: #eee; }
+
+/* ── PROGRESS ── */
+.progress { color: #888; font-size: 0.85rem; margin-bottom: 14px; }
+.progress span { color: #a0c4ff; font-weight: 700; }
+.score-bar { display: flex; gap: 16px; margin-bottom: 14px; font-size: 0.85rem; }
+.score-correct { color: #4caf93; }
+.score-wrong   { color: #e07070; }
+
+/* ── FLIP CARD ── */
+.scene {
+  width: 380px; max-width: 96vw; height: 220px;
+  perspective: 800px; cursor: pointer; margin-bottom: 20px; position: relative;
+}
+.card {
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s ease;
+  border-radius: 18px;
+}
+.card.flipped { transform: rotateY(180deg); }
+.face {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: 18px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px; text-align: center;
+}
+.front { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #6c63ff; }
+.back  { background: linear-gradient(135deg, #0f3460, #16213e); border: 2px solid #a0c4ff; transform: rotateY(180deg); }
+.lang-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.5; }
+.word  { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.note  { font-size: 0.78rem; color: #aaa; margin-top: 8px; font-style: italic; }
+.hint-tap { font-size: 0.72rem; color: #444; margin-top: 12px; }
+#btn-speak-flip {
+  position: absolute; top: 12px; right: 12px;
+  background: transparent; border: none; font-size: 1.3rem;
+  cursor: pointer; opacity: 0.4; transition: opacity 0.2s;
+}
+#btn-speak-flip:hover { opacity: 1; }
+.mastery-dot {
+  position: absolute; top: 12px; left: 12px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #444;
+}
+.mastery-dot.green  { background: #4caf93; }
+.mastery-dot.yellow { background: #f0c040; }
+.mastery-dot.red    { background: #e07070; }
+
+/* ── SHARED INPUT BOX ── */
+.exercise-box {
+  width: 400px; max-width: 96vw;
+  border-radius: 18px; padding: 28px 24px;
+  display: none; flex-direction: column; align-items: center;
+  gap: 14px; margin-bottom: 20px;
+}
+.exercise-box.visible { display: flex; }
+.ex-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
+.ex-question { font-size: 1.7rem; font-weight: 700; color: #fff; text-align: center; line-height: 1.3; }
+.ex-input {
+  width: 100%; padding: 10px 14px;
+  background: #0d1b38; border: 2px solid #444;
+  border-radius: 8px; color: #fff; font-size: 1.1rem;
+  outline: none; text-align: center; transition: border-color 0.2s;
+}
+.ex-input:focus { border-color: #6c63ff; }
+.ex-input.correct { border-color: #4caf93; background: #0d2b1e; }
+.ex-input.wrong   { border-color: #e07070; background: #2b0d0d; }
+.ex-feedback { font-size: 0.95rem; min-height: 1.4em; text-align: center; font-weight: 600; }
+.ex-feedback.correct { color: #4caf93; }
+.ex-feedback.wrong   { color: #e07070; }
+.ex-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+#btn-check        { background: #6c63ff; color: #fff; }
+#btn-skip         { background: #333; color: #aaa; font-size: 0.82rem; }
+#btn-speak-type   { background: #1e3a5f; color: #a0c4ff; font-size: 0.85rem; }
+.tts-notice { font-size: 0.72rem; color: #555; }
+
+/* ── TYPE BOX ── */
+#type-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #6c63ff; }
+
+/* ── MULTIPLE CHOICE ── */
+#mc-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #a0c4ff; }
+.mc-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.mc-option {
+  padding: 12px 10px; border-radius: 10px; border: 2px solid #333;
+  background: #0d1b38; color: #eee; cursor: pointer; font-size: 0.95rem;
+  text-align: center; transition: border-color 0.15s, background 0.15s;
+}
+.mc-option:hover  { border-color: #6c63ff; }
+.mc-option.correct { border-color: #4caf93; background: #0d2b1e; color: #4caf93; }
+.mc-option.wrong   { border-color: #e07070; background: #2b0d0d; color: #e07070; }
+.mc-option.reveal  { border-color: #4caf93; background: #0d2b1e; color: #4caf93; }
+
+/* ── GRAMMAR BOX ── */
+#grammar-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #4caf93; }
+.grammar-topic { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #4caf93; opacity: 0.8; }
+#grammar-sentence { font-size: 1.15rem; color: #fff; text-align: center; line-height: 1.7; font-weight: 500; }
+#grammar-sentence .blank {
+  display: inline-block; border-bottom: 2px solid #a0c4ff;
+  min-width: 80px; color: #a0c4ff; font-style: italic; text-align: center;
+}
+#grammar-hint { font-size: 0.78rem; color: #a0c4ff; opacity: 0.7; font-style: italic; margin-top: -6px; }
+#grammar-full { font-size: 1rem; color: #a0c4ff; text-align: center; font-style: italic; min-height: 1.4em; }
+#grammar-input { width: 200px; }
+#btn-grammar-check { background: #4caf93; color: #1a1a2e; font-weight: 700; }
+#btn-grammar-skip  { background: #333; color: #aaa; font-size: 0.82rem; }
+#btn-speak-grammar { background: #1e3a5f; color: #a0c4ff; font-size: 0.85rem; }
+
+/* ── VERB FORMS BOX ── */
+#verb-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #c3b1e1; }
+#verb-infinitive { font-size: 2rem; font-weight: 700; color: #c3b1e1; }
+#verb-pronoun { font-size: 1.1rem; color: #a0c4ff; font-style: italic; }
+#verb-input { width: 200px; }
+#btn-verb-check { background: #c3b1e1; color: #1a1a2e; font-weight: 700; }
+#btn-verb-skip  { background: #333; color: #aaa; font-size: 0.82rem; }
+#btn-speak-verb { background: #1e3a5f; color: #a0c4ff; font-size: 0.85rem; }
+
+/* ── WORD LIST ── */
+details { margin-top: 24px; width: 100%; max-width: 540px; }
+summary { cursor: pointer; color: #6c63ff; font-size: 0.9rem; padding: 8px 0; user-select: none; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+th { background: #0f3460; color: #a0c4ff; padding: 8px 12px; text-align: left; }
+td { padding: 7px 12px; border-bottom: 1px solid #222; }
+tr:hover td { background: #1e2d5a; }
+.dutch-col { color: #c3b1e1; font-weight: 600; }
+
+/* ── FOOTER ── */
+.footer { margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.footer button { background: #222; color: #888; border: 1px solid #333; font-size: 0.8rem; padding: 6px 14px; }
+.footer button:hover { color: #eee; border-color: #666; }
+</style>
+</head>
+<body>
+
+<h1>Nederlands in gang</h1>
+<p id="subtitle">Click the card to reveal the translation</p>
+
+<div id="top-controls">
+  <select id="chapter-select">
+    <option value="all">All cards</option>
+    <option value="Ch 7" selected>Ch 7: In een kledingzaak</option>
+    <option value="verbs">Verbs only</option>
+  </select>
+  <button id="weak-toggle">⚡ Weak words</button>
+</div>
+
+<div class="mode-toggle">
+  <button class="mode-btn active" data-mode="flip">🃏 Flip</button>
+  <button class="mode-btn" data-mode="type">✏️ Type</button>
+  <button class="mode-btn" data-mode="mc">🔤 Choice</button>
+  <button class="mode-btn" data-mode="grammar">📚 Grammar</button>
+  <button class="mode-btn" data-mode="verb">🔀 Verbs</button>
+</div>
+
+<div class="controls">
+  <button id="btn-prev">← Prev</button>
+  <button id="btn-next">Next →</button>
+  <button id="btn-shuffle">⇄ Shuffle</button>
+  <button id="btn-reset">↺ Reset</button>
+</div>
+
+<div class="progress">Card <span id="cur">1</span> of <span id="total">0</span></div>
+<div class="score-bar" id="score-bar" style="display:none">
+  <span class="score-correct">✓ Correct: <span id="score-c">0</span></span>
+  <span class="score-wrong">✗ Wrong: <span id="score-w">0</span></span>
+</div>
+
+<!-- Flip card -->
+<div class="scene" id="scene">
+  <div class="mastery-dot" id="mastery-dot"></div>
+  <div class="card" id="card">
+    <div class="face front">
+      <div class="lang-label">Dutch</div>
+      <div class="word" id="flip-dutch"></div>
+      <div class="note" id="flip-note"></div>
+      <div class="hint-tap">tap to flip</div>
+    </div>
+    <div class="face back">
+      <div class="lang-label">English</div>
+      <div class="word" id="flip-english"></div>
+    </div>
+  </div>
+  <button id="btn-speak-flip" title="Listen">🔊</button>
+</div>
+
+<!-- Type Dutch -->
+<div class="exercise-box" id="type-box">
+  <div class="ex-label">English → type Dutch</div>
+  <div class="ex-question" id="type-question"></div>
+  <input class="ex-input" id="type-input" type="text" placeholder="Type the Dutch word…" autocomplete="off" spellcheck="false" />
+  <div class="ex-feedback" id="type-feedback"></div>
+  <div class="ex-actions">
+    <button id="btn-check">Check ↵</button>
+    <button id="btn-speak-type">🔊 Listen</button>
+    <button id="btn-skip">Skip</button>
+  </div>
+  <div class="tts-notice" id="tts-notice"></div>
+</div>
+
+<!-- Multiple choice -->
+<div class="exercise-box" id="mc-box">
+  <div class="ex-label">Dutch → pick English</div>
+  <div class="ex-question" id="mc-question"></div>
+  <div class="mc-options" id="mc-options"></div>
+</div>
+
+<!-- Grammar -->
+<div class="exercise-box" id="grammar-box">
+  <div class="grammar-topic" id="grammar-topic">📚 Grammar</div>
+  <div id="grammar-sentence"></div>
+  <div id="grammar-hint"></div>
+  <input class="ex-input" id="grammar-input" type="text" placeholder="fill in…" autocomplete="off" spellcheck="false" />
+  <div class="ex-feedback" id="grammar-feedback"></div>
+  <div id="grammar-full"></div>
+  <div class="ex-actions">
+    <button id="btn-grammar-check">Check ↵</button>
+    <button id="btn-speak-grammar">🔊 Listen</button>
+    <button id="btn-grammar-skip">Skip</button>
+  </div>
+</div>
+
+<!-- Verb forms -->
+<div class="exercise-box" id="verb-box">
+  <div class="ex-label">Verb conjugation</div>
+  <div id="verb-infinitive"></div>
+  <div id="verb-pronoun"></div>
+  <input class="ex-input" id="verb-input" type="text" placeholder="conjugated form…" autocomplete="off" spellcheck="false" />
+  <div class="ex-feedback" id="verb-feedback"></div>
+  <div class="ex-actions">
+    <button id="btn-verb-check">Check ↵</button>
+    <button id="btn-speak-verb">🔊 Listen</button>
+    <button id="btn-verb-skip">Skip</button>
+  </div>
+</div>
+
+<!-- Word list -->
+<details>
+  <summary>📄 Show full word list</summary>
+  <table><tr><th>Dutch</th><th>English</th></tr><tbody id="word-table"></tbody></table>
+</details>
+
+<!-- Footer -->
+<div class="footer">
+  <button id="btn-export">⬇ Export progress</button>
+  <button id="btn-import-label" onclick="document.getElementById('import-file').click()">⬆ Import JSON</button>
+  <input type="file" id="import-file" accept=".json" style="display:none" />
+</div>
+
+<script>
+// JS goes here in later tasks
+</script>
+</body>
+</html>
