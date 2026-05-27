@@ -303,7 +303,627 @@ tr:hover td { background: #1e2d5a; }
 </div>
 
 <script>
-// JS goes here in later tasks
+// ── DECK ──
+const DECK = [
+  // ── Ch 7: In een kledingzaak ──
+  { id:"w001", type:"word", dutch:"de kledingzaak",          english:"clothes shop",       note:"", tag:"Ch 7", sentences:[{s:"Ik ga naar de ___.",     a:["kledingzaak","de kledingzaak"], full:"Ik ga naar de kledingzaak.",     hint:"hint: a shop that sells clothes", topic:"Kleding — fill in the noun"}] },
+  { id:"w002", type:"word", dutch:"de kleding",              english:"clothes",            note:"", tag:"Ch 7", sentences:[] },
+  { id:"w003", type:"word", dutch:"de zaak",                 english:"shop / store",       note:"", tag:"Ch 7", sentences:[] },
+  { id:"w004", type:"word", dutch:"om",                      english:"(in order) to",      note:"", tag:"Ch 7", sentences:[] },
+  { id:"w005", type:"word", dutch:"de broek",                english:"trousers",           note:"", tag:"Ch 7", sentences:[{s:"Ik wil een ___ kopen.",    a:["broek","de broek"],             full:"Ik wil een broek kopen.",         hint:"hint: a clothing item (trousers)", topic:"Kleding — fill in the noun"}] },
+  { id:"w006", type:"word", dutch:"kopen",                   english:"to buy",             note:"", tag:"Ch 7", sentences:[{s:"Ik wil dit ___.",           a:["kopen"],                        full:"Ik wil dit kopen.",               hint:"hint: to buy", topic:"Kleding — fill in the verb"}] },
+  { id:"w007", type:"word", dutch:"de verkoopster",          english:"saleswoman",         note:"", tag:"Ch 7", sentences:[] },
+  { id:"w008", type:"word", dutch:"jullie (object)",         english:"you (plural)",       note:"", tag:"Ch 7", sentences:[] },
+  { id:"w009", type:"word", dutch:"helpen",                  english:"to help",            note:"", tag:"Ch 7", sentences:[{s:"Kan ik u ___?",             a:["helpen"],                       full:"Kan ik u helpen?",                hint:"hint: to help", topic:"Kleding — fill in the verb"}] },
+  { id:"w010", type:"word", dutch:"het meisje",              english:"girl",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w011", type:"word", dutch:"de jongen",               english:"boy",                note:"", tag:"Ch 7", sentences:[] },
+  { id:"w012", type:"word", dutch:"zoek (zoeken)",           english:"am looking",         note:"", tag:"Ch 7", sentences:[] },
+  { id:"w013", type:"word", dutch:"de spijkerbroek",         english:"jeans",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w014", type:"word", dutch:"de maat",                 english:"size",               note:"", tag:"Ch 7", sentences:[{s:"Wat is de ___?",           a:["maat","de maat"],               full:"Wat is de maat?",                 hint:"hint: size / measurement", topic:"Kleding — fill in the noun"}] },
+  { id:"w015", type:"word", dutch:"normaal",                 english:"usually",            note:"", tag:"Ch 7", sentences:[] },
+  { id:"w016", type:"word", dutch:"soms",                    english:"sometimes",          note:"", tag:"Ch 7", sentences:[] },
+  { id:"w017", type:"word", dutch:"groter (groot)",          english:"larger",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w018", type:"word", dutch:"de kleur",                english:"colour",             note:"", tag:"Ch 7", sentences:[{s:"Heeft u dit in een andere ___?", a:["kleur","de kleur"],        full:"Heeft u dit in een andere kleur?", hint:"hint: colour", topic:"Kleding — fill in the noun"}] },
+  { id:"w019", type:"word", dutch:"wat voor",                english:"what kind of",       note:"", tag:"Ch 7", sentences:[] },
+  { id:"w020", type:"word", dutch:"het model",               english:"style",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w021", type:"word", dutch:"lichte (licht)",          english:"light",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w022", type:"word", dutch:"laag",                    english:"low",                note:"", tag:"Ch 7", sentences:[] },
+  { id:"w023", type:"word", dutch:"verschillende (verschillend)", english:"different",     note:"", tag:"Ch 7", sentences:[] },
+  { id:"w024", type:"word", dutch:"merken (het merk)",       english:"brand",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w025", type:"word", dutch:"probeert (proberen)",     english:"try on",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w026", type:"word", dutch:"ze",                      english:"them",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w027", type:"word", dutch:"allebei",                 english:"both",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w028", type:"word", dutch:"maar even",               english:"just",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w029", type:"word", dutch:"ergens",                  english:"somewhere",          note:"", tag:"Ch 7", sentences:[] },
+  { id:"w030", type:"word", dutch:"passen",                  english:"try on",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w031", type:"word", dutch:"paskamers (de paskamer)", english:"changing rooms",     note:"", tag:"Ch 7", sentences:[{s:"Waar zijn de ___?",         a:["paskamers"],                    full:"Waar zijn de paskamers?",         hint:"hint: where you try clothes on", topic:"Kleding — fill in the noun"}] },
+  { id:"w032", type:"word", dutch:"zitten",                  english:"fit",                note:"", tag:"Ch 7", sentences:[] },
+  { id:"w033", type:"word", dutch:"beter (goed)",            english:"better",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w034", type:"word", dutch:"dan",                     english:"than",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w035", type:"word", dutch:"die",                     english:"that",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w036", type:"word", dutch:"hem",                     english:"it",                 note:"", tag:"Ch 7", sentences:[] },
+  { id:"w037", type:"word", dutch:"wijd",                    english:"wide",               note:"", tag:"Ch 7", sentences:[{s:"De broek is te ___.",        a:["wijd"],                         full:"De broek is te wijd.",            hint:"hint: an adjective (too wide)", topic:"Kleding — fill in the adjective"}] },
+  { id:"w038", type:"word", dutch:"kleinere (klein)",        english:"smaller",            note:"", tag:"Ch 7", sentences:[] },
+  { id:"w039", type:"word", dutch:"het spijt me",            english:"I'm sorry",          note:"", tag:"Ch 7", sentences:[] },
+  { id:"w040", type:"word", dutch:"kleinste (klein)",        english:"smallest",           note:"", tag:"Ch 7", sentences:[] },
+  { id:"w041", type:"word", dutch:"dit",                     english:"this",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w042", type:"word", dutch:"eventueel",               english:"if necessary",       note:"", tag:"Ch 7", sentences:[] },
+  { id:"w043", type:"word", dutch:"ruilen",                  english:"exchange",           note:"", tag:"Ch 7", sentences:[{s:"Kan ik dit ___?",            a:["ruilen"],                       full:"Kan ik dit ruilen?",              hint:"hint: exchange / swap", topic:"Kleding — fill in the verb"}] },
+  { id:"w044", type:"word", dutch:"binnen",                  english:"within",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w045", type:"word", dutch:"de bon",                  english:"receipt",            note:"", tag:"Ch 7", sentences:[] },
+  { id:"w046", type:"word", dutch:"het T-shirt",             english:"T-shirt",            note:"", tag:"Ch 7", sentences:[] },
+  { id:"w047", type:"word", dutch:"liggen",                  english:"are (lie)",          note:"", tag:"Ch 7", sentences:[] },
+  { id:"w048", type:"word", dutch:"allerlei",                english:"all kinds of",       note:"", tag:"Ch 7", sentences:[] },
+  { id:"w049", type:"word", dutch:"wit",                     english:"white",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w050", type:"word", dutch:"zwart",                   english:"black",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w051", type:"word", dutch:"roze",                    english:"pink",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w052", type:"word", dutch:"groen",                   english:"green",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w053", type:"word", dutch:"blauw",                   english:"blue",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w054", type:"word", dutch:"zo",                      english:"so",                 note:"", tag:"Ch 7", sentences:[] },
+  { id:"w055", type:"word", dutch:"beslissen",               english:"decide",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w056", type:"word", dutch:"staat me het best (staan)", english:"suits me best",   note:"", tag:"Ch 7", sentences:[] },
+  { id:"w057", type:"word", dutch:"het best (goed)",         english:"best",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w058", type:"word", dutch:"pinnen",                  english:"pay by debit card",  note:"", tag:"Ch 7", sentences:[{s:"Ik wil ___.",                a:["pinnen"],                       full:"Ik wil pinnen.",                  hint:"hint: pay by debit card", topic:"Kleding — fill in the verb"}] },
+  { id:"w059", type:"word", dutch:"grijs",                   english:"grey",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w060", type:"word", dutch:"rood",                    english:"red",                note:"", tag:"Ch 7", sentences:[{s:"Het overhemd is ___.",       a:["rood","wit","blauw","zwart","groen","grijs"], full:"Het overhemd is rood.", hint:"hint: a colour", topic:"Kleuren — fill in the colour"}] },
+  { id:"w061", type:"word", dutch:"geel",                    english:"yellow",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w062", type:"word", dutch:"bruin",                   english:"brown",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w063", type:"word", dutch:"paars",                   english:"purple",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w064", type:"word", dutch:"oranje",                  english:"orange",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w065", type:"word", dutch:"donkerblauw",             english:"dark blue",          note:"", tag:"Ch 7", sentences:[] },
+  { id:"w066", type:"word", dutch:"donkerbruin",             english:"dark brown",         note:"", tag:"Ch 7", sentences:[] },
+  { id:"w067", type:"word", dutch:"lichtgeel",               english:"light yellow",       note:"", tag:"Ch 7", sentences:[] },
+  { id:"w068", type:"word", dutch:"lichtgroen",              english:"light green",        note:"", tag:"Ch 7", sentences:[] },
+  { id:"w069", type:"word", dutch:"effen",                   english:"solid",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w070", type:"word", dutch:"geruit",                  english:"checkered",          note:"", tag:"Ch 7", sentences:[] },
+  { id:"w071", type:"word", dutch:"gebloemd",                english:"flowered",           note:"", tag:"Ch 7", sentences:[] },
+  { id:"w072", type:"word", dutch:"gestreept",               english:"striped",            note:"", tag:"Ch 7", sentences:[{s:"De trui is ___.",            a:["gestreept"],                    full:"De trui is gestreept.",           hint:"hint: pattern (lines)", topic:"Kleuren — fill in the pattern"}] },
+  { id:"w073", type:"word", dutch:"de trui",                 english:"jumper / pullover",  note:"", tag:"Ch 7", sentences:[{s:"De ___ is blauw.",           a:["trui","de trui"],               full:"De trui is blauw.",               hint:"hint: a knitwear clothing item", topic:"Kleding — fill in the noun"}] },
+  { id:"w074", type:"word", dutch:"de bloes",                english:"blouse",             note:"", tag:"Ch 7", sentences:[] },
+  { id:"w075", type:"word", dutch:"het overhemd",            english:"shirt",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w076", type:"word", dutch:"de rok",                  english:"skirt",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w077", type:"word", dutch:"de jurk",                 english:"dress",              note:"", tag:"Ch 7", sentences:[{s:"Ik zoek een ___.",           a:["jurk","de jurk"],               full:"Ik zoek een jurk.",               hint:"hint: a dress", topic:"Kleding — fill in the noun"}] },
+  { id:"w078", type:"word", dutch:"de jas",                  english:"coat",               note:"", tag:"Ch 7", sentences:[] },
+  { id:"w079", type:"word", dutch:"de schoenen",             english:"shoes",              note:"", tag:"Ch 7", sentences:[] },
+  { id:"w080", type:"word", dutch:"het pak",                 english:"suit",               note:"", tag:"Ch 7", sentences:[] },
+
+  // ── Verbs ──
+  { id:"v001", type:"verb", dutch:"zijn",    english:"to be",   tag:"verbs",
+    conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" } },
+  { id:"v002", type:"verb", dutch:"hebben",  english:"to have",  tag:"verbs",
+    conjugations:{ "ik":"heb", "jij / je":"hebt", "u":"hebt / heeft", "hij":"heeft", "zij / ze":"heeft", "het":"heeft", "wij / we":"hebben", "jullie":"hebben", "zij / ze (pl)":"hebben" } },
+];
+
+// ── STATS ENGINE ──
+const STATS_KEY = "nl_learner_stats";
+
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(STATS_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveStats(stats) {
+  localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+}
+
+function recordResult(id, correct) {
+  const stats = loadStats();
+  if (!stats[id]) stats[id] = { history: [], seen: 0 };
+  stats[id].history.push(correct ? 1 : 0);
+  if (stats[id].history.length > 10) stats[id].history.shift();
+  stats[id].seen++;
+  stats[id].lastSeen = new Date().toISOString().slice(0, 10);
+  saveStats(stats);
+}
+
+function getMastery(id) {
+  const stats = loadStats();
+  const s = stats[id];
+  if (!s || s.history.length === 0) return { rate: 0, attempts: 0, color: "grey" };
+  const rate = s.history.reduce((a, b) => a + b, 0) / s.history.length;
+  const color = rate >= 0.8 ? "green" : rate >= 0.5 ? "yellow" : "red";
+  return { rate, attempts: s.history.length, color };
+}
+
+function isWeak(id) {
+  const m = getMastery(id);
+  return m.attempts === 0 || m.rate < 0.5;
+}
+
+// ── CORE ENGINE ──
+let currentTag  = "Ch 7";
+let weakMode    = false;
+let currentMode = "flip";
+let activeDeck  = [];
+let idx         = 0;
+let answered    = false;
+let sessionC    = 0, sessionW = 0;
+
+let grammarQueue    = [];
+let grammarIdx      = 0;
+let grammarAnswered = false;
+let verbQueue       = [];
+let verbIdx         = 0;
+let verbAnswered    = false;
+
+function buildActiveDeck() {
+  let cards = DECK.filter(c => {
+    if (currentTag === "all")   return true;
+    if (currentTag === "verbs") return c.type === "verb";
+    return c.tag === currentTag;
+  });
+  if (weakMode) cards = cards.filter(c => isWeak(c.id));
+  return cards;
+}
+
+function buildGrammarQueue(deck) {
+  const q = [];
+  deck.filter(c => c.type === "word").forEach(c => {
+    (c.sentences || []).forEach(s => q.push({ card: c, ...s }));
+  });
+  return q;
+}
+
+function buildVerbQueue(deck) {
+  const q = [];
+  deck.filter(c => c.type === "verb").forEach(c => {
+    Object.entries(c.conjugations).forEach(([pronoun, form]) => {
+      q.push({ card: c, pronoun, answer: form });
+    });
+  });
+  return q;
+}
+
+function rebuildDecks() {
+  activeDeck   = buildActiveDeck();
+  idx          = 0;
+  grammarQueue = buildGrammarQueue(activeDeck.length ? activeDeck : DECK.filter(c => c.type === "word"));
+  grammarIdx   = 0;
+  verbQueue    = buildVerbQueue(activeDeck.length ? activeDeck : DECK.filter(c => c.type === "verb"));
+  verbIdx      = 0;
+  updateProgress();
+  updateWordTable();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function parse(dutch) {
+  const m = dutch.match(/^(.*?)\s*(\([^)]+\))?\s*$/);
+  return { word: m ? m[1].trim() : dutch, note: m && m[2] ? m[2] : "" };
+}
+
+function acceptedForms(dutch) {
+  const forms = new Set([dutch.toLowerCase().trim()]);
+  const stripped = dutch.replace(/\s*\([^)]+\)/g, "").trim().toLowerCase();
+  forms.add(stripped);
+  const inner = dutch.match(/\(([^)]+)\)/);
+  if (inner) forms.add(inner[1].toLowerCase().trim());
+  return [...forms];
+}
+
+// ── TTS ──
+let dutchVoice = null;
+function loadDutchVoice() {
+  const voices = speechSynthesis.getVoices();
+  dutchVoice = voices.find(v => v.lang.startsWith("nl")) || null;
+  const el = document.getElementById("tts-notice");
+  if (el && !dutchVoice && voices.length > 0)
+    el.textContent = "No Dutch voice found — using default";
+}
+if ("speechSynthesis" in window) {
+  speechSynthesis.onvoiceschanged = loadDutchVoice;
+  loadDutchVoice();
+}
+function speakDutch(text) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text.replace(/\s*\([^)]*\)/g, "").trim());
+  utt.lang = "nl-NL"; utt.rate = 0.9;
+  if (dutchVoice) utt.voice = dutchVoice;
+  speechSynthesis.speak(utt);
+}
+
+// ── PROGRESS + SCORE ──
+function updateProgress() {
+  const size = ["grammar","verb"].includes(currentMode)
+    ? (currentMode === "grammar" ? grammarQueue.length : verbQueue.length)
+    : activeDeck.length;
+  const cur = ["grammar","verb"].includes(currentMode)
+    ? (currentMode === "grammar" ? grammarIdx : verbIdx)
+    : idx;
+  document.getElementById("cur").textContent   = size ? cur + 1 : 0;
+  document.getElementById("total").textContent = size;
+}
+
+function updateScoreBar() {
+  document.getElementById("score-c").textContent = sessionC;
+  document.getElementById("score-w").textContent = sessionW;
+}
+
+function resetSession() {
+  sessionC = 0; sessionW = 0;
+  updateScoreBar();
+}
+
+function updateWordTable() {
+  const tbody = document.getElementById("word-table");
+  tbody.innerHTML = "";
+  activeDeck.filter(c => c.type === "word").forEach(c => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="dutch-col">${c.dutch}</td><td>${c.english}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── MODE SWITCHING ──
+const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box" };
+function setMode(m) {
+  currentMode = m;
+  Object.entries(BOXES).forEach(([mode, id]) => {
+    const el = document.getElementById(id);
+    if (mode === "flip") el.style.display = m === "flip" ? "" : "none";
+    else el.classList.toggle("visible", mode === m);
+  });
+  document.querySelectorAll(".mode-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.mode === m));
+  const scoreBar = document.getElementById("score-bar");
+  scoreBar.style.display = m === "flip" ? "none" : "flex";
+  const subtitles = {
+    flip:    "Click the card to reveal the translation",
+    type:    "See the English — type the Dutch word",
+    mc:      "See the Dutch — pick the correct English",
+    grammar: "Fill in the missing Dutch word",
+    verb:    "Type the correct conjugated form",
+  };
+  document.getElementById("subtitle").textContent = subtitles[m];
+  resetSession();
+  if (m === "flip")    showFlip();
+  else if (m === "type")    showTyping();
+  else if (m === "mc")      showMC();
+  else if (m === "grammar") showGrammar();
+  else if (m === "verb")    showVerbForm();
+}
+
+// ── FLIP CARDS MODE ──
+function showFlip() {
+  if (!activeDeck.length) return;
+  const card = activeDeck[idx];
+  const { word, note } = parse(card.dutch);
+  document.getElementById("flip-dutch").textContent   = word;
+  document.getElementById("flip-note").textContent    = note;
+  document.getElementById("flip-english").textContent = card.english;
+  document.getElementById("card").classList.remove("flipped");
+  const dot = document.getElementById("mastery-dot");
+  const m = getMastery(card.id);
+  dot.className = "mastery-dot " + m.color;
+  updateProgress();
+}
+
+// ── TYPE DUTCH MODE ──
+function showTyping() {
+  if (!activeDeck.length) return;
+  const card = activeDeck[idx];
+  document.getElementById("type-question").textContent = card.english;
+  const inp = document.getElementById("type-input");
+  inp.value = ""; inp.className = "ex-input";
+  document.getElementById("type-feedback").textContent = "";
+  document.getElementById("type-feedback").className = "ex-feedback";
+  answered = false;
+  updateProgress();
+  setTimeout(() => inp.focus(), 50);
+}
+
+function checkTyping() {
+  if (answered) { idx = (idx + 1) % activeDeck.length; showTyping(); return; }
+  const card = activeDeck[idx];
+  const inp  = document.getElementById("type-input");
+  const fb   = document.getElementById("type-feedback");
+  const val  = inp.value.trim().toLowerCase();
+  if (!val) return;
+  const correct = acceptedForms(card.dutch).includes(val);
+  answered = true;
+  recordResult(card.id, correct);
+  if (correct) {
+    sessionC++;
+    inp.classList.add("correct");
+    fb.textContent = "✓ Correct!"; fb.className = "ex-feedback correct";
+  } else {
+    sessionW++;
+    inp.classList.add("wrong");
+    fb.textContent = `✗ Answer: ${card.dutch}`; fb.className = "ex-feedback wrong";
+  }
+  speakDutch(card.dutch);
+  updateScoreBar();
+}
+
+// ── MULTIPLE CHOICE MODE ──
+function buildDistractors(correctCard) {
+  const pool = activeDeck.filter(c => c.id !== correctCard.id && c.type === "word");
+  shuffle(pool);
+  return pool.slice(0, 3).map(c => c.english);
+}
+
+function showMC() {
+  if (!activeDeck.length) return;
+  const card = activeDeck[idx];
+  document.getElementById("mc-question").textContent = card.dutch;
+  const options = [card.english, ...buildDistractors(card)];
+  shuffle(options);
+  const container = document.getElementById("mc-options");
+  container.innerHTML = "";
+  options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "mc-option";
+    btn.textContent = `${i + 1}. ${opt}`;
+    btn.dataset.value = opt;
+    btn.addEventListener("click", () => checkMC(btn, card, opt));
+    container.appendChild(btn);
+  });
+  answered = false;
+  updateProgress();
+}
+
+function checkMC(btn, card, chosen) {
+  if (answered) return;
+  answered = true;
+  const correct = chosen === card.english;
+  recordResult(card.id, correct);
+  document.querySelectorAll(".mc-option").forEach(b => {
+    if (b.dataset.value === card.english) b.classList.add("reveal");
+    else if (b === btn && !correct)       b.classList.add("wrong");
+  });
+  if (correct) { sessionC++; } else { sessionW++; }
+  updateScoreBar();
+  setTimeout(() => { idx = (idx + 1) % activeDeck.length; showMC(); }, 1000);
+}
+
+// ── GRAMMAR MODE ──
+function showGrammar() {
+  if (!grammarQueue.length) {
+    document.getElementById("grammar-sentence").innerHTML = "No grammar exercises for this selection.";
+    return;
+  }
+  const ex = grammarQueue[grammarIdx];
+  document.getElementById("grammar-topic").textContent   = "📚 " + (ex.topic || "Grammar");
+  document.getElementById("grammar-hint").textContent    = ex.hint || "";
+  document.getElementById("grammar-sentence").innerHTML  =
+    ex.s.replace("___", '<span class="blank">___</span>');
+  document.getElementById("grammar-full").textContent    = "";
+  const inp = document.getElementById("grammar-input");
+  inp.value = ""; inp.className = "ex-input";
+  document.getElementById("grammar-feedback").textContent = "";
+  document.getElementById("grammar-feedback").className  = "ex-feedback";
+  grammarAnswered = false;
+  updateProgress();
+  setTimeout(() => inp.focus(), 50);
+}
+
+function checkGrammar() {
+  if (grammarAnswered) {
+    grammarIdx = (grammarIdx + 1) % grammarQueue.length;
+    showGrammar(); return;
+  }
+  const ex  = grammarQueue[grammarIdx];
+  const inp = document.getElementById("grammar-input");
+  const fb  = document.getElementById("grammar-feedback");
+  const val = inp.value.trim().toLowerCase();
+  if (!val) return;
+  const accepted = ex.a.map(s => s.toLowerCase());
+  const correct  = accepted.includes(val);
+  grammarAnswered = true;
+  document.getElementById("grammar-full").textContent = ex.full;
+  recordResult(ex.card.id, correct);
+  if (correct) {
+    sessionC++; inp.classList.add("correct");
+    fb.textContent = "✓ Correct!"; fb.className = "ex-feedback correct";
+  } else {
+    sessionW++; inp.classList.add("wrong");
+    fb.textContent = `✗ Answer: ${ex.a[0]}`; fb.className = "ex-feedback wrong";
+  }
+  speakDutch(ex.full);
+  updateScoreBar();
+}
+
+// ── VERB FORMS MODE ──
+function showVerbForm() {
+  if (!verbQueue.length) {
+    document.getElementById("verb-infinitive").textContent = "No verbs in this selection.";
+    document.getElementById("verb-pronoun").textContent    = "";
+    return;
+  }
+  const ex = verbQueue[verbIdx];
+  document.getElementById("verb-infinitive").textContent = ex.card.dutch;
+  document.getElementById("verb-pronoun").textContent    = ex.pronoun + " →";
+  const inp = document.getElementById("verb-input");
+  inp.value = ""; inp.className = "ex-input";
+  document.getElementById("verb-feedback").textContent = "";
+  document.getElementById("verb-feedback").className = "ex-feedback";
+  verbAnswered = false;
+  updateProgress();
+  setTimeout(() => inp.focus(), 50);
+}
+
+function checkVerbForm() {
+  if (verbAnswered) {
+    verbIdx = (verbIdx + 1) % verbQueue.length;
+    showVerbForm(); return;
+  }
+  const ex  = verbQueue[verbIdx];
+  const inp = document.getElementById("verb-input");
+  const fb  = document.getElementById("verb-feedback");
+  const val = inp.value.trim().toLowerCase();
+  if (!val) return;
+  const accepted = ex.answer.split(" / ").map(s => s.trim().toLowerCase());
+  const correct  = accepted.includes(val);
+  verbAnswered = true;
+  recordResult(ex.card.id, correct);
+  if (correct) {
+    sessionC++; inp.classList.add("correct");
+    fb.textContent = "✓ Correct!"; fb.className = "ex-feedback correct";
+  } else {
+    sessionW++; inp.classList.add("wrong");
+    fb.textContent = `✗ Answer: ${ex.answer}`; fb.className = "ex-feedback wrong";
+  }
+  speakDutch(ex.answer.split(" / ")[0]);
+  updateScoreBar();
+}
+
+// ── EVENT LISTENERS: mode tabs ──
+document.querySelectorAll(".mode-btn").forEach(btn =>
+  btn.addEventListener("click", () => setMode(btn.dataset.mode)));
+
+// ── CHAPTER SELECTOR + WEAK TOGGLE ──
+document.getElementById("chapter-select").addEventListener("change", function () {
+  currentTag = this.value;
+  rebuildDecks();
+  setMode(currentMode);
+});
+document.getElementById("weak-toggle").addEventListener("click", function () {
+  weakMode = !weakMode;
+  this.classList.toggle("active", weakMode);
+  rebuildDecks();
+  setMode(currentMode);
+});
+
+// ── SHUFFLE + RESET ──
+document.getElementById("btn-shuffle").addEventListener("click", () => {
+  if (currentMode === "grammar") { shuffle(grammarQueue); grammarIdx = 0; showGrammar(); }
+  else if (currentMode === "verb") { shuffle(verbQueue); verbIdx = 0; showVerbForm(); }
+  else { shuffle(activeDeck); idx = 0; setMode(currentMode); }
+});
+document.getElementById("btn-reset").addEventListener("click", () => {
+  rebuildDecks();
+  resetSession();
+  setMode(currentMode);
+});
+
+// ── PREV / NEXT ──
+document.getElementById("btn-prev").addEventListener("click", () => {
+  if (currentMode === "grammar") { grammarIdx = (grammarIdx - 1 + grammarQueue.length) % grammarQueue.length; showGrammar(); }
+  else if (currentMode === "verb") { verbIdx = (verbIdx - 1 + verbQueue.length) % verbQueue.length; showVerbForm(); }
+  else { idx = (idx - 1 + activeDeck.length) % activeDeck.length; setMode(currentMode); }
+});
+document.getElementById("btn-next").addEventListener("click", () => {
+  if (currentMode === "grammar") { grammarIdx = (grammarIdx + 1) % grammarQueue.length; showGrammar(); }
+  else if (currentMode === "verb") { verbIdx = (verbIdx + 1) % verbQueue.length; showVerbForm(); }
+  else { idx = (idx + 1) % activeDeck.length; setMode(currentMode); }
+});
+
+// ── KEYBOARD ──
+document.addEventListener("keydown", e => {
+  if (["type-input","grammar-input","verb-input"].includes(document.activeElement?.id)) return;
+  if (e.key === "ArrowRight") document.getElementById("btn-next").click();
+  if (e.key === "ArrowLeft")  document.getElementById("btn-prev").click();
+  if ((e.key === " " || e.key === "Enter") && currentMode === "flip")
+    document.getElementById("card").classList.toggle("flipped");
+  if (e.key === "1" && currentMode === "mc") document.querySelectorAll(".mc-option")[0]?.click();
+  if (e.key === "2" && currentMode === "mc") document.querySelectorAll(".mc-option")[1]?.click();
+  if (e.key === "3" && currentMode === "mc") document.querySelectorAll(".mc-option")[2]?.click();
+  if (e.key === "4" && currentMode === "mc") document.querySelectorAll(".mc-option")[3]?.click();
+});
+
+// ── FLIP CARD LISTENERS ──
+document.getElementById("scene").addEventListener("click", e => {
+  if (e.target.id === "btn-speak-flip") return;
+  if (currentMode === "flip") document.getElementById("card").classList.toggle("flipped");
+});
+document.getElementById("btn-speak-flip").addEventListener("click", e => {
+  e.stopPropagation();
+  if (activeDeck[idx]) speakDutch(activeDeck[idx].dutch);
+});
+
+// ── TYPE MODE LISTENERS ──
+document.getElementById("btn-check").addEventListener("click", checkTyping);
+document.getElementById("btn-skip").addEventListener("click", () => {
+  if (!answered) {
+    const card = activeDeck[idx];
+    const fb = document.getElementById("type-feedback");
+    fb.textContent = `Answer: ${card.dutch}`; fb.className = "ex-feedback wrong";
+    document.getElementById("type-input").classList.add("wrong");
+    answered = true; sessionW++; updateScoreBar();
+    speakDutch(card.dutch);
+  } else { idx = (idx + 1) % activeDeck.length; showTyping(); }
+});
+document.getElementById("type-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkTyping();
+});
+document.getElementById("btn-speak-type").addEventListener("click", () => {
+  if (activeDeck[idx]) speakDutch(activeDeck[idx].dutch);
+});
+
+// ── GRAMMAR MODE LISTENERS ──
+document.getElementById("btn-grammar-check").addEventListener("click", checkGrammar);
+document.getElementById("btn-grammar-skip").addEventListener("click", () => {
+  if (!grammarAnswered) {
+    const ex = grammarQueue[grammarIdx];
+    document.getElementById("grammar-feedback").textContent = `Answer: ${ex.a[0]}`;
+    document.getElementById("grammar-feedback").className = "ex-feedback wrong";
+    document.getElementById("grammar-full").textContent = ex.full;
+    document.getElementById("grammar-input").classList.add("wrong");
+    grammarAnswered = true; sessionW++; updateScoreBar(); speakDutch(ex.full);
+  } else { grammarIdx = (grammarIdx + 1) % grammarQueue.length; showGrammar(); }
+});
+document.getElementById("grammar-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkGrammar();
+});
+document.getElementById("btn-speak-grammar").addEventListener("click", () => {
+  const ex = grammarQueue[grammarIdx];
+  speakDutch(grammarAnswered ? ex.full : ex.s.replace("___", "…"));
+});
+
+// ── VERB FORMS LISTENERS ──
+document.getElementById("btn-verb-check").addEventListener("click", checkVerbForm);
+document.getElementById("btn-verb-skip").addEventListener("click", () => {
+  if (!verbAnswered) {
+    const ex = verbQueue[verbIdx];
+    document.getElementById("verb-feedback").textContent = `Answer: ${ex.answer}`;
+    document.getElementById("verb-feedback").className = "ex-feedback wrong";
+    document.getElementById("verb-input").classList.add("wrong");
+    verbAnswered = true; sessionW++; updateScoreBar();
+  } else { verbIdx = (verbIdx + 1) % verbQueue.length; showVerbForm(); }
+});
+document.getElementById("verb-input").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkVerbForm();
+});
+document.getElementById("btn-speak-verb").addEventListener("click", () => {
+  const ex = verbQueue[verbIdx];
+  speakDutch(verbAnswered ? ex.answer.split(" / ")[0] : ex.card.dutch);
+});
+
+// ── EXPORT / IMPORT ──
+document.getElementById("btn-export").addEventListener("click", () => {
+  const data = { deck: DECK, stats: loadStats(), exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `nl_learner_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+});
+
+document.getElementById("import-file").addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.stats) saveStats(data.stats);
+      alert("Progress imported. Refreshing…");
+      location.reload();
+    } catch { alert("Invalid JSON file."); }
+  };
+  reader.readAsText(file);
+  this.value = "";
+});
+
+// ── INIT ──
+rebuildDecks();
+setMode("flip");
 </script>
 </body>
 </html>
