@@ -14,10 +14,9 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 10px 20px;
 }
-h1 { margin: 20px 0 6px; color: #a0c4ff; font-size: 1.6rem; }
-#subtitle { color: #888; margin-bottom: 14px; font-size: 0.9rem; }
+#subtitle { color: #888; margin: 8px 0 12px; font-size: 0.9rem; }
 
 /* ── TOP CONTROLS ── */
 #top-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; justify-content: center; }
@@ -163,7 +162,7 @@ button:hover { opacity: 0.85; }
 #btn-speak-grammar { background: #1e3a5f; color: #a0c4ff; font-size: 0.85rem; }
 
 /* ── VERB FORMS BOX ── */
-#verb-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #c3b1e1; width: 640px; }
+#verb-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #c3b1e1; }
 #verb-infinitive { font-size: 2rem; font-weight: 700; color: #c3b1e1; }
 #verb-pronoun { font-size: 1.1rem; color: #a0c4ff; font-style: italic; }
 #verb-input { width: 200px; }
@@ -205,17 +204,17 @@ tr:hover td { background: #1e2d5a; }
 .verb-inp:focus { border-color: #c3b1e1; }
 .verb-inp.correct { border-color: #4caf93; background: #0d2b1e; color: #4caf93; }
 .verb-inp.wrong   { border-color: #e07070; background: #2b0d0d; color: #e07070; }
-.vcell-sentence { padding: 4px 2px 4px 10px; color: #a0c4ff; font-style: italic; font-size: 0.82rem; opacity: 0.4; transition: opacity 0.3s; }
+.vcell-input { display: flex; flex-direction: column; gap: 3px; }
+.vcell-sentence { color: #a0c4ff; font-style: italic; font-size: 0.8rem; opacity: 0.4; transition: opacity 0.3s; line-height: 1.4; }
 .vcell-sentence.show { opacity: 1; }
 .vcell-sentence strong { font-style: normal; color: #4caf93; font-weight: 700; }
-.verb-blank { border-bottom: 1px dashed #6c63ff; color: #6c63ff; font-style: normal; letter-spacing: 1px; }
-.vcell-sentence button { background: transparent; border: none; cursor: pointer; color: #6c63ff; font-size: 0.85rem; padding: 0 3px; opacity: 0.7; vertical-align: middle; }
+.verb-blank { border-bottom: 1px dashed #6c63ff; color: #6c63ff; font-style: normal; }
+.vcell-sentence button { background: transparent; border: none; cursor: pointer; color: #6c63ff; font-size: 0.82rem; padding: 0 2px; opacity: 0.7; vertical-align: middle; }
 .vcell-sentence button:hover { opacity: 1; }
 </style>
 </head>
 <body>
 
-<h1>Nederlands in gang</h1>
 <p id="subtitle">Click the card to reveal the translation</p>
 
 <div id="top-controls">
@@ -803,9 +802,9 @@ function showVerbForm() {
       tr.dataset.sentence = sentence;
       tr.dataset.form = primaryForm;
       const sentenceHtml = sentence
-        ? sentence.replace("___", '<span class="verb-blank">___</span>')
+        ? `<div class="vcell-sentence">${sentence.replace("___", '<span class="verb-blank">___</span>')}</div>`
         : "";
-      tr.innerHTML = `<td class="vcell-pronoun">${pronoun}</td><td class="vcell-input"><input class="verb-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-answer="${form}" /></td><td class="vcell-sentence">${sentenceHtml}</td>`;
+      tr.innerHTML = `<td class="vcell-pronoun">${pronoun}</td><td class="vcell-input"><input class="verb-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-answer="${form}" />${sentenceHtml}</td>`;
       tbody.appendChild(tr);
     });
     updateProgress();
@@ -854,17 +853,15 @@ function checkVerbForm() {
     speakDutch(card.dutch);
     // reveal example sentences
     document.querySelectorAll("#verb-table-body tr").forEach(tr => {
-      const s = tr.dataset.sentence;
-      const f = tr.dataset.form;
+      const s = tr.dataset.sentence; const f = tr.dataset.form;
       if (!s) return;
       const full = s.replace("___", f);
-      const td = tr.querySelector(".vcell-sentence");
-      td.innerHTML = s.replace("___", `<strong>${f}</strong>`) + " ";
-      const btn = document.createElement("button");
-      btn.textContent = "🔊"; btn.title = "Listen";
+      const div = tr.querySelector(".vcell-sentence");
+      if (!div) return;
+      div.innerHTML = s.replace("___", `<strong>${f}</strong>`) + " ";
+      const btn = document.createElement("button"); btn.textContent = "🔊"; btn.title = "Listen";
       btn.addEventListener("click", () => speakDutch(full));
-      td.appendChild(btn);
-      td.classList.add("show");
+      div.appendChild(btn); div.classList.add("show");
     });
     updateScoreBar();
   } else {
@@ -1018,10 +1015,10 @@ document.getElementById("btn-verb-skip").addEventListener("click", () => {
       document.querySelectorAll("#verb-table-body tr").forEach(tr => {
         const s = tr.dataset.sentence; const f = tr.dataset.form; if (!s) return;
         const full = s.replace("___", f);
-        const td = tr.querySelector(".vcell-sentence");
-        td.innerHTML = s.replace("___", `<strong>${f}</strong>`) + " ";
+        const div = tr.querySelector(".vcell-sentence"); if (!div) return;
+        div.innerHTML = s.replace("___", `<strong>${f}</strong>`) + " ";
         const btn = document.createElement("button"); btn.textContent = "🔊"; btn.title = "Listen";
-        btn.addEventListener("click", () => speakDutch(full)); td.appendChild(btn); td.classList.add("show");
+        btn.addEventListener("click", () => speakDutch(full)); div.appendChild(btn); div.classList.add("show");
       });
     } else {
       const ex = verbCardQueue[verbCardIdx];
