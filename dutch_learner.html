@@ -184,6 +184,21 @@ tr:hover td { background: #1e2d5a; }
 .footer { margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .footer button { background: #222; color: #888; border: 1px solid #333; font-size: 0.8rem; padding: 6px 14px; }
 .footer button:hover { color: #eee; border-color: #666; }
+
+/* ── VERB TABLE ── */
+.verb-table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; }
+.verb-table tr + tr td { border-top: 1px solid #1e2d5a; }
+.vcell-pronoun { color: #a0c4ff; font-style: italic; white-space: nowrap; padding: 6px 10px 6px 2px; font-size: 0.9rem; width: 44%; }
+.vcell-input { padding: 4px 0; }
+.verb-inp {
+  width: 100%; padding: 5px 10px;
+  background: #0d1b38; border: 2px solid #333;
+  border-radius: 6px; color: #fff; font-size: 0.95rem;
+  outline: none; text-align: center; transition: border-color 0.15s;
+}
+.verb-inp:focus { border-color: #c3b1e1; }
+.verb-inp.correct { border-color: #4caf93; background: #0d2b1e; color: #4caf93; }
+.verb-inp.wrong   { border-color: #e07070; background: #2b0d0d; color: #e07070; }
 </style>
 </head>
 <body>
@@ -279,13 +294,12 @@ tr:hover td { background: #1e2d5a; }
 <div class="exercise-box" id="verb-box">
   <div class="ex-label">Verb conjugation</div>
   <div id="verb-infinitive"></div>
-  <div id="verb-pronoun"></div>
-  <input class="ex-input" id="verb-input" type="text" placeholder="conjugated form…" autocomplete="off" spellcheck="false" />
+  <table class="verb-table"><tbody id="verb-table-body"></tbody></table>
   <div class="ex-feedback" id="verb-feedback"></div>
   <div class="ex-actions">
     <button id="btn-verb-check">Check ↵</button>
     <button id="btn-speak-verb">🔊 Listen</button>
-    <button id="btn-verb-skip">Skip</button>
+    <button id="btn-verb-skip">Show answers</button>
   </div>
 </div>
 
@@ -442,7 +456,7 @@ let sessionC    = 0, sessionW = 0;
 let grammarQueue    = [];
 let grammarIdx      = 0;
 let grammarAnswered = false;
-let verbQueue       = [];
+let verbDeck        = [];
 let verbIdx         = 0;
 let verbAnswered    = false;
 
@@ -464,14 +478,9 @@ function buildGrammarQueue(deck) {
   return q;
 }
 
-function buildVerbQueue(deck) {
-  const q = [];
-  deck.filter(c => c.type === "verb").forEach(c => {
-    Object.entries(c.conjugations).forEach(([pronoun, form]) => {
-      q.push({ card: c, pronoun, answer: form });
-    });
-  });
-  return q;
+function buildVerbDeck(deck) {
+  const verbs = deck.filter(c => c.type === "verb");
+  return verbs.length ? verbs : DECK.filter(c => c.type === "verb");
 }
 
 function rebuildDecks() {
@@ -479,7 +488,7 @@ function rebuildDecks() {
   idx          = 0;
   grammarQueue = buildGrammarQueue(activeDeck.length ? activeDeck : DECK.filter(c => c.type === "word"));
   grammarIdx   = 0;
-  verbQueue    = buildVerbQueue(activeDeck.length ? activeDeck : DECK.filter(c => c.type === "verb"));
+  verbDeck     = buildVerbDeck(activeDeck);
   verbIdx      = 0;
   updateProgress();
   updateWordTable();
@@ -531,7 +540,7 @@ function speakDutch(text) {
 // ── PROGRESS + SCORE ──
 function updateProgress() {
   const size = ["grammar","verb"].includes(currentMode)
-    ? (currentMode === "grammar" ? grammarQueue.length : verbQueue.length)
+    ? (currentMode === "grammar" ? grammarQueue.length : verbDeck.length)
     : activeDeck.length;
   const cur = ["grammar","verb"].includes(currentMode)
     ? (currentMode === "grammar" ? grammarIdx : verbIdx)
@@ -736,45 +745,53 @@ function checkGrammar() {
 
 // ── VERB FORMS MODE ──
 function showVerbForm() {
-  if (!verbQueue.length) {
+  const tbody = document.getElementById("verb-table-body");
+  if (!verbDeck.length) {
     document.getElementById("verb-infinitive").textContent = "No verbs in this selection.";
-    document.getElementById("verb-pronoun").textContent    = "";
+    tbody.innerHTML = "";
     return;
   }
-  const ex = verbQueue[verbIdx];
-  document.getElementById("verb-infinitive").textContent = ex.card.dutch;
-  document.getElementById("verb-pronoun").textContent    = ex.pronoun + " →";
-  const inp = document.getElementById("verb-input");
-  inp.value = ""; inp.className = "ex-input";
+  const card = verbDeck[verbIdx];
+  document.getElementById("verb-infinitive").textContent = card.dutch + " — " + card.english;
+  tbody.innerHTML = "";
+  Object.entries(card.conjugations).forEach(([pronoun, form]) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="vcell-pronoun">${pronoun}</td><td class="vcell-input"><input class="verb-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-answer="${form}" /></td>`;
+    tbody.appendChild(tr);
+  });
   document.getElementById("verb-feedback").textContent = "";
   document.getElementById("verb-feedback").className = "ex-feedback";
   verbAnswered = false;
   updateProgress();
-  setTimeout(() => inp.focus(), 50);
+  setTimeout(() => tbody.querySelector(".verb-inp")?.focus(), 50);
 }
 
 function checkVerbForm() {
   if (verbAnswered) {
-    verbIdx = (verbIdx + 1) % verbQueue.length;
+    verbIdx = (verbIdx + 1) % verbDeck.length;
     showVerbForm(); return;
   }
-  const ex  = verbQueue[verbIdx];
-  const inp = document.getElementById("verb-input");
-  const fb  = document.getElementById("verb-feedback");
-  const val = inp.value.trim().toLowerCase();
-  if (!val) return;
-  const accepted = ex.answer.split(" / ").map(s => s.trim().toLowerCase());
-  const correct  = accepted.includes(val);
+  const inputs = [...document.querySelectorAll("#verb-table-body .verb-inp")];
+  if (!inputs.some(inp => inp.value.trim())) return;
+  let allCorrect = true;
+  inputs.forEach(inp => {
+    const val = inp.value.trim().toLowerCase();
+    const accepted = inp.dataset.answer.split(" / ").map(s => s.trim().toLowerCase());
+    const correct = val && accepted.includes(val);
+    inp.classList.toggle("correct", !!correct);
+    inp.classList.toggle("wrong", !correct);
+    if (!correct) { allCorrect = false; inp.value = inp.dataset.answer; }
+  });
   verbAnswered = true;
-  recordResult(ex.card.id, correct);
-  if (correct) {
-    sessionC++; inp.classList.add("correct");
-    fb.textContent = "✓ Correct!"; fb.className = "ex-feedback correct";
+  const card = verbDeck[verbIdx];
+  recordResult(card.id, allCorrect);
+  const fb = document.getElementById("verb-feedback");
+  if (allCorrect) {
+    sessionC++; fb.textContent = "✓ All correct!"; fb.className = "ex-feedback correct";
   } else {
-    sessionW++; inp.classList.add("wrong");
-    fb.textContent = `✗ Answer: ${ex.answer}`; fb.className = "ex-feedback wrong";
+    sessionW++; fb.textContent = "✗ Correct answers shown in red"; fb.className = "ex-feedback wrong";
   }
-  speakDutch(ex.answer.split(" / ")[0]);
+  speakDutch(card.dutch);
   updateScoreBar();
 }
 
@@ -798,7 +815,7 @@ document.getElementById("weak-toggle").addEventListener("click", function () {
 // ── SHUFFLE + RESET ──
 document.getElementById("btn-shuffle").addEventListener("click", () => {
   if (currentMode === "grammar") { shuffle(grammarQueue); grammarIdx = 0; showGrammar(); }
-  else if (currentMode === "verb") { shuffle(verbQueue); verbIdx = 0; showVerbForm(); }
+  else if (currentMode === "verb") { shuffle(verbDeck); verbIdx = 0; showVerbForm(); }
   else { shuffle(activeDeck); idx = 0; setMode(currentMode); }
 });
 document.getElementById("btn-reset").addEventListener("click", () => {
@@ -810,18 +827,19 @@ document.getElementById("btn-reset").addEventListener("click", () => {
 // ── PREV / NEXT ──
 document.getElementById("btn-prev").addEventListener("click", () => {
   if (currentMode === "grammar") { grammarIdx = (grammarIdx - 1 + grammarQueue.length) % grammarQueue.length; showGrammar(); }
-  else if (currentMode === "verb") { verbIdx = (verbIdx - 1 + verbQueue.length) % verbQueue.length; showVerbForm(); }
+  else if (currentMode === "verb") { verbIdx = (verbIdx - 1 + verbDeck.length) % verbDeck.length; showVerbForm(); }
   else { idx = (idx - 1 + activeDeck.length) % activeDeck.length; setMode(currentMode); }
 });
 document.getElementById("btn-next").addEventListener("click", () => {
   if (currentMode === "grammar") { grammarIdx = (grammarIdx + 1) % grammarQueue.length; showGrammar(); }
-  else if (currentMode === "verb") { verbIdx = (verbIdx + 1) % verbQueue.length; showVerbForm(); }
+  else if (currentMode === "verb") { verbIdx = (verbIdx + 1) % verbDeck.length; showVerbForm(); }
   else { idx = (idx + 1) % activeDeck.length; setMode(currentMode); }
 });
 
 // ── KEYBOARD ──
 document.addEventListener("keydown", e => {
-  if (["type-input","grammar-input","verb-input"].includes(document.activeElement?.id)) return;
+  if (["type-input","grammar-input"].includes(document.activeElement?.id)) return;
+  if (document.activeElement?.classList.contains("verb-inp")) return;
   if (e.key === "ArrowRight") document.getElementById("btn-next").click();
   if (e.key === "ArrowLeft")  document.getElementById("btn-prev").click();
   if ((e.key === " " || e.key === "Enter") && currentMode === "flip")
@@ -885,19 +903,25 @@ document.getElementById("btn-speak-grammar").addEventListener("click", () => {
 document.getElementById("btn-verb-check").addEventListener("click", checkVerbForm);
 document.getElementById("btn-verb-skip").addEventListener("click", () => {
   if (!verbAnswered) {
-    const ex = verbQueue[verbIdx];
-    document.getElementById("verb-feedback").textContent = `Answer: ${ex.answer}`;
+    const inputs = [...document.querySelectorAll("#verb-table-body .verb-inp")];
+    inputs.forEach(inp => { inp.value = inp.dataset.answer; inp.classList.add("wrong"); });
+    verbAnswered = true; sessionW++;
+    const card = verbDeck[verbIdx];
+    recordResult(card.id, false);
+    document.getElementById("verb-feedback").textContent = "Answers shown";
     document.getElementById("verb-feedback").className = "ex-feedback wrong";
-    document.getElementById("verb-input").classList.add("wrong");
-    verbAnswered = true; sessionW++; updateScoreBar();
-  } else { verbIdx = (verbIdx + 1) % verbQueue.length; showVerbForm(); }
+    speakDutch(card.dutch); updateScoreBar();
+  } else { verbIdx = (verbIdx + 1) % verbDeck.length; showVerbForm(); }
 });
-document.getElementById("verb-input").addEventListener("keydown", e => {
-  if (e.key === "Enter") checkVerbForm();
+document.getElementById("verb-table-body").addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const inputs = [...document.querySelectorAll("#verb-table-body .verb-inp")];
+  const cur = inputs.indexOf(e.target);
+  if (!verbAnswered && cur < inputs.length - 1) inputs[cur + 1].focus();
+  else checkVerbForm();
 });
 document.getElementById("btn-speak-verb").addEventListener("click", () => {
-  const ex = verbQueue[verbIdx];
-  speakDutch(verbAnswered ? ex.answer.split(" / ")[0] : ex.card.dutch);
+  if (verbDeck[verbIdx]) speakDutch(verbDeck[verbIdx].dutch);
 });
 
 // ── EXPORT / IMPORT ──
