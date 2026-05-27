@@ -643,7 +643,12 @@ function checkTyping() {
 
 // ── MULTIPLE CHOICE MODE ──
 function buildDistractors(correctCard) {
-  const pool = activeDeck.filter(c => c.id !== correctCard.id && c.type === "word");
+  let pool = activeDeck.filter(c => c.id !== correctCard.id);
+  if (pool.length < 3) {
+    const seen = new Set(pool.map(c => c.id));
+    seen.add(correctCard.id);
+    pool = pool.concat(DECK.filter(c => !seen.has(c.id)));
+  }
   shuffle(pool);
   return pool.slice(0, 3).map(c => c.english);
 }
