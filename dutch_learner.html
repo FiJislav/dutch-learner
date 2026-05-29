@@ -866,6 +866,10 @@ let verbCardQueue   = [];
 let verbCardIdx     = 0;
 let verbViewMode    = "table";
 
+let adjDeck     = [];
+let adjIdx      = 0;
+let adjAnswered = false;
+
 function isChapterEntry(ch) {
   return ch !== "grammar-practice" && ch !== "grammar-topics";
 }
@@ -919,6 +923,10 @@ function buildVerbCardQueue(deck) {
         q.push({ card: c, pronoun: p, answer: f })
       ));
   return q;
+}
+
+function buildAdjDeck(deck) {
+  return deck.filter(c => c.type === "adjective");
 }
 
 function makeSubcatBtn(label, tag) {
@@ -1357,6 +1365,65 @@ function checkVerbForm() {
   }
 }
 
+// ── ADJ FORMS MODE ──
+function showAdjForm() {
+  const tbody = document.getElementById("adj-table-body");
+  document.getElementById("adj-feedback").textContent = "";
+  document.getElementById("adj-feedback").className = "ex-feedback";
+  adjAnswered = false;
+  if (!adjDeck.length) {
+    document.getElementById("adj-title").textContent = "No adjectives in this selection.";
+    tbody.innerHTML = "";
+    return;
+  }
+  const card = adjDeck[adjIdx];
+  document.getElementById("adj-title").textContent = card.dutch + " — " + card.english;
+  tbody.innerHTML = "";
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td class="adj-base">${card.dutch}</td>
+    <td class="adj-cell"><input class="adj-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-field="comparatief" data-answer="${card.forms.comparatief}" /></td>
+    <td class="adj-cell"><input class="adj-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-field="superlatief" data-answer="${card.forms.superlatief}" /></td>
+    <td class="adj-cell"><input class="adj-inp" type="text" placeholder="even … als" autocomplete="off" spellcheck="false" data-field="equal" data-answer="${card.forms.equal}" /></td>
+  `;
+  tbody.appendChild(tr);
+  updateProgress();
+  setTimeout(() => tbody.querySelector(".adj-inp")?.focus(), 50);
+}
+
+function checkAdjForm() {
+  if (adjAnswered) {
+    adjIdx = (adjIdx + 1) % adjDeck.length;
+    showAdjForm();
+    return;
+  }
+  const inputs = [...document.querySelectorAll("#adj-table-body .adj-inp")];
+  if (!inputs.some(inp => inp.value.trim())) return;
+  let allCorrect = true;
+  inputs.forEach(inp => {
+    const val = inp.value.trim().toLowerCase();
+    const accepted = [inp.dataset.answer.toLowerCase()];
+    if (inp.dataset.field === "equal") {
+      const base = inp.dataset.answer.replace("even ", "").replace(" als", "");
+      accepted.push(`net zo ${base} als`);
+    }
+    const correct = val && accepted.includes(val);
+    inp.classList.toggle("correct", !!correct);
+    inp.classList.toggle("wrong", !correct);
+    if (!correct) { allCorrect = false; inp.value = inp.dataset.answer; }
+  });
+  adjAnswered = true;
+  const card = adjDeck[adjIdx];
+  recordResult(card.id, allCorrect);
+  const fb = document.getElementById("adj-feedback");
+  if (allCorrect) {
+    sessionC++; fb.textContent = "✓ All correct!"; fb.className = "ex-feedback correct";
+  } else {
+    sessionW++; fb.textContent = "✗ Correct answers shown in red"; fb.className = "ex-feedback wrong";
+  }
+  updateScoreBar();
+}
+
 // ── EVENT LISTENERS: mode tabs ──
 document.querySelectorAll(".mode-btn").forEach(btn =>
   btn.addEventListener("click", () => setMode(btn.dataset.mode)));
@@ -1494,6 +1561,20 @@ document.getElementById("grammar-input").addEventListener("keydown", e => {
 document.getElementById("btn-speak-grammar").addEventListener("click", () => {
   const ex = grammarQueue[grammarIdx];
   speakDutch(grammarAnswered ? ex.full : ex.s.replace("___", "…"));
+});
+
+// ── ADJ FORMS LISTENERS ──
+document.getElementById("btn-adj-check").addEventListener("click", checkAdjForm);
+document.getElementById("btn-adj-prev").addEventListener("click", () => {
+  adjIdx = (adjIdx - 1 + adjDeck.length) % adjDeck.length;
+  showAdjForm();
+});
+document.getElementById("btn-adj-next").addEventListener("click", () => {
+  adjIdx = (adjIdx + 1) % adjDeck.length;
+  showAdjForm();
+});
+document.getElementById("adj-table-body").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkAdjForm();
 });
 
 // ── VERB FORMS LISTENERS ──
