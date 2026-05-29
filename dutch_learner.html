@@ -208,6 +208,7 @@ tr:hover td { background: #1e2d5a; }
 .vcell-sentence { color: #a0c4ff; font-style: italic; font-size: 0.76rem; opacity: 0.4; transition: opacity 0.3s; line-height: 1.35; }
 .vcell-sentence.show { opacity: 1; }
 .vcell-sentence strong { font-style: normal; color: #4caf93; font-weight: 700; }
+.vcell-sentence-en { color: #8899bb; font-size: 0.68rem; font-style: normal; display: block; margin-top: 1px; }
 .verb-blank { border-bottom: 1px dashed #6c63ff; color: #6c63ff; font-style: normal; }
 .vcell-sentence button { background: transparent; border: none; cursor: pointer; color: #6c63ff; font-size: 0.82rem; padding: 0 2px; opacity: 0.7; vertical-align: middle; }
 .vcell-sentence button:hover { opacity: 1; }
@@ -220,11 +221,21 @@ tr:hover td { background: #1e2d5a; }
 <div id="top-controls">
   <select id="chapter-select">
     <option value="all">All cards</option>
-    <option value="Ch 7" selected>Ch 7: In een kledingzaak</option>
-    <option value="verbs">Verbs only</option>
+    <optgroup label="Chapters">
+      <option value="Ch 7" selected>Ch 7: In een kledingzaak</option>
+    </optgroup>
+    <optgroup label="Grammar">
+      <option value="grammar-practice">Grammar practice</option>
+      <option value="grammar-topics">Grammar topics</option>
+    </optgroup>
   </select>
+  <div id="content-toggle">
+    <button id="btn-words" class="content-btn active">📖 Words</button>
+    <button id="btn-grammar-content" class="content-btn">✏️ Grammar</button>
+  </div>
   <button id="weak-toggle">⚡ Weak words</button>
 </div>
+<div id="subcat-row"></div>
 
 <div class="mode-toggle">
   <button class="mode-btn active" data-mode="flip">🃏 Flip</button>
@@ -419,6 +430,220 @@ const DECK = [
   { id:"w079", type:"word", dutch:"de schoenen",             english:"shoes",              note:"", tag:"Ch 7", sentences:[] },
   { id:"w080", type:"word", dutch:"het pak",                 english:"suit",               note:"", tag:"Ch 7", sentences:[] },
 
+  // ── Ch 7 Verbs ──
+  { id:"v003", type:"verb", dutch:"kopen", english:"to buy", tag:"Ch 7",
+    conjugations:{ "ik":"koop", "jij / je":"koopt", "u":"koopt", "hij":"koopt", "zij / ze":"koopt", "het":"koopt", "wij / we":"kopen", "jullie":"kopen", "zij / ze (pl)":"kopen" },
+    sentences:{ "ik":"Ik ___ een nieuwe broek in de winkel.", "jij / je":"Jij ___ altijd mooie kleren in de stad.", "u":"U ___ een pak voor uw werk.", "hij":"Hij ___ een spijkerbroek op de markt.", "zij / ze":"Zij ___ een jurk voor het feest.", "het":"Het kind ___ een ijsje bij de kiosk.", "wij / we":"Wij ___ samen een cadeau voor haar.", "jullie":"Jullie ___ te veel spullen online.", "zij / ze (pl)":"Zij ___ nieuwe schoenen in de stad." } },
+
+  { id:"v004", type:"verb", dutch:"helpen", english:"to help", tag:"Ch 7",
+    conjugations:{ "ik":"help", "jij / je":"helpt", "u":"helpt", "hij":"helpt", "zij / ze":"helpt", "het":"helpt", "wij / we":"helpen", "jullie":"helpen", "zij / ze (pl)":"helpen" },
+    sentences:{ "ik":"Ik ___ u graag met de maten.", "jij / je":"Jij ___ altijd de nieuwe studenten.", "u":"U ___ ons heel goed vandaag.", "hij":"Hij ___ zijn moeder in de keuken.", "zij / ze":"Zij ___ de klant met een nieuwe maat.", "het":"Het team ___ ons met het project.", "wij / we":"Wij ___ elkaar als goede buren.", "jullie":"Jullie ___ de winkel elke zaterdag.", "zij / ze (pl)":"Zij ___ de toeristen met de kaart." } },
+
+  { id:"v005", type:"verb", dutch:"zoeken", english:"to look for", tag:"Ch 7",
+    conjugations:{ "ik":"zoek", "jij / je":"zoekt", "u":"zoekt", "hij":"zoekt", "zij / ze":"zoekt", "het":"zoekt", "wij / we":"zoeken", "jullie":"zoeken", "zij / ze (pl)":"zoeken" },
+    sentences:{ "ik":"Ik ___ een overhemd in maat medium.", "jij / je":"Jij ___ een goedkoop jasje online.", "u":"U ___ een geschenk voor uw dochter.", "hij":"Hij ___ zijn portemonnee in zijn tas.", "zij / ze":"Zij ___ een rok voor de zomer.", "het":"Het meisje ___ haar favoriete speelgoed.", "wij / we":"Wij ___ een mooie kledingzaak in de buurt.", "jullie":"Jullie ___ samen een appartement in de stad.", "zij / ze (pl)":"Zij ___ werk in een nieuwe sector." } },
+
+  { id:"v006", type:"verb", dutch:"proberen", english:"to try", tag:"Ch 7",
+    conjugations:{ "ik":"probeer", "jij / je":"probeert", "u":"probeert", "hij":"probeert", "zij / ze":"probeert", "het":"probeert", "wij / we":"proberen", "jullie":"proberen", "zij / ze (pl)":"proberen" },
+    sentences:{ "ik":"Ik ___ het jasje even aan in het pashokje.", "jij / je":"Jij ___ altijd nieuwe dingen uit.", "u":"U ___ de broek in een andere maat.", "hij":"Hij ___ het pak aan voor de spiegel.", "zij / ze":"Zij ___ een nieuwe aanpak in haar werk.", "het":"Het kind ___ de schoenen zelf aan te trekken.", "wij / we":"Wij ___ elke dag iets nieuws te leren.", "jullie":"Jullie ___ de taart voor het eerst te maken.", "zij / ze (pl)":"Zij ___ alle jurken in de uitverkoop." } },
+
+  { id:"v007", type:"verb", dutch:"passen", english:"to fit / try on", tag:"Ch 7",
+    conjugations:{ "ik":"pas", "jij / je":"past", "u":"past", "hij":"past", "zij / ze":"past", "het":"past", "wij / we":"passen", "jullie":"passen", "zij / ze (pl)":"passen" },
+    sentences:{ "ik":"Ik ___ de broek even in het pashokje.", "jij / je":"Jij ___ die jas heel goed bij jouw stijl.", "u":"U ___ de schoenen voor de zekerheid.", "hij":"Hij ___ het pak aan voordat hij het koopt.", "zij / ze":"Zij ___ de jurk in de winkel.", "het":"Het jasje ___ perfect bij de broek.", "wij / we":"Wij ___ allebei de nieuwe uniformen.", "jullie":"Jullie ___ de kleren in het pashokje.", "zij / ze (pl)":"Zij ___ de jurken voor het feest." } },
+
+  { id:"v008", type:"verb", dutch:"staan", english:"to suit / to stand", tag:"Ch 7",
+    conjugations:{ "ik":"sta", "jij / je":"staat", "u":"staat", "hij":"staat", "zij / ze":"staat", "het":"staat", "wij / we":"staan", "jullie":"staan", "zij / ze (pl)":"staan" },
+    sentences:{ "ik":"Ik ___ voor het raam en kijk naar buiten.", "jij / je":"Jij ___ mooi in die rode jurk.", "u":"U ___ goed in dat donkere pak.", "hij":"Hij ___ voor de spiegel in de winkel.", "zij / ze":"Zij ___ er prachtig uit in die jurk.", "het":"Het staat goed, die kleur ___ je heel goed.", "wij / we":"Wij ___ voor de ingang van de winkel.", "jullie":"Jullie ___ er leuk uit in die outfits.", "zij / ze (pl)":"Zij ___ in de rij bij de kassa." } },
+
+  { id:"v009", type:"verb", dutch:"ruilen", english:"to exchange", tag:"Ch 7",
+    conjugations:{ "ik":"ruil", "jij / je":"ruilt", "u":"ruilt", "hij":"ruilt", "zij / ze":"ruilt", "het":"ruilt", "wij / we":"ruilen", "jullie":"ruilen", "zij / ze (pl)":"ruilen" },
+    sentences:{ "ik":"Ik ___ de broek voor een grotere maat.", "jij / je":"Jij ___ jouw kaartje met een vriend.", "u":"U ___ het jasje als het niet past.", "hij":"Hij ___ de schoenen bij de klantenservice.", "zij / ze":"Zij ___ haar jurk voor een andere kleur.", "het":"Het bedrijf ___ producten met andere winkels.", "wij / we":"Wij ___ altijd boeken met elkaar.", "jullie":"Jullie ___ de kaartjes voor de voorstelling.", "zij / ze (pl)":"Zij ___ de kleding die niet past." } },
+
+  { id:"v010", type:"verb", dutch:"beslissen", english:"to decide", tag:"Ch 7",
+    conjugations:{ "ik":"beslis", "jij / je":"beslist", "u":"beslist", "hij":"beslist", "zij / ze":"beslist", "het":"beslist", "wij / we":"beslissen", "jullie":"beslissen", "zij / ze (pl)":"beslissen" },
+    sentences:{ "ik":"Ik ___ om de blauwe jas te kopen.", "jij / je":"Jij ___ altijd snel wat je wilt.", "u":"U ___ zelf wat het beste voor u is.", "hij":"Hij ___ na lang nadenken welk pak hij koopt.", "zij / ze":"Zij ___ om de jurk toch niet te ruilen.", "het":"Het comité ___ morgen over het budget.", "wij / we":"Wij ___ samen wat we gaan doen.", "jullie":"Jullie ___ zelf maar wat jullie kopen.", "zij / ze (pl)":"Zij ___ samen over de nieuwe collectie." } },
+
+  { id:"v011", type:"verb", dutch:"liggen", english:"to lie / to be located", tag:"Ch 7",
+    conjugations:{ "ik":"lig", "jij / je":"ligt", "u":"ligt", "hij":"ligt", "zij / ze":"ligt", "het":"ligt", "wij / we":"liggen", "jullie":"liggen", "zij / ze (pl)":"liggen" },
+    sentences:{ "ik":"Ik ___ op de bank en kijk tv.", "jij / je":"Jij ___ altijd lang in bed op zondag.", "u":"U ___ goed op schema met uw werk.", "hij":"Hij ___ ziek thuis met koorts.", "zij / ze":"Zij ___ in het ziekenhuis na het ongeluk.", "het":"Het boek ___ op de tafel in de kamer.", "wij / we":"Wij ___ in de tuin te genieten van de zon.", "jullie":"Jullie ___ ver achter op het rooster.", "zij / ze (pl)":"Zij ___ op het strand de hele middag." } },
+
+  { id:"v012", type:"verb", dutch:"zitten", english:"to sit / to fit", tag:"Ch 7",
+    conjugations:{ "ik":"zit", "jij / je":"zit", "u":"zit", "hij":"zit", "zij / ze":"zit", "het":"zit", "wij / we":"zitten", "jullie":"zitten", "zij / ze (pl)":"zitten" },
+    sentences:{ "ik":"Ik ___ op een stoel bij het raam.", "jij / je":"Jij ___ heel goed in die stoel.", "u":"U ___ comfortabel in de wachtkamer.", "hij":"Hij ___ aan de balie en wacht.", "zij / ze":"Zij ___ naast mij in de klas.", "het":"Het kind ___ rustig aan tafel te eten.", "wij / we":"Wij ___ op het terras van het café.", "jullie":"Jullie ___ altijd achter in de bus.", "zij / ze (pl)":"Zij ___ samen in de vergaderzaal." } },
+
+  { id:"v013", type:"verb", dutch:"pinnen", english:"to pay by card", tag:"Ch 7",
+    conjugations:{ "ik":"pin", "jij / je":"pint", "u":"pint", "hij":"pint", "zij / ze":"pint", "het":"pint", "wij / we":"pinnen", "jullie":"pinnen", "zij / ze (pl)":"pinnen" },
+    sentences:{ "ik":"Ik ___ bij de kassa in de winkel.", "jij / je":"Jij ___ altijd want je hebt nooit contant.", "u":"U ___ of betaalt u liever contant?", "hij":"Hij ___ zijn boodschappen aan de zelfscanner.", "zij / ze":"Zij ___ snel en loopt dan weg.", "het":"Het systeem ___ automatisch bij het uitchecken.", "wij / we":"Wij ___ allebei met onze eigen pas.", "jullie":"Jullie ___ de lunch bij de snackbar.", "zij / ze (pl)":"Zij ___ de aankopen aan de kassa." } },
+
+  // ── Modal Verbs ──
+  { id:"v014", type:"verb", dutch:"kunnen", english:"can / to be able to", tag:"Modal verbs",
+    conjugations:{ "ik":"kan", "jij / je":"kunt / kan", "u":"kunt", "hij":"kan", "zij / ze":"kan", "het":"kan", "wij / we":"kunnen", "jullie":"kunnen", "zij / ze (pl)":"kunnen" },
+    sentences:{
+      "ik":          { s:"Ik ___ goed Nederlands spreken.",                          en:"I can speak Dutch well." },
+      "jij / je":    { s:"Jij ___ heel snel typen op de computer.",                  en:"You can type very fast on the computer." },
+      "u":           { s:"U ___ morgen langskomen als u wilt.",                      en:"You can come by tomorrow if you want." },
+      "hij":         { s:"Hij ___ elke dag naar het werk fietsen.",                  en:"He can cycle to work every day." },
+      "zij / ze":    { s:"Zij ___ prachtig zingen in het koor.",                     en:"She can sing beautifully in the choir." },
+      "het":         { s:"Het ___ heel koud worden in de winter.",                   en:"It can get very cold in winter." },
+      "wij / we":    { s:"Wij ___ u helpen als u dat wilt.",                         en:"We can help you if you want." },
+      "jullie":      { s:"Jullie ___ altijd bij ons terecht voor vragen.",           en:"You can always come to us with questions." },
+      "zij / ze (pl)":{ s:"Zij ___ goed samenwerken in een team.",                  en:"They can work well together in a team." }
+    },
+    grammarSentences:[
+      { s:"Ik ___ helaas niet komen morgen.",             a:["kan"],           full:"Ik kan helaas niet komen morgen.",             hint:"en: Unfortunately I can't come tomorrow.",        topic:"kunnen — ability / possibility" },
+      { s:"Jij ___ heel goed gitaar spelen.",             a:["kunt","kan"],    full:"Jij kunt heel goed gitaar spelen.",             hint:"en: You can play guitar very well.",              topic:"kunnen — ability / possibility" },
+      { s:"Hij ___ goed autorijden na zijn lessen.",      a:["kan"],           full:"Hij kan goed autorijden na zijn lessen.",       hint:"en: He can drive well after his lessons.",        topic:"kunnen — ability / possibility" },
+      { s:"Wij ___ u hier niet helpen, sorry.",           a:["kunnen"],        full:"Wij kunnen u hier niet helpen, sorry.",         hint:"en: We can't help you here, sorry.",             topic:"kunnen — ability / possibility" },
+      { s:"Wat ___ jij goed doen in je vrije tijd?",      a:["kun","kan"],     full:"Wat kun jij goed doen in je vrije tijd?",      hint:"en: What can you do well in your free time?",    topic:"kunnen — ability / possibility" },
+      { s:"Waarom ___ hij niet op tijd komen vandaag?",   a:["kan"],           full:"Waarom kan hij niet op tijd komen vandaag?",   hint:"en: Why can't he come on time today?",           topic:"kunnen — ability / possibility" },
+      { s:"Hoe ___ wij dit probleem samen oplossen?",     a:["kunnen"],        full:"Hoe kunnen wij dit probleem samen oplossen?",  hint:"en: How can we solve this problem together?",    topic:"kunnen — ability / possibility" },
+      { s:"Waar ___ ik parkeren in het centrum?",         a:["kan"],           full:"Waar kan ik parkeren in het centrum?",         hint:"en: Where can I park in the city centre?",       topic:"kunnen — ability / possibility" },
+      { s:"Zij ___ niet slapen door het lawaai buiten.",  a:["kan"],           full:"Zij kan niet slapen door het lawaai buiten.",   hint:"en: She can't sleep because of the noise outside. (inability — niet kunnen)",          topic:"kunnen — negation: can't" },
+      { s:"Wij ___ de deur niet openen zonder sleutel.",  a:["kunnen"],        full:"Wij kunnen de deur niet openen zonder sleutel.", hint:"en: We can't open the door without a key. (inability — niet kunnen)",                  topic:"kunnen — negation: can't" },
+      { s:"Waarom ___ jij niet wat vroeger thuis zijn?",  a:["kun","kan"],     full:"Waarom kun jij niet wat vroeger thuis zijn?",  hint:"en: Why can't you be home a little earlier? (impossibility — niet kunnen)",            topic:"kunnen — negation: can't" }
+    ]
+  },
+
+  { id:"v015", type:"verb", dutch:"willen", english:"to want / would like", tag:"Modal verbs",
+    conjugations:{ "ik":"wil", "jij / je":"wilt / wil", "u":"wilt", "hij":"wil", "zij / ze":"wil", "het":"wil", "wij / we":"willen", "jullie":"willen", "zij / ze (pl)":"willen" },
+    sentences:{
+      "ik":          { s:"Ik ___ een nieuwe jas kopen voor de winter.",              en:"I want to buy a new coat for winter." },
+      "jij / je":    { s:"Jij ___ toch een kopje koffie drinken?",                  en:"You want a cup of coffee, don't you?" },
+      "u":           { s:"U ___ zeker wel even zitten na de lange reis.",            en:"You must certainly want to sit after the long journey." },
+      "hij":         { s:"Hij ___ later architect worden in de stad.",               en:"He wants to become an architect in the city later." },
+      "zij / ze":    { s:"Zij ___ meer uren werken dit jaar.",                       en:"She wants to work more hours this year." },
+      "het":         { s:"Het kind ___ niet naar bed gaan vanavond.",                en:"The child doesn't want to go to bed tonight." },
+      "wij / we":    { s:"Wij ___ graag een tafel reserveren voor twee.",            en:"We would like to reserve a table for two." },
+      "jullie":      { s:"Jullie ___ toch naar het concert komen?",                  en:"You all want to come to the concert, don't you?" },
+      "zij / ze (pl)":{ s:"Zij ___ allemaal in het buitenland studeren.",            en:"They all want to study abroad." }
+    },
+    grammarSentences:[
+      { s:"Ik ___ graag een kopje thee, alsjeblieft.",            a:["wil"],         full:"Ik wil graag een kopje thee, alsjeblieft.",           hint:"en: I would like a cup of tea, please. ('graag' makes it polite)",  topic:"willen — want / would like" },
+      { s:"Jij ___ toch niet echt weggaan nu?",                   a:["wilt","wil"],  full:"Jij wilt toch niet echt weggaan nu?",                 hint:"en: You don't really want to leave now, do you?",                  topic:"willen — want / would like" },
+      { s:"Zij ___ een nieuw appartement huren in Amsterdam.",     a:["wil"],         full:"Zij wil een nieuw appartement huren in Amsterdam.",   hint:"en: She wants to rent a new apartment in Amsterdam.",              topic:"willen — want / would like" },
+      { s:"Wij ___ u graag uitnodigen voor ons evenement.",        a:["willen"],      full:"Wij willen u graag uitnodigen voor ons evenement.",   hint:"en: We would like to invite you to our event.",                    topic:"willen — want / would like" },
+      { s:"Wat ___ u drinken, koffie of thee?",                    a:["wilt","wil"],  full:"Wat wilt u drinken, koffie of thee?",                 hint:"en: What would you like to drink, coffee or tea? (formal)",        topic:"willen — want / would like" },
+      { s:"Waarom ___ zij niet meedoen aan het project?",          a:["wil"],         full:"Waarom wil zij niet meedoen aan het project?",        hint:"en: Why doesn't she want to join the project?",                    topic:"willen — want / would like" },
+      { s:"Hoe lang ___ jullie blijven in Amsterdam?",             a:["willen"],      full:"Hoe lang willen jullie blijven in Amsterdam?",        hint:"en: How long do you want to stay in Amsterdam?",                   topic:"willen — want / would like" },
+      { s:"Wat ___ hij worden als hij later groot is?",            a:["wil"],         full:"Wat wil hij worden als hij later groot is?",          hint:"en: What does he want to be when he grows up?",                    topic:"willen — want / would like" },
+      { s:"Hij ___ niet luisteren naar goede adviezen.",           a:["wil"],         full:"Hij wil niet luisteren naar goede adviezen.",         hint:"en: He doesn't want to listen to good advice. (refusal — niet willen)",           topic:"willen — negation: don't want to" },
+      { s:"Ik ___ nu niet praten over dit onderwerp.",             a:["wil"],         full:"Ik wil nu niet praten over dit onderwerp.",           hint:"en: I don't want to talk about this subject now. (unwillingness — niet willen)",   topic:"willen — negation: don't want to" },
+      { s:"Zij ___ hem niet meer zien na het conflict.",           a:["wil"],         full:"Zij wil hem niet meer zien na het conflict.",         hint:"en: She doesn't want to see him anymore after the conflict. (refusal — niet willen)", topic:"willen — negation: don't want to" }
+    ]
+  },
+
+  { id:"v016", type:"verb", dutch:"moeten", english:"must / have to", tag:"Modal verbs",
+    conjugations:{ "ik":"moet", "jij / je":"moet", "u":"moet", "hij":"moet", "zij / ze":"moet", "het":"moet", "wij / we":"moeten", "jullie":"moeten", "zij / ze (pl)":"moeten" },
+    sentences:{
+      "ik":          { s:"Ik ___ vandaag vroeg opstaan voor mijn werk.",             en:"I have to get up early today for work." },
+      "jij / je":    { s:"Jij ___ dit formulier invullen voor het loket.",           en:"You have to fill in this form at the counter." },
+      "u":           { s:"U ___ uw ticket laten zien bij de ingang.",                en:"You must show your ticket at the entrance." },
+      "hij":         { s:"Hij ___ elke avond zijn tanden poetsen.",                  en:"He has to brush his teeth every evening." },
+      "zij / ze":    { s:"Zij ___ morgen vroeg naar het ziekenhuis.",                en:"She has to go to the hospital early tomorrow." },
+      "het":         { s:"Het ___ nu echt afgelopen zijn met de rommel.",            en:"The mess really has to stop now." },
+      "wij / we":    { s:"Wij ___ de auto terugbrengen voor zes uur.",              en:"We have to return the car before six o'clock." },
+      "jullie":      { s:"Jullie ___ rustiger zijn in de bibliotheek.",              en:"You have to be quieter in the library." },
+      "zij / ze (pl)":{ s:"Zij ___ hun rapport vrijdag inleveren.",                 en:"They have to hand in their report on Friday." }
+    },
+    grammarSentences:[
+      { s:"Ik ___ nog boodschappen doen voor het avondeten.",          a:["moet"],    full:"Ik moet nog boodschappen doen voor het avondeten.",        hint:"en: I still have to do groceries for dinner.",              topic:"moeten — must / have to (obligation)" },
+      { s:"Jij ___ je medicijnen elke dag innemen.",                   a:["moet"],    full:"Jij moet je medicijnen elke dag innemen.",                hint:"en: You have to take your medication every day.",           topic:"moeten — must / have to (obligation)" },
+      { s:"Hij ___ een vergunning aanvragen bij de gemeente.",         a:["moet"],    full:"Hij moet een vergunning aanvragen bij de gemeente.",       hint:"en: He has to apply for a permit at the municipality.",     topic:"moeten — must / have to (obligation)" },
+      { s:"Wij ___ de vergadering verzetten naar volgende week.",      a:["moeten"],  full:"Wij moeten de vergadering verzetten naar volgende week.",  hint:"en: We have to reschedule the meeting to next week.",       topic:"moeten — must / have to (obligation)" },
+      { s:"Waarom ___ ik altijd alles zelf doen?",                     a:["moet"],    full:"Waarom moet ik altijd alles zelf doen?",                   hint:"en: Why do I always have to do everything myself?",         topic:"moeten — must / have to (obligation)" },
+      { s:"Hoe laat ___ jij morgenochtend opstaan?",                   a:["moet"],    full:"Hoe laat moet jij morgenochtend opstaan?",                 hint:"en: What time do you have to get up tomorrow morning?",     topic:"moeten — must / have to (obligation)" },
+      { s:"Wat ___ wij meebrengen naar het feest?",                    a:["moeten"],  full:"Wat moeten wij meebrengen naar het feest?",                hint:"en: What do we have to bring to the party?",                topic:"moeten — must / have to (obligation)" },
+      { s:"Hij ___ zijn rijbewijs vernieuwen dit jaar.",               a:["moet"],    full:"Hij moet zijn rijbewijs vernieuwen dit jaar.",             hint:"en: He has to renew his driving licence this year.",         topic:"moeten — must / have to (obligation)" },
+      { s:"Je ___ je pas niet vergeten mee te nemen.",               a:["moet"],    full:"Je moet je pas niet vergeten mee te nemen.",               hint:"en: You must not forget to bring your ID. ('niet moeten' = must not — prohibition, NOT 'don't need to'!)", topic:"moeten — negation: must not (prohibition)" },
+      { s:"Jullie ___ niet te laat op school komen.",                 a:["moeten"],  full:"Jullie moeten niet te laat op school komen.",              hint:"en: You must not be late for school. ('niet moeten' = strong obligation to avoid — different from 'niet hoeven'!)", topic:"moeten — negation: must not (prohibition)" },
+      { s:"Hij ___ absoluut niet rijden na het drinken.",             a:["moet"],    full:"Hij moet absoluut niet rijden na het drinken.",            hint:"en: He absolutely must not drive after drinking. ('niet moeten' = prohibition — compare: 'niet hoeven' = don't need to)", topic:"moeten — negation: must not (prohibition)" }
+    ]
+  },
+
+  { id:"v017", type:"verb", dutch:"mogen", english:"may / to be allowed to", tag:"Modal verbs",
+    conjugations:{ "ik":"mag", "jij / je":"mag", "u":"mag", "hij":"mag", "zij / ze":"mag", "het":"mag", "wij / we":"mogen", "jullie":"mogen", "zij / ze (pl)":"mogen" },
+    sentences:{
+      "ik":          { s:"Ik ___ vanavond tot tien uur opblijven.",                  en:"I'm allowed to stay up until ten tonight." },
+      "jij / je":    { s:"Jij ___ hier niet roken, dat is verboden.",                en:"You're not allowed to smoke here, that's forbidden." },
+      "u":           { s:"U ___ de auto parkeren op dit parkeerterrein.",            en:"You are allowed to park the car in this car park." },
+      "hij":         { s:"Hij ___ vandaag eerder weggaan van zijn werk.",            en:"He is allowed to leave work earlier today." },
+      "zij / ze":    { s:"Zij ___ haar hond meenemen naar de winkel.",               en:"She is allowed to bring her dog to the shop." },
+      "het":         { s:"Het kind ___ één snoepje per dag hebben.",                 en:"The child is allowed to have one sweet per day." },
+      "wij / we":    { s:"Wij ___ gebruik maken van de fitnessruimte.",              en:"We are allowed to use the fitness room." },
+      "jullie":      { s:"Jullie ___ dit weekend langer buiten spelen.",             en:"You are allowed to play outside longer this weekend." },
+      "zij / ze (pl)":{ s:"Zij ___ de vergaderzaal de hele dag gebruiken.",          en:"They are allowed to use the meeting room all day." }
+    },
+    grammarSentences:[
+      { s:"Ik ___ hier geen foto's maken, zegt het bord.",          a:["mag"],    full:"Ik mag hier geen foto's maken, zegt het bord.",           hint:"en: I'm not allowed to take photos here, the sign says.",    topic:"mogen — may / to be allowed to" },
+      { s:"Jij ___ van mij altijd mijn fiets lenen.",               a:["mag"],    full:"Jij mag van mij altijd mijn fiets lenen.",                hint:"en: You are always allowed to borrow my bike from me.",      topic:"mogen — may / to be allowed to" },
+      { s:"Kinderen ___ niet alleen oversteken zonder volwassene.", a:["mogen"],  full:"Kinderen mogen niet alleen oversteken zonder volwassene.", hint:"en: Children are not allowed to cross the street alone.",   topic:"mogen — may / to be allowed to" },
+      { s:"U ___ de map meenemen naar de vergadering.",             a:["mag"],    full:"U mag de map meenemen naar de vergadering.",              hint:"en: You may take the folder to the meeting.",                topic:"mogen — may / to be allowed to" },
+      { s:"Wat ___ ik u aanbieden, meneer?",                        a:["mag"],    full:"Wat mag ik u aanbieden, meneer?",                         hint:"en: What may I offer you, sir? (polite formal offer)",        topic:"mogen — may / to be allowed to" },
+      { s:"Waarom ___ wij hier niet fietsen?",                      a:["mogen"],  full:"Waarom mogen wij hier niet fietsen?",                     hint:"en: Why aren't we allowed to cycle here?",                   topic:"mogen — may / to be allowed to" },
+      { s:"Hoe laat ___ de kinderen opblijven?",                    a:["mogen"],  full:"Hoe laat mogen de kinderen opblijven?",                   hint:"en: Until what time are the children allowed to stay up?",   topic:"mogen — may / to be allowed to" },
+      { s:"Studenten ___ hun laptop gebruiken tijdens het examen.", a:["mogen"],  full:"Studenten mogen hun laptop gebruiken tijdens het examen.", hint:"en: Students are allowed to use their laptop during the exam.", topic:"mogen — may / to be allowed to" },
+      { s:"Je ___ de resultaten nog niet vertellen aan anderen.",  a:["mag"],    full:"Je mag de resultaten nog niet vertellen aan anderen.",     hint:"en: You are not allowed to tell the results to others yet. ('niet mogen' = not permitted)",                       topic:"mogen — negation: not allowed to" },
+      { s:"Wij ___ hier geen muziek spelen na tien uur.",          a:["mogen"],  full:"Wij mogen hier geen muziek spelen na tien uur.",           hint:"en: We are not allowed to play music here after ten o'clock. ('niet/geen mogen' = rule / permission denied)", topic:"mogen — negation: not allowed to" },
+      { s:"Bezoekers ___ de apparatuur niet aanraken.",            a:["mogen"],  full:"Bezoekers mogen de apparatuur niet aanraken.",             hint:"en: Visitors are not allowed to touch the equipment. ('niet mogen' = forbidden)",                              topic:"mogen — negation: not allowed to" }
+    ]
+  },
+
+  { id:"v018", type:"verb", dutch:"zullen", english:"shall / will (future, offers, promises)", tag:"Modal verbs",
+    conjugations:{ "ik":"zal", "jij / je":"zal / zult", "u":"zult / zal", "hij":"zal", "zij / ze":"zal", "het":"zal", "wij / we":"zullen", "jullie":"zullen", "zij / ze (pl)":"zullen" },
+    sentences:{
+      "ik":          { s:"Ik ___ morgen vroeg voor je klaarstaan.",                  en:"I will be ready for you early tomorrow. (promise)" },
+      "jij / je":    { s:"Jij ___ het zeker begrijpen als je het leest.",            en:"You will certainly understand it when you read it." },
+      "u":           { s:"U ___ de resultaten snel ontvangen per e-mail.",           en:"You will receive the results quickly by email." },
+      "hij":         { s:"Hij ___ vanavond op tijd thuiskomen, beloofd.",            en:"He will come home on time tonight, promised." },
+      "zij / ze":    { s:"Zij ___ ons laten weten wanneer ze aankomt.",              en:"She will let us know when she arrives." },
+      "het":         { s:"Het ___ morgen waarschijnlijk gaan regenen.",              en:"It will probably rain tomorrow." },
+      "wij / we":    { s:"Wij ___ het project op tijd afleveren.",                   en:"We will deliver the project on time." },
+      "jullie":      { s:"Jullie ___ zien dat het de moeite waard is.",              en:"You will see that it is worth it." },
+      "zij / ze (pl)":{ s:"Zij ___ de uitslag bekendmaken op vrijdag.",              en:"They will announce the result on Friday." }
+    },
+    grammarSentences:[
+      { s:"Ik ___ je morgen bellen om dit te bespreken.",           a:["zal"],          full:"Ik zal je morgen bellen om dit te bespreken.",          hint:"en: I will call you tomorrow to discuss this. (intention/promise)",  topic:"zullen — future / promise / offer" },
+      { s:"Jij ___ zien hoe mooi het is als je er bent.",           a:["zal","zult"],   full:"Jij zal zien hoe mooi het is als je er bent.",          hint:"en: You will see how beautiful it is when you're there.",           topic:"zullen — future / promise / offer" },
+      { s:"Het ___ niet lang duren voordat ze terugkomt.",          a:["zal"],          full:"Het zal niet lang duren voordat ze terugkomt.",          hint:"en: It won't take long before she comes back.",                    topic:"zullen — future / promise / offer" },
+      { s:"Wij ___ onze best doen om u te helpen.",                 a:["zullen"],       full:"Wij zullen onze best doen om u te helpen.",              hint:"en: We will do our best to help you.",                             topic:"zullen — future / promise / offer" },
+      { s:"Wanneer ___ zij de resultaten bekendmaken?",             a:["zullen"],       full:"Wanneer zullen zij de resultaten bekendmaken?",          hint:"en: When will they announce the results?",                         topic:"zullen — future / promise / offer" },
+      { s:"Hoe lang ___ het duren om dit te leren?",                a:["zal"],          full:"Hoe lang zal het duren om dit te leren?",                hint:"en: How long will it take to learn this?",                         topic:"zullen — future / promise / offer" },
+      { s:"Waar ___ jullie volgend jaar op vakantie gaan?",         a:["zullen"],       full:"Waar zullen jullie volgend jaar op vakantie gaan?",      hint:"en: Where will you go on holiday next year?",                      topic:"zullen — future / promise / offer" },
+      { s:"Hij ___ ons zeker uitnodigen voor zijn bruiloft.",       a:["zal"],          full:"Hij zal ons zeker uitnodigen voor zijn bruiloft.",          hint:"en: He will certainly invite us to his wedding.",                      topic:"zullen — future / promise / offer" },
+      { s:"Ik ___ dat nooit meer doen, dat beloof ik.",            a:["zal"],          full:"Ik zal dat nooit meer doen, dat beloof ik.",                hint:"en: I will never do that again, I promise. (negative promise — zullen + nooit)",    topic:"zullen — negation: won't / never will" },
+      { s:"Hij ___ zijn kamer echt niet opruimen, dat weet ik.",   a:["zal"],          full:"Hij zal zijn kamer echt niet opruimen, dat weet ik.",       hint:"en: He really won't tidy his room, I know for sure. (negative prediction — niet zullen)", topic:"zullen — negation: won't / never will" },
+      { s:"Dat ___ niet gemakkelijk zijn voor haar.",              a:["zal"],          full:"Dat zal niet gemakkelijk zijn voor haar.",                  hint:"en: That won't be easy for her. (negative prediction about the future — niet zullen)", topic:"zullen — negation: won't / never will" }
+    ]
+  },
+
+  { id:"v019", type:"verb", dutch:"hoeven", english:"need to (usually with 'niet')", tag:"Modal verbs",
+    conjugations:{ "ik":"hoef", "jij / je":"hoeft", "u":"hoeft", "hij":"hoeft", "zij / ze":"hoeft", "het":"hoeft", "wij / we":"hoeven", "jullie":"hoeven", "zij / ze (pl)":"hoeven" },
+    sentences:{
+      "ik":          { s:"Ik ___ morgen niet te werken, ik heb vrij.",               en:"I don't need to work tomorrow, I have a day off." },
+      "jij / je":    { s:"Jij ___ dit niet alleen te doen, wij helpen.",             en:"You don't need to do this alone, we'll help." },
+      "u":           { s:"U ___ zich geen zorgen te maken hierover.",                en:"You don't need to worry about this." },
+      "hij":         { s:"Hij ___ de taak niet opnieuw te maken.",                   en:"He doesn't need to redo the task." },
+      "zij / ze":    { s:"Zij ___ niet te wachten, ze kan direct gaan.",             en:"She doesn't need to wait, she can go immediately." },
+      "het":         { s:"Het ___ niet perfect te zijn, alleen goed genoeg.",        en:"It doesn't need to be perfect, just good enough." },
+      "wij / we":    { s:"Wij ___ niet te betalen, de toegang is gratis.",           en:"We don't need to pay, the entrance is free." },
+      "jullie":      { s:"Jullie ___ niet te rennen, de trein is er nog.",           en:"You don't need to run, the train is still there." },
+      "zij / ze (pl)":{ s:"Zij ___ niet te reserveren voor dit restaurant.",         en:"They don't need to reserve for this restaurant." }
+    },
+    grammarSentences:[
+      { s:"Ik ___ niet te betalen, het is al geregeld.",               a:["hoef"],    full:"Ik hoef niet te betalen, het is al geregeld.",           hint:"en: I don't need to pay, it's already arranged. ('niet hoeven' = don't need to)",  topic:"hoeven — need to (with 'niet')" },
+      { s:"Jij ___ je geen zorgen te maken over het examen.",          a:["hoeft"],   full:"Jij hoeft je geen zorgen te maken over het examen.",     hint:"en: You don't need to worry about the exam.",                                       topic:"hoeven — need to (with 'niet')" },
+      { s:"Hij ___ de brief niet opnieuw te schrijven.",               a:["hoeft"],   full:"Hij hoeft de brief niet opnieuw te schrijven.",          hint:"en: He doesn't need to write the letter again.",                                    topic:"hoeven — need to (with 'niet')" },
+      { s:"Wij ___ niet te wachten op toestemming.",                   a:["hoeven"],  full:"Wij hoeven niet te wachten op toestemming.",             hint:"en: We don't need to wait for permission.",                                         topic:"hoeven — need to (with 'niet')" },
+      { s:"Hoe laat ___ ik er morgen te zijn?",                        a:["hoef"],    full:"Hoe laat hoef ik er morgen te zijn?",                     hint:"en: What time do I need to be there tomorrow?",                                     topic:"hoeven — need to (with 'niet')" },
+      { s:"Gelukkig ___ zij niet te reizen voor haar werk.",           a:["hoeft"],   full:"Gelukkig hoeft zij niet te reizen voor haar werk.",       hint:"en: Fortunately she doesn't need to travel for her work.",                         topic:"hoeven — need to (with 'niet')" },
+      { s:"Jullie ___ niet bang te zijn voor het examen.",             a:["hoeven"],  full:"Jullie hoeven niet bang te zijn voor het examen.",        hint:"en: You don't need to be afraid of the exam.",                                      topic:"hoeven — need to (with 'niet')" },
+      { s:"Wanneer ___ wij de huur te betalen?",                       a:["hoeven"],  full:"Wanneer hoeven wij de huur te betalen?",                  hint:"en: When do we need to pay the rent?",                                                                     topic:"hoeven — need to (with 'niet')" },
+      { s:"Je ___ me niet te bedanken, het was mijn plezier.",          a:["hoeft"],   full:"Je hoeft me niet te bedanken, het was mijn plezier.",     hint:"en: You don't need to thank me, it was my pleasure. ('niet hoeven' = no obligation — NOT a prohibition!)",  topic:"hoeven — negation: no need to (vs niet moeten!)" },
+      { s:"Ik ___ morgen niet vroeg op te staan, ik heb vrij.",         a:["hoef"],    full:"Ik hoef morgen niet vroeg op te staan, ik heb vrij.",      hint:"en: I don't need to get up early tomorrow, I'm off. ('niet hoeven' = no obligation; 'niet moeten' would mean 'must not'!)", topic:"hoeven — negation: no need to (vs niet moeten!)" },
+      { s:"Zij ___ hier niet lang op te wachten normaal.",              a:["hoeven"],  full:"Zij hoeven hier niet lang op te wachten normaal.",         hint:"en: They normally don't need to wait long here. ('hoeven niet te' = lack of necessity — no obligation)",         topic:"hoeven — negation: no need to (vs niet moeten!)" }
+    ]
+  },
+
   // ── Verbs ──
   { id:"v001", type:"verb", dutch:"zijn", english:"to be", tag:"verbs",
     conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" },
@@ -495,8 +720,9 @@ function buildActiveDeck() {
 
 function buildGrammarQueue(deck) {
   const q = [];
-  deck.filter(c => c.type === "word").forEach(c => {
-    (c.sentences || []).forEach(s => q.push({ card: c, ...s }));
+  deck.forEach(c => {
+    const arr = c.type === "verb" ? c.grammarSentences : c.sentences;
+    (arr || []).forEach(s => q.push({ card: c, ...s }));
   });
   return q;
 }
@@ -736,7 +962,7 @@ function showGrammar() {
     return;
   }
   const ex = grammarQueue[grammarIdx];
-  document.getElementById("grammar-topic").textContent   = "📚 " + (ex.topic || "Grammar");
+  document.getElementById("grammar-topic").textContent   = "📚 Grammar";
   document.getElementById("grammar-hint").textContent    = ex.hint || "";
   document.getElementById("grammar-sentence").innerHTML  =
     ex.s.replace("___", '<span class="blank">___</span>');
@@ -763,6 +989,7 @@ function checkGrammar() {
   const accepted = ex.a.map(s => s.toLowerCase());
   const correct  = accepted.includes(val);
   grammarAnswered = true;
+  document.getElementById("grammar-topic").textContent = "📚 " + (ex.topic || "Grammar");
   document.getElementById("grammar-full").textContent = ex.full;
   recordResult(ex.card.id, correct);
   if (correct) {
@@ -796,13 +1023,16 @@ function showVerbForm() {
     document.getElementById("verb-infinitive").textContent = card.dutch + " — " + card.english;
     tbody.innerHTML = "";
     Object.entries(card.conjugations).forEach(([pronoun, form]) => {
-      const sentence = (card.sentences || {})[pronoun] || "";
+      const raw = (card.sentences || {})[pronoun] || "";
+      const sentDutch = typeof raw === "object" ? raw.s : raw;
+      const sentEn    = typeof raw === "object" ? (raw.en || "") : "";
       const primaryForm = form.split(" / ")[0];
       const tr = document.createElement("tr");
-      tr.dataset.sentence = sentence;
+      tr.dataset.sentence = sentDutch;
+      tr.dataset.sentEn   = sentEn;
       tr.dataset.form = primaryForm;
-      const sentenceHtml = sentence
-        ? sentence.replace("___", '<span class="verb-blank">___</span>')
+      const sentenceHtml = sentDutch
+        ? sentDutch.replace("___", '<span class="verb-blank">___</span>')
         : "";
       tr.innerHTML = `<td class="vcell-pronoun">${pronoun}</td><td class="vcell-input"><input class="verb-inp" type="text" placeholder="…" autocomplete="off" spellcheck="false" data-answer="${form}" /></td><td class="vcell-sentence-col"><span class="vcell-sentence">${sentenceHtml}</span></td>`;
       tbody.appendChild(tr);
@@ -853,12 +1083,14 @@ function checkVerbForm() {
     speakDutch(card.dutch);
     // reveal example sentences
     document.querySelectorAll("#verb-table-body tr").forEach(tr => {
-      const s = tr.dataset.sentence; const f = tr.dataset.form;
+      const s = tr.dataset.sentence; const f = tr.dataset.form; const en = tr.dataset.sentEn;
       if (!s) return;
       const full = s.replace("___", f);
       const span = tr.querySelector(".vcell-sentence");
       if (!span) return;
-      span.innerHTML = s.replace("___", `<strong>${f}</strong>`) + " ";
+      let html = s.replace("___", `<strong>${f}</strong>`);
+      if (en) html += `<br><span class="vcell-sentence-en">${en}</span>`;
+      span.innerHTML = html + " ";
       const btn = document.createElement("button"); btn.textContent = "🔊"; btn.title = "Listen";
       btn.addEventListener("click", () => speakDutch(full));
       span.appendChild(btn); span.classList.add("show");
@@ -988,6 +1220,7 @@ document.getElementById("btn-grammar-check").addEventListener("click", checkGram
 document.getElementById("btn-grammar-skip").addEventListener("click", () => {
   if (!grammarAnswered) {
     const ex = grammarQueue[grammarIdx];
+    document.getElementById("grammar-topic").textContent = "📚 " + (ex.topic || "Grammar");
     document.getElementById("grammar-feedback").textContent = `Answer: ${ex.a[0]}`;
     document.getElementById("grammar-feedback").className = "ex-feedback wrong";
     document.getElementById("grammar-full").textContent = ex.full;
