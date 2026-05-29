@@ -1676,6 +1676,102 @@ document.getElementById("import-file").addEventListener("change", function () {
   this.value = "";
 });
 
+// ── GRAMMAR OVERVIEW ──
+function handleOverviewPractice(btn) {
+  currentChapter = btn.dataset.chapter;
+  contentMode    = btn.dataset.contentmode || "grammar";
+  currentSubcat  = btn.dataset.subcat || null;
+  const targetMode = btn.dataset.mode || "grammar";
+  document.getElementById("chapter-select").value = currentChapter;
+  updateContentToggle();
+  updateSubcatRow();
+  updateModeTabs();
+  rebuildDecks();
+  setMode(targetMode);
+}
+
+function buildOverview() {
+  const box = document.getElementById("overview-box");
+  box.innerHTML = "";
+
+  function section(title, descHtml, tableRows, practiceData) {
+    const div = document.createElement("div");
+    div.className = "overview-section";
+    let html = `<h3>${title}</h3><p>${descHtml}</p>`;
+    if (tableRows.length) {
+      html += `<table class="overview-table"><thead><tr>${tableRows[0].map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>`;
+      tableRows.slice(1).forEach(row => {
+        html += `<tr>${row.map(c => `<td>${c}</td>`).join("")}</tr>`;
+      });
+      html += `</tbody></table>`;
+    }
+    div.innerHTML = html;
+    const btn = document.createElement("button");
+    btn.className = "overview-practice-btn";
+    btn.textContent = "Practice →";
+    Object.assign(btn.dataset, practiceData);
+    btn.addEventListener("click", () => handleOverviewPractice(btn));
+    div.appendChild(btn);
+    box.appendChild(div);
+  }
+
+  section(
+    "Vergelijkingen — Comparatief & Superlatief",
+    `Gebruik <strong>-er (dan)</strong> voor de comparatief en <strong>(het) -st</strong> voor de superlatief. ` +
+    `Zijn dingen gelijk? Gebruik <strong>even … als</strong> of <strong>net zo … als</strong>: ` +
+    `<em>Mijn moeder is kleiner <strong>dan</strong> ik. Jouw kamer is even groot <strong>als</strong> mijn kamer. Ik ben net zo groot <strong>als</strong> jij.</em> ` +
+    `Let op onregelmatige vormen: goed → beter → best &nbsp;·&nbsp; veel → meer → meest &nbsp;·&nbsp; weinig → minder → minst &nbsp;·&nbsp; graag → liever → liefst.`,
+    [
+      ["basisvorm", "comparatief", "superlatief", "even … als"],
+      ["klein", "kleiner (dan)", "(het) kleinst", "even klein als"],
+      ["groot", "groter (dan)", "(het) grootst", "even groot als"],
+      ["duur", "duurder (dan)", "(het) duurst", "even duur als"],
+      ["goed ⚠️", "beter (dan)", "(het) best", "even goed als"],
+      ["veel ⚠️", "meer (dan)", "(het) meest", "even veel als"],
+      ["weinig ⚠️", "minder (dan)", "(het) minst", "even weinig als"],
+      ["graag ⚠️", "liever (dan)", "(het) liefst", "even graag als"],
+    ],
+    { chapter: "grammar-topics", contentmode: "grammar", subcat: "Comparative", mode: "adj" }
+  );
+
+  section(
+    "Modale werkwoorden",
+    `Modale werkwoorden staan altijd met een infinitief: <em>Ik <strong>kan</strong> zwemmen. Hij <strong>moet</strong> werken.</em> ` +
+    `<strong>kunnen</strong> = can &nbsp;·&nbsp; <strong>willen</strong> = want to &nbsp;·&nbsp; <strong>moeten</strong> = must/have to &nbsp;·&nbsp; ` +
+    `<strong>mogen</strong> = may/allowed to &nbsp;·&nbsp; <strong>zullen</strong> = will/shall &nbsp;·&nbsp; ` +
+    `<strong>hoeven</strong> = need to (bijna altijd met <em>niet</em>). ` +
+    `Let op: <em>niet moeten</em> = must not (verbod!), <em>niet hoeven</em> = don't need to.`,
+    [
+      ["modal", "ik", "jij/je", "hij/zij/het", "wij/jullie/zij"],
+      ["kunnen", "kan", "kunt/kan", "kan", "kunnen"],
+      ["willen", "wil", "wilt/wil", "wil", "willen"],
+      ["moeten", "moet", "moet", "moet", "moeten"],
+      ["mogen", "mag", "mag", "mag", "mogen"],
+      ["zullen", "zal", "zal/zult", "zal", "zullen"],
+      ["hoeven", "hoef", "hoeft", "hoeft", "hoeven"],
+    ],
+    { chapter: "grammar-topics", contentmode: "grammar", subcat: "Modal verbs", mode: "verb" }
+  );
+
+  section(
+    "Werkwoordsvervoeging — Tegenwoordige tijd",
+    `De stam = infinitief minus <strong>-en</strong> (werken → werk). ` +
+    `<strong>ik</strong> = stam &nbsp;·&nbsp; <strong>jij/je/u/hij/zij/het</strong> = stam + <em>-t</em> ` +
+    `(tenzij de stam al op -t eindigt; let op inversie: <em>werk jij</em>). ` +
+    `<strong>wij/jullie/zij</strong> = infinitief. ` +
+    `Verdubbeling: stam eindigt op korte klank + consonant → verdubbel: <em>stoppen → ik stop, jij stopt</em>.`,
+    [
+      ["pronoun", "werken", "stoppen", "hebben"],
+      ["ik", "werk", "stop", "heb"],
+      ["jij / je", "werkt", "stopt", "hebt"],
+      ["u", "werkt", "stopt", "hebt/heeft"],
+      ["hij / zij / het", "werkt", "stopt", "heeft"],
+      ["wij / jullie / zij", "werken", "stoppen", "hebben"],
+    ],
+    { chapter: "Ch 7", contentmode: "grammar", subcat: "Ch 7", mode: "verb" }
+  );
+}
+
 // ── INIT ──
 updateContentToggle();
 updateSubcatRow();
