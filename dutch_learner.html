@@ -808,9 +808,16 @@ function updateContentToggle() {
 }
 
 function updateModeTabs() {
-  const hideVerbs = contentMode === "words" || currentChapter === "grammar-practice";
-  document.querySelector(".mode-btn[data-mode='verb']").style.display = hideVerbs ? "none" : "";
-  if (hideVerbs && currentMode === "verb") currentMode = "flip";
+  const wordsActive = contentMode === "words" && isChapterEntry(currentChapter);
+  const show = {
+    flip: wordsActive, type: wordsActive, mc: wordsActive,
+    grammar: !wordsActive,
+    verb: !wordsActive && currentChapter !== "grammar-practice"
+  };
+  Object.entries(show).forEach(([mode, visible]) =>
+    document.querySelector(`.mode-btn[data-mode='${mode}']`).style.display = visible ? "" : "none"
+  );
+  if (!show[currentMode]) currentMode = wordsActive ? "flip" : "grammar";
 }
 
 function updateSubcatRow() {
