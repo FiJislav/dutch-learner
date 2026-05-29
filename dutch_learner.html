@@ -31,6 +31,28 @@ body {
 }
 #weak-toggle.active { background: #e07070; color: #1a1a2e; }
 
+#content-toggle {
+  display: flex; gap: 0; border: 2px solid #6c63ff; border-radius: 8px; overflow: hidden;
+}
+.content-btn {
+  padding: 6px 13px; border: none; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  background: transparent; color: #888;
+  transition: background 0.2s, color 0.2s;
+}
+.content-btn.active { background: #6c63ff; color: #fff; }
+#subcat-row {
+  display: none; gap: 6px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 6px;
+}
+#subcat-row.visible { display: flex; }
+.subcat-btn {
+  padding: 4px 12px; border: 2px solid #6c63ff; border-radius: 20px;
+  background: transparent; color: #a0c4ff; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.subcat-btn.active { background: #6c63ff; color: #fff; }
+
 /* ── MODE TABS ── */
 .mode-toggle {
   display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 8px;
