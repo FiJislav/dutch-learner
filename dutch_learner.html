@@ -807,6 +807,12 @@ function updateContentToggle() {
   document.getElementById("btn-grammar-content").classList.toggle("active", contentMode === "grammar");
 }
 
+function updateModeTabs() {
+  const hideVerbs = contentMode === "words" || currentChapter === "grammar-practice";
+  document.querySelector(".mode-btn[data-mode='verb']").style.display = hideVerbs ? "none" : "";
+  if (hideVerbs && currentMode === "verb") currentMode = "flip";
+}
+
 function updateSubcatRow() {
   const row = document.getElementById("subcat-row");
   row.innerHTML = "";
@@ -819,14 +825,15 @@ function updateSubcatRow() {
       row.appendChild(makeSubcatBtn(label, tag))
     );
   } else if (contentMode === "grammar" && isChapterEntry(currentChapter)) {
-    const tags = getChapterVerbTags(currentChapter);
-    if (tags.length) {
-      if (!tags.includes(currentSubcat)) currentSubcat = tags[0];
-      row.classList.add("visible");
-      tags.forEach(tag =>
-        row.appendChild(makeSubcatBtn(`Verb conjugation (${tag})`, tag))
-      );
-    }
+    const chapterTags = getChapterVerbTags(currentChapter);
+    const allSubcats = [
+      ...chapterTags.map(t => ({ label: `Verb conjugation (${t})`, tag: t })),
+      { label: "Modal verbs", tag: "Modal verbs" }
+    ];
+    const validTags = allSubcats.map(s => s.tag);
+    if (!validTags.includes(currentSubcat)) currentSubcat = validTags[0];
+    row.classList.add("visible");
+    allSubcats.forEach(({ label, tag }) => row.appendChild(makeSubcatBtn(label, tag)));
   }
 }
 
@@ -1219,6 +1226,7 @@ document.getElementById("chapter-select").addEventListener("change", function ()
   currentSubcat  = null;
   updateContentToggle();
   updateSubcatRow();
+  updateModeTabs();
   rebuildDecks();
   setMode(currentMode);
 });
@@ -1227,6 +1235,7 @@ document.getElementById("btn-words").addEventListener("click", () => {
   currentSubcat = null;
   updateContentToggle();
   updateSubcatRow();
+  updateModeTabs();
   rebuildDecks();
   setMode(currentMode);
 });
@@ -1235,6 +1244,7 @@ document.getElementById("btn-grammar-content").addEventListener("click", () => {
   currentSubcat = null;
   updateContentToggle();
   updateSubcatRow();
+  updateModeTabs();
   rebuildDecks();
   setMode(currentMode);
 });
@@ -1436,6 +1446,7 @@ document.getElementById("import-file").addEventListener("change", function () {
 // ── INIT ──
 updateContentToggle();
 updateSubcatRow();
+updateModeTabs();
 rebuildDecks();
 setMode("flip");
 </script>
