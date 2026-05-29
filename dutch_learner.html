@@ -1216,6 +1216,25 @@ document.querySelectorAll(".mode-btn").forEach(btn =>
 // ── CHAPTER SELECTOR + WEAK TOGGLE ──
 document.getElementById("chapter-select").addEventListener("change", function () {
   currentChapter = this.value;
+  currentSubcat  = null;
+  updateContentToggle();
+  updateSubcatRow();
+  rebuildDecks();
+  setMode(currentMode);
+});
+document.getElementById("btn-words").addEventListener("click", () => {
+  contentMode   = "words";
+  currentSubcat = null;
+  updateContentToggle();
+  updateSubcatRow();
+  rebuildDecks();
+  setMode(currentMode);
+});
+document.getElementById("btn-grammar-content").addEventListener("click", () => {
+  contentMode   = "grammar";
+  currentSubcat = null;
+  updateContentToggle();
+  updateSubcatRow();
   rebuildDecks();
   setMode(currentMode);
 });
@@ -1415,6 +1434,8 @@ document.getElementById("import-file").addEventListener("change", function () {
 });
 
 // ── INIT ──
+updateContentToggle();
+updateSubcatRow();
 rebuildDecks();
 setMode("flip");
 </script>
