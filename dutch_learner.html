@@ -800,6 +800,43 @@ const DECK = [
     ]
   },
 
+  // ── Grammar Rules (Ch 7) ──
+  { id:"gram001", type:"grammar-rule", dutch:"Demonstratief pronomen", english:"Demonstrative pronouns (deze/dit/die/dat)", tag:"Ch 7",
+    grammarSentences:[
+      { s:"___ broek zit beter dan die andere broek.",        a:["deze","Deze"],  full:"Deze broek zit beter dan die andere broek.",        hint:"en: This trouser fits better. (deze = de-woord, dichtbij/hier)",   topic:"Demonstratief — deze (de-woord, hier)" },
+      { s:"___ roze shirt staat me het best.",                a:["dit","Dit"],    full:"Dit roze shirt staat me het best.",                  hint:"en: This pink shirt suits me best. (dit = het-woord, dichtbij)",   topic:"Demonstratief — dit (het-woord, hier)" },
+      { s:"Mag ik ___ spijkerbroek even passen?",             a:["deze"],         full:"Mag ik deze spijkerbroek even passen?",             hint:"en: May I try on this pair of jeans? (deze = de-woord, dichtbij)", topic:"Demonstratief — deze (de-woord, hier)" },
+      { s:"Hoeveel kost ___ jasje?",                          a:["dit"],          full:"Hoeveel kost dit jasje?",                           hint:"en: How much does this jacket cost? (dit = het-woord, dichtbij)",  topic:"Demonstratief — dit (het-woord, hier)" },
+      { s:"___ schoenen zijn precies mijn maat.",             a:["deze","Deze"],  full:"Deze schoenen zijn precies mijn maat.",             hint:"en: These shoes are exactly my size. (deze = pluralis, dichtbij)", topic:"Demonstratief — deze (pluralis, hier)" },
+      { s:"___ jas in de etalage is heel duur.",              a:["die","Die"],    full:"Die jas in de etalage is heel duur.",               hint:"en: That coat in the window is very expensive. (die = de-woord, ver weg)", topic:"Demonstratief — die (de-woord, daar)" },
+      { s:"___ shirt staat je niet zo goed.",                 a:["dat","Dat"],    full:"Dat shirt staat je niet zo goed.",                  hint:"en: That shirt doesn't suit you very well. (dat = het-woord, ver weg)", topic:"Demonstratief — dat (het-woord, daar)" },
+      { s:"Hoeveel kost ___ pak in de etalage?",              a:["dat"],          full:"Hoeveel kost dat pak in de etalage?",               hint:"en: How much does that suit in the window cost? (dat = het-woord, ver weg)", topic:"Demonstratief — dat (het-woord, daar)" },
+      { s:"___ schoenen in de etalage zijn mooi.",            a:["die","Die"],    full:"Die schoenen in de etalage zijn mooi.",             hint:"en: Those shoes in the window are nice. (die = pluralis, ver weg)", topic:"Demonstratief — die (pluralis, daar)" },
+      { s:"Ik neem ___ broek hier, niet die broek daar.",     a:["deze"],         full:"Ik neem deze broek hier, niet die broek daar.",     hint:"en: I'll take this trouser here, not that one there. (deze = dichtbij)", topic:"Demonstratief — deze vs die" },
+      { s:"Is ___ jasje van jou of van haar?",                a:["dit"],          full:"Is dit jasje van jou of van haar?",                 hint:"en: Is this jacket yours or hers? (dit = het-woord, dichtbij)",   topic:"Demonstratief — dit (het-woord, hier)" },
+      { s:"___ twee T-shirts zijn in de uitverkoop.",         a:["deze","Deze"],  full:"Deze twee T-shirts zijn in de uitverkoop.",         hint:"en: These two T-shirts are in the sale. (deze = pluralis, dichtbij)", topic:"Demonstratief — deze (pluralis, hier)" }
+    ]
+  },
+
+  { id:"gram002", type:"grammar-rule", dutch:"Objectvorm personaal pronomen", english:"Object form of personal pronouns (mij, hem, haar, het, ons, ze...)", tag:"Ch 7",
+    grammarSentences:[
+      { s:"Kunt u ___ helpen met de maten, alsjeblieft?",       a:["mij","me"],   full:"Kunt u mij helpen met de maten, alsjeblieft?",       hint:"en: Can you help me with the sizes? (ik → mij/me as object)",      topic:"Objectvorm — mij/me (ik)" },
+      { s:"Geeft u ___ die broek even in maat 38?",             a:["mij","me"],   full:"Geeft u mij die broek even in maat 38?",             hint:"en: Could you give me that trouser in size 38? (ik → mij/me)",    topic:"Objectvorm — mij/me (ik)" },
+      { s:"Ik zie ___ morgen bij de winkel.",                   a:["jou","je"],   full:"Ik zie jou morgen bij de winkel.",                   hint:"en: I'll see you tomorrow at the shop. (jij/je → jou/je)",        topic:"Objectvorm — jou/je (jij)" },
+      { s:"Kan ik ___ helpen, meneer?",                         a:["u"],          full:"Kan ik u helpen, meneer?",                           hint:"en: Can I help you, sir? (u → u, formal)",                        topic:"Objectvorm — u (formeel)" },
+      { s:"De broek is te groot. Hebt u ___ in een kleinere maat?", a:["hem"],    full:"De broek is te groot. Hebt u hem in een kleinere maat?", hint:"en: The trouser is too big. Do you have it in a smaller size? (de-woord → hem)", topic:"Objectvorm — hem (hij/de-woord)" },
+      { s:"Ik zoek mijn jas. Ik kan ___ niet vinden.",          a:["hem"],        full:"Ik zoek mijn jas. Ik kan hem niet vinden.",          hint:"en: I'm looking for my coat. I can't find it. (de-woord → hem)", topic:"Objectvorm — hem (hij/de-woord)" },
+      { s:"Mijn zus belt straks. Ik bel ___ terug.",            a:["haar"],       full:"Mijn zus belt straks. Ik bel haar terug.",           hint:"en: My sister will call later. I'll call her back. (zij → haar)", topic:"Objectvorm — haar (zij)" },
+      { s:"Dit is een goed boek. Ik koop ___ voor mijn vriendin.", a:["het"],     full:"Dit is een goed boek. Ik koop het voor mijn vriendin.", hint:"en: This is a good book. I'll buy it for my friend. (het-woord → het)", topic:"Objectvorm — het (het/het-woord)" },
+      { s:"Dat jasje is mooi. Mag ik ___ even passen?",         a:["het"],        full:"Dat jasje is mooi. Mag ik het even passen?",         hint:"en: That jacket is nice. May I try it on? (het-woord → het)",    topic:"Objectvorm — het (het/het-woord)" },
+      { s:"Wachten zij op ___?",                                a:["ons"],        full:"Wachten zij op ons?",                                hint:"en: Are they waiting for us? (wij/we → ons)",                    topic:"Objectvorm — ons (wij)" },
+      { s:"Dat zijn leuke schoenen! Mag ik ___ even passen?",   a:["ze"],         full:"Dat zijn leuke schoenen! Mag ik ze even passen?",    hint:"en: Those are nice shoes! May I try them on? (pluralis → ze)",   topic:"Objectvorm — ze (pluralis)" },
+      { s:"De shirts zijn mooi. Ik koop ___ allemaal.",         a:["ze"],         full:"De shirts zijn mooi. Ik koop ze allemaal.",          hint:"en: The shirts are nice. I'll buy them all. (pluralis → ze)",    topic:"Objectvorm — ze (pluralis)" },
+      { s:"Waar kan ik ___ passen, de broeken?",                a:["ze"],         full:"Waar kan ik ze passen, de broeken?",                 hint:"en: Where can I try them on, the trousers? (pluralis → ze)",     topic:"Objectvorm — ze (pluralis)" },
+      { s:"Ik zie ___ elke dag bij school.",                    a:["jullie"],     full:"Ik zie jullie elke dag bij school.",                 hint:"en: I see you all every day at school. (jullie → jullie)",       topic:"Objectvorm — jullie (jullie)" }
+    ]
+  },
+
   // ── Verbs ──
   { id:"v001", type:"verb", dutch:"zijn", english:"to be", tag:"verbs",
     conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" },
@@ -887,13 +924,15 @@ function getChapterVerbTags(ch) {
 function buildActiveDeck() {
   let cards;
   if (currentChapter === "grammar-practice") {
-    cards = DECK.filter(c => c.type === "word");
+    cards = DECK.filter(c => c.type === "word" || c.type === "grammar-rule");
   } else if (currentChapter === "grammar-topics") {
     const tag = currentSubcat || "Modal verbs";
     cards = DECK.filter(c => (c.type === "verb" || c.type === "adjective") && c.tag === tag);
   } else if (contentMode === "grammar") {
     const tag = currentSubcat || getChapterVerbTags(currentChapter)[0];
-    cards = tag ? DECK.filter(c => (c.type === "verb" || c.type === "adjective") && c.tag === tag) : [];
+    const verbAdj = tag ? DECK.filter(c => (c.type === "verb" || c.type === "adjective") && c.tag === tag) : [];
+    const rules = DECK.filter(c => c.type === "grammar-rule" && (currentChapter === "all" || c.tag === currentChapter));
+    cards = [...verbAdj, ...rules];
   } else {
     cards = currentChapter === "all"
       ? DECK.filter(c => c.type === "word")
@@ -906,7 +945,7 @@ function buildActiveDeck() {
 function buildGrammarQueue(deck) {
   const q = [];
   deck.forEach(c => {
-    const arr = c.type === "verb" ? c.grammarSentences : c.sentences;
+    const arr = c.grammarSentences || c.sentences;
     (arr || []).forEach(s => q.push({ card: c, ...s }));
   });
   return q;
@@ -1685,8 +1724,8 @@ function handleOverviewPractice(btn) {
   document.getElementById("chapter-select").value = currentChapter;
   updateContentToggle();
   updateSubcatRow();
-  updateModeTabs();
   rebuildDecks();
+  updateModeTabs();
   setMode(targetMode);
 }
 
@@ -1769,6 +1808,41 @@ function buildOverview() {
       ["wij / jullie / zij", "werken", "stoppen", "hebben"],
     ],
     { chapter: "Ch 7", contentmode: "grammar", subcat: "Ch 7", mode: "verb" }
+  );
+
+  section(
+    "Demonstratief pronomen — deze / dit / die / dat",
+    `<strong>deze</strong> = de-woord dichtbij &nbsp;·&nbsp; <strong>dit</strong> = het-woord dichtbij &nbsp;·&nbsp; ` +
+    `<strong>die</strong> = de-woord ver weg &nbsp;·&nbsp; <strong>dat</strong> = het-woord ver weg. ` +
+    `Pluralis: altijd <strong>deze</strong> (dichtbij) of <strong>die</strong> (ver weg). ` +
+    `<em>Deze broek zit beter dan <strong>die</strong> andere broek. <strong>Dit</strong> roze shirt staat me het best.</em>`,
+    [
+      ["", "hier (dichtbij)", "daar (ver weg)"],
+      ["de-woord singularis", "deze broek", "die broek"],
+      ["het-woord singularis", "dit shirt", "dat shirt"],
+      ["pluralis", "deze broeken / shirts", "die broeken / shirts"],
+    ],
+    { chapter: "Ch 7", contentmode: "grammar", subcat: "Ch 7", mode: "grammar" }
+  );
+
+  section(
+    "Objectvorm van het personaal pronomen",
+    `Na een werkwoord of voorzetsel gebruik je de objectvorm in plaats van de subjectvorm. ` +
+    `<em>Kunt u <strong>mij</strong> helpen? Hebt u <strong>hem</strong> in een kleinere maat? Mag ik <strong>ze</strong> passen?</em> ` +
+    `Voor niet-personen: de-woord (sing) → <strong>hem</strong> &nbsp;·&nbsp; het-woord (sing) → <strong>het</strong> &nbsp;·&nbsp; pluralis → <strong>ze</strong>.`,
+    [
+      ["subjectvorm", "objectvorm (personen)"],
+      ["ik", "mij / me"],
+      ["jij / je", "jou / je"],
+      ["u", "u"],
+      ["hij / de-woord (sing)", "hem"],
+      ["zij / ze", "haar"],
+      ["het / het-woord (sing)", "het"],
+      ["wij / we", "ons"],
+      ["jullie", "jullie"],
+      ["zij / ze / pluralis", "ze (hen / hun)"],
+    ],
+    { chapter: "Ch 7", contentmode: "grammar", subcat: "Ch 7", mode: "grammar" }
   );
 }
 
