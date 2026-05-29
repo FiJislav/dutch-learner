@@ -787,6 +787,49 @@ function buildVerbCardQueue(deck) {
   return q;
 }
 
+function makeSubcatBtn(label, tag) {
+  const btn = document.createElement("button");
+  btn.className = "subcat-btn" + (currentSubcat === tag ? " active" : "");
+  btn.textContent = label;
+  btn.addEventListener("click", () => {
+    currentSubcat = tag;
+    rebuildDecks();
+    setMode(currentMode);
+    updateSubcatRow();
+  });
+  return btn;
+}
+
+function updateContentToggle() {
+  const toggle = document.getElementById("content-toggle");
+  toggle.style.display = isChapterEntry(currentChapter) ? "" : "none";
+  document.getElementById("btn-words").classList.toggle("active", contentMode === "words");
+  document.getElementById("btn-grammar-content").classList.toggle("active", contentMode === "grammar");
+}
+
+function updateSubcatRow() {
+  const row = document.getElementById("subcat-row");
+  row.innerHTML = "";
+  row.classList.remove("visible");
+
+  if (currentChapter === "grammar-topics") {
+    if (!currentSubcat) currentSubcat = "Modal verbs";
+    row.classList.add("visible");
+    [["Modal verbs", "Modal verbs"], ["Verb forms", "verbs"]].forEach(([label, tag]) =>
+      row.appendChild(makeSubcatBtn(label, tag))
+    );
+  } else if (contentMode === "grammar" && isChapterEntry(currentChapter)) {
+    const tags = getChapterVerbTags(currentChapter);
+    if (tags.length) {
+      if (!tags.includes(currentSubcat)) currentSubcat = tags[0];
+      row.classList.add("visible");
+      tags.forEach(tag =>
+        row.appendChild(makeSubcatBtn(`Verb conjugation (${tag})`, tag))
+      );
+    }
+  }
+}
+
 function rebuildDecks() {
   activeDeck   = buildActiveDeck();
   idx          = 0;
