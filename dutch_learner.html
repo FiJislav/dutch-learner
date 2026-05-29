@@ -712,7 +712,9 @@ function isWeak(id) {
 }
 
 // ── CORE ENGINE ──
-let currentTag  = "Ch 7";
+let currentChapter = "Ch 7";
+let contentMode    = "words";
+let currentSubcat  = null;
 let weakMode    = false;
 let currentMode = "flip";
 let activeDeck  = [];
@@ -730,12 +732,35 @@ let verbCardQueue   = [];
 let verbCardIdx     = 0;
 let verbViewMode    = "table";
 
+function isChapterEntry(ch) {
+  return ch !== "grammar-practice" && ch !== "grammar-topics";
+}
+
+function getChapterVerbTags(ch) {
+  return [...new Set(
+    DECK.filter(c => c.type === "verb"
+               && c.tag !== "Modal verbs"
+               && c.tag !== "verbs"
+               && (ch === "all" || c.tag === ch))
+        .map(c => c.tag)
+  )];
+}
+
 function buildActiveDeck() {
-  let cards = DECK.filter(c => {
-    if (currentTag === "all")   return true;
-    if (currentTag === "verbs") return c.type === "verb";
-    return c.tag === currentTag;
-  });
+  let cards;
+  if (currentChapter === "grammar-practice") {
+    cards = DECK.filter(c => c.type === "word");
+  } else if (currentChapter === "grammar-topics") {
+    const tag = currentSubcat || "Modal verbs";
+    cards = DECK.filter(c => c.type === "verb" && c.tag === tag);
+  } else if (contentMode === "grammar") {
+    const tag = currentSubcat || getChapterVerbTags(currentChapter)[0];
+    cards = tag ? DECK.filter(c => c.type === "verb" && c.tag === tag) : [];
+  } else {
+    cards = currentChapter === "all"
+      ? DECK.filter(c => c.type === "word")
+      : DECK.filter(c => c.type === "word" && c.tag === currentChapter);
+  }
   if (weakMode) cards = cards.filter(c => isWeak(c.id));
   return cards;
 }
@@ -1147,7 +1172,7 @@ document.querySelectorAll(".mode-btn").forEach(btn =>
 
 // ── CHAPTER SELECTOR + WEAK TOGGLE ──
 document.getElementById("chapter-select").addEventListener("change", function () {
-  currentTag = this.value;
+  currentChapter = this.value;
   rebuildDecks();
   setMode(currentMode);
 });
