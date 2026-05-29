@@ -666,6 +666,78 @@ const DECK = [
     ]
   },
 
+  // ── Adjectives ──
+  { id:"adj001", type:"adjective", dutch:"klein", english:"small", tag:"Comparative", regular:true,
+    forms:{ comparatief:"kleiner", superlatief:"kleinst", equal:"even klein als" },
+    grammarSentences:[
+      { s:"Dit kamertje is ___ dan mijn slaapkamer.",   a:["kleiner"],                          full:"Dit kamertje is kleiner dan mijn slaapkamer.",   hint:"en: This little room is smaller than my bedroom.",             topic:"Comparative — comparatief" },
+      { s:"Dat is het ___ huis in de straat.",           a:["kleinste"],                         full:"Dat is het kleinste huis in de straat.",          hint:"en: That is the smallest house in the street.",                topic:"Comparative — superlatief" },
+      { s:"Jouw tas is ___ de mijne.",                   a:["even klein als","net zo klein als"], full:"Jouw tas is even klein als de mijne.",            hint:"en: Your bag is as small as mine. (even...als / net zo...als)", topic:"Comparative — even...als" },
+      { s:"Dit huis is kleiner ___ dat huis.",           a:["dan"],                              full:"Dit huis is kleiner dan dat huis.",               hint:"en: Use 'dan' after a comparatief (-er form).",                topic:"Comparative — dan" },
+      { s:"Jouw kamer is even klein ___ de mijne.",      a:["als"],                              full:"Jouw kamer is even klein als de mijne.",          hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+  { id:"adj002", type:"adjective", dutch:"groot", english:"big / large", tag:"Comparative", regular:true,
+    forms:{ comparatief:"groter", superlatief:"grootst", equal:"even groot als" },
+    grammarSentences:[
+      { s:"Amsterdam is ___ dan Utrecht.",                a:["groter"],                           full:"Amsterdam is groter dan Utrecht.",                hint:"en: Amsterdam is bigger than Utrecht.",                        topic:"Comparative — comparatief" },
+      { s:"Dat is het ___ winkelcentrum van de stad.",    a:["grootste"],                         full:"Dat is het grootste winkelcentrum van de stad.",  hint:"en: That is the biggest shopping centre in the city.",         topic:"Comparative — superlatief" },
+      { s:"Zijn huis is ___ het onze.",                   a:["even groot als","net zo groot als"], full:"Zijn huis is even groot als het onze.",           hint:"en: His house is as big as ours.",                             topic:"Comparative — even...als" },
+      { s:"Amsterdam is groter ___ Utrecht.",             a:["dan"],                              full:"Amsterdam is groter dan Utrecht.",                hint:"en: Use 'dan' after a comparatief (-er form).",                topic:"Comparative — dan" },
+      { s:"Zijn huis is even groot ___ het onze.",        a:["als"],                              full:"Zijn huis is even groot als het onze.",           hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+  { id:"adj003", type:"adjective", dutch:"duur", english:"expensive", tag:"Comparative", regular:true,
+    forms:{ comparatief:"duurder", superlatief:"duurst", equal:"even duur als" },
+    grammarSentences:[
+      { s:"Dit horloge is ___ dan dat horloge.",          a:["duurder"],                          full:"Dit horloge is duurder dan dat horloge.",         hint:"en: This watch is more expensive than that watch.",             topic:"Comparative — comparatief" },
+      { s:"Dat is het ___ restaurant in de buurt.",       a:["duurste"],                          full:"Dat is het duurste restaurant in de buurt.",      hint:"en: That is the most expensive restaurant nearby.",             topic:"Comparative — superlatief" },
+      { s:"Deze jas is ___ die jas.",                     a:["even duur als","net zo duur als"],   full:"Deze jas is even duur als die jas.",              hint:"en: This coat is as expensive as that coat.",                  topic:"Comparative — even...als" },
+      { s:"Dit horloge is duurder ___ dat horloge.",      a:["dan"],                              full:"Dit horloge is duurder dan dat horloge.",         hint:"en: Use 'dan' after a comparatief (-er form).",                topic:"Comparative — dan" },
+      { s:"Deze jas is even duur ___ die jas.",           a:["als"],                              full:"Deze jas is even duur als die jas.",              hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+  { id:"adj004", type:"adjective", dutch:"goed", english:"good", tag:"Comparative", regular:false,
+    forms:{ comparatief:"beter", superlatief:"best", equal:"even goed als" },
+    grammarSentences:[
+      { s:"Jouw idee is ___ dan het mijne.",              a:["beter"],                            full:"Jouw idee is beter dan het mijne.",               hint:"en: Your idea is better than mine. (irregular: goed → beter)",  topic:"Comparative — comparatief (irregular)" },
+      { s:"Hij is de ___ student van de klas.",           a:["beste"],                            full:"Hij is de beste student van de klas.",            hint:"en: He is the best student in the class.",                     topic:"Comparative — superlatief (irregular)" },
+      { s:"Zijn Engels is ___ het mijne.",                a:["even goed als","net zo goed als"],   full:"Zijn Engels is even goed als het mijne.",         hint:"en: His English is as good as mine.",                          topic:"Comparative — even...als" },
+      { s:"Jouw idee is beter ___ het mijne.",            a:["dan"],                              full:"Jouw idee is beter dan het mijne.",               hint:"en: Use 'dan' after a comparatief (beter = irregular).",        topic:"Comparative — dan" },
+      { s:"Zijn Engels is even goed ___ het mijne.",      a:["als"],                              full:"Zijn Engels is even goed als het mijne.",         hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+  { id:"adj005", type:"adjective", dutch:"veel", english:"much / many", tag:"Comparative", regular:false,
+    forms:{ comparatief:"meer", superlatief:"meest", equal:"even veel als" },
+    grammarSentences:[
+      { s:"Hij heeft ___ geld dan zijn broer.",           a:["meer"],                             full:"Hij heeft meer geld dan zijn broer.",             hint:"en: He has more money than his brother. (irregular: veel → meer)", topic:"Comparative — comparatief (irregular)" },
+      { s:"Zij heeft de ___ boeken van allemaal.",        a:["meeste"],                           full:"Zij heeft de meeste boeken van allemaal.",        hint:"en: She has the most books of all.",                            topic:"Comparative — superlatief (irregular)" },
+      { s:"Ik drink ___ koffie als jij.",                 a:["even veel als","net zo veel als"],   full:"Ik drink even veel koffie als jij.",              hint:"en: I drink as much coffee as you.",                            topic:"Comparative — even...als" },
+      { s:"Hij heeft meer geld ___ zijn broer.",          a:["dan"],                              full:"Hij heeft meer geld dan zijn broer.",             hint:"en: Use 'dan' after a comparatief (meer = irregular).",          topic:"Comparative — dan" },
+      { s:"Ik drink even veel koffie ___ jij.",           a:["als"],                              full:"Ik drink even veel koffie als jij.",              hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+  { id:"adj006", type:"adjective", dutch:"weinig", english:"little / few", tag:"Comparative", regular:false,
+    forms:{ comparatief:"minder", superlatief:"minst", equal:"even weinig als" },
+    grammarSentences:[
+      { s:"Er zijn ___ mensen dan verwacht.",             a:["minder"],                           full:"Er zijn minder mensen dan verwacht.",             hint:"en: There are fewer people than expected. (irregular: weinig → minder)", topic:"Comparative — comparatief (irregular)" },
+      { s:"Hij heeft het ___ geld van de groep.",         a:["minste"],                           full:"Hij heeft het minste geld van de groep.",         hint:"en: He has the least money of the group.",                      topic:"Comparative — superlatief (irregular)" },
+      { s:"Ik slaap ___ mijn zus.",                       a:["even weinig als","net zo weinig als"],full:"Ik slaap even weinig als mijn zus.",            hint:"en: I sleep as little as my sister.",                           topic:"Comparative — even...als" },
+      { s:"Er zijn minder mensen ___ verwacht.",          a:["dan"],                              full:"Er zijn minder mensen dan verwacht.",             hint:"en: Use 'dan' after a comparatief (minder = irregular).",        topic:"Comparative — dan" },
+      { s:"Ik slaap even weinig ___ mijn zus.",           a:["als"],                              full:"Ik slaap even weinig als mijn zus.",              hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+  { id:"adj007", type:"adjective", dutch:"graag", english:"gladly / with pleasure", tag:"Comparative", regular:false,
+    forms:{ comparatief:"liever", superlatief:"liefst", equal:"even graag als" },
+    grammarSentences:[
+      { s:"Ik ga ___ naar de bioscoop dan naar het theater.", a:["liever"],                       full:"Ik ga liever naar de bioscoop dan naar het theater.", hint:"en: I prefer going to the cinema. (irregular: graag → liever)", topic:"Comparative — comparatief (irregular)" },
+      { s:"Wat doet hij het ___ van alles?",              a:["liefst"],                           full:"Wat doet hij het liefst van alles?",              hint:"en: What does he like doing most of all?",                     topic:"Comparative — superlatief (irregular)" },
+      { s:"Zij zingt ___ haar zus.",                      a:["even graag als","net zo graag als"], full:"Zij zingt even graag als haar zus.",              hint:"en: She sings as gladly as her sister.",                        topic:"Comparative — even...als" },
+      { s:"Ik ga liever naar de bioscoop ___ naar het theater.", a:["dan"],                       full:"Ik ga liever naar de bioscoop dan naar het theater.", hint:"en: Use 'dan' after a comparatief (liever = irregular).",    topic:"Comparative — dan" },
+      { s:"Zij zingt even graag ___ haar zus.",           a:["als"],                              full:"Zij zingt even graag als haar zus.",              hint:"en: Use 'als' in 'even...als' and 'net zo...als'.",             topic:"Comparative — als" }
+    ]
+  },
+
   // ── Verbs ──
   { id:"v001", type:"verb", dutch:"zijn", english:"to be", tag:"verbs",
     conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" },
