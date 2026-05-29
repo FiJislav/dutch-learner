@@ -890,10 +890,10 @@ function buildActiveDeck() {
     cards = DECK.filter(c => c.type === "word");
   } else if (currentChapter === "grammar-topics") {
     const tag = currentSubcat || "Modal verbs";
-    cards = DECK.filter(c => c.type === "verb" && c.tag === tag);
+    cards = DECK.filter(c => (c.type === "verb" || c.type === "adjective") && c.tag === tag);
   } else if (contentMode === "grammar") {
     const tag = currentSubcat || getChapterVerbTags(currentChapter)[0];
-    cards = tag ? DECK.filter(c => c.type === "verb" && c.tag === tag) : [];
+    cards = tag ? DECK.filter(c => (c.type === "verb" || c.type === "adjective") && c.tag === tag) : [];
   } else {
     cards = currentChapter === "all"
       ? DECK.filter(c => c.type === "word")
@@ -951,10 +951,15 @@ function updateContentToggle() {
 
 function updateModeTabs() {
   const wordsActive = contentMode === "words" && isChapterEntry(currentChapter);
+  const hasAdj = adjDeck.length > 0;
   const show = {
-    flip: wordsActive, type: wordsActive, mc: wordsActive,
-    grammar: !wordsActive,
-    verb: !wordsActive && currentChapter !== "grammar-practice"
+    flip:     wordsActive,
+    type:     wordsActive,
+    mc:       wordsActive,
+    grammar:  !wordsActive,
+    verb:     !wordsActive && currentChapter !== "grammar-practice",
+    adj:      !wordsActive && hasAdj,
+    overview: true,
   };
   Object.entries(show).forEach(([mode, visible]) =>
     document.querySelector(`.mode-btn[data-mode='${mode}']`).style.display = visible ? "" : "none"
@@ -970,7 +975,7 @@ function updateSubcatRow() {
   if (currentChapter === "grammar-topics") {
     if (!currentSubcat) currentSubcat = "Modal verbs";
     row.classList.add("visible");
-    [["Modal verbs", "Modal verbs"], ["Verb forms", "verbs"]].forEach(([label, tag]) =>
+    [["Modal verbs", "Modal verbs"], ["Verb forms", "verbs"], ["Comparative", "Comparative"]].forEach(([label, tag]) =>
       row.appendChild(makeSubcatBtn(label, tag))
     );
   } else if (contentMode === "grammar" && isChapterEntry(currentChapter)) {
@@ -995,6 +1000,8 @@ function rebuildDecks() {
   verbIdx       = 0;
   verbCardQueue = buildVerbCardQueue(activeDeck);
   verbCardIdx   = 0;
+  adjDeck       = buildAdjDeck(activeDeck);
+  adjIdx        = 0;
   updateProgress();
   updateWordTable();
 }
@@ -1075,7 +1082,7 @@ function updateWordTable() {
 }
 
 // ── MODE SWITCHING ──
-const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box" };
+const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", overview: "overview-box" };
 function setMode(m) {
   currentMode = m;
   Object.entries(BOXES).forEach(([mode, id]) => {
@@ -1088,11 +1095,13 @@ function setMode(m) {
   const scoreBar = document.getElementById("score-bar");
   scoreBar.style.display = m === "flip" ? "none" : "flex";
   const subtitles = {
-    flip:    "Click the card to reveal the translation",
-    type:    "See the English — type the Dutch word",
-    mc:      "See the Dutch — pick the correct English",
-    grammar: "Fill in the missing Dutch word",
-    verb:    "Type the correct conjugated form",
+    flip:     "Click the card to reveal the translation",
+    type:     "See the English — type the Dutch word",
+    mc:       "See the Dutch — pick the correct English",
+    grammar:  "Fill in the missing Dutch word",
+    verb:     "Type the correct conjugated form",
+    adj:      "Fill in the comparative, superlative and equal form",
+    overview: "Grammar reference — click Practice to start drilling",
   };
   document.getElementById("subtitle").textContent = subtitles[m];
   resetSession();
@@ -1101,6 +1110,8 @@ function setMode(m) {
   else if (m === "mc")      showMC();
   else if (m === "grammar") showGrammar();
   else if (m === "verb")    showVerbForm();
+  else if (m === "adj")     showAdjForm();
+  else if (m === "overview") buildOverview();
 }
 
 // ── FLIP CARDS MODE ──
