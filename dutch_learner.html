@@ -234,6 +234,38 @@ tr:hover td { background: #1e2d5a; }
 .verb-blank { border-bottom: 1px dashed #6c63ff; color: #6c63ff; font-style: normal; }
 .vcell-sentence button { background: transparent; border: none; cursor: pointer; color: #6c63ff; font-size: 0.82rem; padding: 0 2px; opacity: 0.7; vertical-align: middle; }
 .vcell-sentence button:hover { opacity: 1; }
+
+/* ── ADJ FORMS BOX ── */
+#adj-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #f0c070; width: 560px; }
+.adj-inp {
+  width: 100%; padding: 4px 8px;
+  background: #0d1b38; border: 2px solid #333;
+  border-radius: 6px; color: #fff; font-size: 0.88rem;
+  outline: none; text-align: center; transition: border-color 0.15s;
+}
+.adj-inp:focus   { border-color: #f0c070; }
+.adj-inp.correct { border-color: #4caf93; background: #0d2b1e; color: #4caf93; }
+.adj-inp.wrong   { border-color: #e07070; background: #2b0d0d; color: #e07070; }
+.adj-cell { padding: 5px 8px; }
+.adj-base { color: #f0c070; font-weight: 700; font-size: 1rem; padding: 5px 10px; }
+#adj-table-body tr + tr td { border-top: 1px solid #1e2d5a; }
+
+/* ── OVERVIEW BOX ── */
+#overview-box { background: linear-gradient(135deg, #0f1e3a, #0a1628); border: 2px solid #6c63ff; }
+.overview-section { width: 100%; border-bottom: 1px solid #1e2d5a; padding-bottom: 12px; }
+.overview-section:last-child { border-bottom: none; }
+.overview-section h3 { color: #a0c4ff; font-size: 0.95rem; margin-bottom: 6px; }
+.overview-section p  { color: #bbb; font-size: 0.82rem; line-height: 1.6; margin-bottom: 8px; }
+.overview-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 8px; }
+.overview-table th { color: #6c63ff; font-weight: 700; padding: 3px 8px; text-align: left; border-bottom: 1px solid #1e2d5a; }
+.overview-table td { color: #ddd; padding: 3px 8px; }
+.overview-table tr:hover td { background: #1e2d5a; }
+.overview-practice-btn {
+  background: #6c63ff; color: #fff; font-size: 0.78rem;
+  padding: 4px 14px; border-radius: 20px; cursor: pointer; border: none;
+  transition: opacity 0.2s;
+}
+.overview-practice-btn:hover { opacity: 0.8; }
 </style>
 </head>
 <body>
@@ -265,6 +297,8 @@ tr:hover td { background: #1e2d5a; }
   <button class="mode-btn" data-mode="mc">🔤 Choice</button>
   <button class="mode-btn" data-mode="grammar">📚 Grammar</button>
   <button class="mode-btn" data-mode="verb">🔀 Verbs</button>
+  <button class="mode-btn" data-mode="adj">🔡 Forms</button>
+  <button class="mode-btn" data-mode="overview">📋 Overview</button>
 </div>
 
 <div class="controls">
@@ -352,6 +386,34 @@ tr:hover td { background: #1e2d5a; }
     <button id="btn-speak-verb">🔊 Listen</button>
     <button id="btn-verb-skip">Show answers</button>
   </div>
+</div>
+
+<!-- Adjective forms -->
+<div class="exercise-box" id="adj-box">
+  <div id="adj-title" style="font-size:1.1rem;font-weight:700;color:#f0c070;margin-bottom:4px;"></div>
+  <div id="adj-table-el" style="width:100%;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th style="padding:4px 10px;color:#a0c4ff;text-align:left;font-size:0.78rem;border-bottom:1px solid #1e2d5a;">basisvorm</th>
+          <th style="padding:4px 10px;color:#a0c4ff;text-align:left;font-size:0.78rem;border-bottom:1px solid #1e2d5a;">comparatief</th>
+          <th style="padding:4px 10px;color:#a0c4ff;text-align:left;font-size:0.78rem;border-bottom:1px solid #1e2d5a;">superlatief</th>
+          <th style="padding:4px 10px;color:#a0c4ff;text-align:left;font-size:0.78rem;border-bottom:1px solid #1e2d5a;">even … als</th>
+        </tr>
+      </thead>
+      <tbody id="adj-table-body"></tbody>
+    </table>
+  </div>
+  <div class="ex-feedback" id="adj-feedback"></div>
+  <div class="ex-actions">
+    <button id="btn-adj-check" style="background:#f0c070;color:#1a1a2e;font-weight:700;">Check ↵</button>
+    <button id="btn-adj-prev" style="background:#444;color:#eee;">← Prev</button>
+    <button id="btn-adj-next" style="background:#a0c4ff;color:#1a1a2e;">Next →</button>
+  </div>
+</div>
+
+<!-- Grammar Overview -->
+<div class="exercise-box" id="overview-box" style="width:560px;max-width:96vw;align-items:flex-start;gap:16px;">
 </div>
 
 <!-- Word list -->
