@@ -775,15 +775,15 @@ function buildGrammarQueue(deck) {
 }
 
 function buildVerbDeck(deck) {
-  const verbs = deck.filter(c => c.type === "verb");
-  return verbs.length ? verbs : DECK.filter(c => c.type === "verb");
+  return deck.filter(c => c.type === "verb");
 }
 
 function buildVerbCardQueue(deck) {
-  const verbs = deck.filter(c => c.type === "verb");
-  const source = verbs.length ? verbs : DECK.filter(c => c.type === "verb");
   const q = [];
-  source.forEach(c => Object.entries(c.conjugations).forEach(([p, f]) => q.push({ card: c, pronoun: p, answer: f })));
+  deck.filter(c => c.type === "verb")
+      .forEach(c => Object.entries(c.conjugations).forEach(([p, f]) =>
+        q.push({ card: c, pronoun: p, answer: f })
+      ));
   return q;
 }
 
@@ -831,10 +831,10 @@ function updateSubcatRow() {
 }
 
 function rebuildDecks() {
-  activeDeck   = buildActiveDeck();
-  idx          = 0;
-  grammarQueue = buildGrammarQueue(activeDeck.length ? activeDeck : DECK.filter(c => c.type === "word"));
-  grammarIdx   = 0;
+  activeDeck    = buildActiveDeck();
+  idx           = 0;
+  grammarQueue  = buildGrammarQueue(activeDeck);
+  grammarIdx    = 0;
   verbDeck      = buildVerbDeck(activeDeck);
   verbIdx       = 0;
   verbCardQueue = buildVerbCardQueue(activeDeck);
