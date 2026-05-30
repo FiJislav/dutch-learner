@@ -1192,6 +1192,24 @@ const DECK = [
     ]
   },
 
+  // ── Ch 4 Grammar Rules ──
+  { id:"gram008", type:"grammar-rule", dutch:"Vragen en vertellen hoe het gaat", english:"Asking and telling how you are", tag:"Ch 4",
+    grammarSentences:[
+      { s:"___ goed?",                                         a:["Alles"],                              full:"Alles goed?",                                          hint:"standard greeting: everything okay?",          topic:"Vragen hoe het gaat" },
+      { s:"Hoe ___ het met jou?",                              a:["gaat","is"],                          full:"Hoe gaat het met jou?",                                hint:"asking how someone is (informal)",             topic:"Vragen hoe het gaat" },
+      { s:"Hoe ___ het met u?",                                a:["gaat","is"],                          full:"Hoe gaat het met u?",                                  hint:"asking how someone is (formal)",               topic:"Vragen hoe het gaat" },
+      { s:"Heel ___, dank je!",                                a:["goed"],                               full:"Heel goed, dank je!",                                  hint:"++ very good",                                 topic:"Vertellen hoe het gaat — positief" },
+      { s:"___ goed, en met jou?",                             a:["Hartstikke","hartstikke"],            full:"Hartstikke goed, en met jou?",                         hint:"++ completely / totally good",                 topic:"Vertellen hoe het gaat — positief" },
+      { s:"Het gaat ___.",                                     a:["prima","goed","wel","uitstekend","fantastisch","niet goed","slecht"], full:"Het gaat prima.",       hint:"++ / + / +- / - responding to 'hoe gaat het'", topic:"Vertellen hoe het gaat" },
+      { s:"___, dank u.",                                      a:["Prima","Uitstekend","Fantastisch","Goed","Slecht"], full:"Prima, dank u.",                          hint:"one-word response to 'hoe is het'",            topic:"Vertellen hoe het gaat — positief" },
+      { s:"Het gaat ___ zo goed.",                             a:["niet"],                               full:"Het gaat niet zo goed.",                               hint:"+- not so great",                              topic:"Vertellen hoe het gaat — neutraal/negatief" },
+      { s:"Het gaat ___.",                                     a:["wel"],                                full:"Het gaat wel.",                                         hint:"+- so-so / all right",                         topic:"Vertellen hoe het gaat — neutraal" },
+      { s:"Niet ___, eigenlijk.",                              a:["goed","zo"],                          full:"Niet goed, eigenlijk.",                                 hint:"- not good, actually",                         topic:"Vertellen hoe het gaat — negatief" },
+      { s:"Hoe ___ het met de buren?",                        a:["gaat","is"],                          full:"Hoe gaat het met de buren?",                           hint:"asking about someone else",                    topic:"Vragen hoe het gaat" },
+      { s:"___ uitstekend, en jij?",                          a:["Heel","heel"],                        full:"Heel uitstekend, en jij?",                             hint:"++ excellent",                                 topic:"Vertellen hoe het gaat — positief" }
+    ]
+  },
+
   // ── Ch 5 Grammar Rules ──
   { id:"gram005", type:"grammar-rule", dutch:"Pluralis", english:"Plurals (-en / -s / -'s / geen meervoud)", tag:"Ch 5",
     grammarSentences:[
@@ -1322,6 +1340,11 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "hoe-gaat-het",
+    title: "How are you?",         subtitle: "Alles goed? Hoe gaat het?",
+    chapters: ["Ch 4", "all"],
+    match: c => c.id === "gram008",
+    practiceMode: null },
   { id: "pluralis",
     title: "Plurals",              subtitle: "-en, -s, -'s, geen meervoud",
     chapters: ["Ch 5", "all"],
@@ -1411,6 +1434,22 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "hoe-gaat-het": {
+      desc: `Two ways to ask: <em>Alles goed?</em> (neutral) &nbsp;·&nbsp; <em>Hoe <strong>gaat</strong> het (met jou/met u)?</em> / <em>Hoe <strong>is</strong> het?</em> (both correct). ` +
+            `Respond with a single word or a full sentence with <em>het gaat …</em>. ` +
+            `Scale from very positive to negative:`,
+      rows: [["score","expression","notes"],
+             ["++","prima","great"],
+             ["++","fantastisch","fantastic"],
+             ["++","uitstekend","excellent"],
+             ["++","heel goed","very good"],
+             ["++","hartstikke goed","totally good"],
+             ["+","goed","good"],
+             ["+-","het gaat wel","all right / so-so"],
+             ["+-","niet zo (goed)","not so great"],
+             ["−","niet goed","not good"],
+             ["−","slecht","bad"]],
     },
     "adjectief": {
       desc: `Adjectives take <strong>-e</strong> in most positions — except <em>het</em>-words after <strong>een</strong>, <strong>geen</strong>, or no article, and in predicate position (after <em>zijn/worden</em>). ` +
