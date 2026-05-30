@@ -1653,7 +1653,12 @@ document.getElementById("chapter-select").addEventListener("change", function ()
   updateSubcatRow();
   updateModeTabs();
   rebuildDecks();
-  setMode(currentMode);
+  if (!isChapterEntry(currentChapter)) {
+    contentMode = "grammar";
+    setMode("grammar");
+  } else {
+    setMode(currentMode);
+  }
 });
 document.getElementById("btn-words").addEventListener("click", () => {
   contentMode         = "words";
@@ -1664,7 +1669,7 @@ document.getElementById("btn-words").addEventListener("click", () => {
   updateSubcatRow();
   updateModeTabs();
   rebuildDecks();
-  setMode(currentMode);
+  setMode("flip");
 });
 document.getElementById("btn-grammar-content").addEventListener("click", () => {
   contentMode         = "grammar";
@@ -1675,7 +1680,7 @@ document.getElementById("btn-grammar-content").addEventListener("click", () => {
   updateSubcatRow();
   updateModeTabs();
   rebuildDecks();
-  setMode(currentMode);
+  setMode("grammar");
 });
 document.getElementById("weak-toggle").addEventListener("click", function () {
   weakMode = !weakMode;
