@@ -360,6 +360,23 @@ tr:hover td { background: #1e2d5a; }
   <span class="score-wrong">✗ Wrong: <span id="score-w">0</span></span>
 </div>
 
+<!-- Grammar topic grid -->
+<div id="grammar-topic-grid"></div>
+
+<!-- Grammar topic detail -->
+<div id="grammar-topic-detail">
+  <div id="topic-detail-header">
+    <button id="btn-topic-back">← Back to topics</button>
+    <span id="topic-detail-title"></span>
+  </div>
+  <div id="topic-tab-row">
+    <button class="topic-tab-btn active" data-tab="overview">Overview</button>
+    <button class="topic-tab-btn" data-tab="practice" id="topic-tab-practice">Practice</button>
+    <button class="topic-tab-btn" data-tab="sentences">Sentences</button>
+  </div>
+  <div id="topic-overview-content"></div>
+</div>
+
 <!-- Flip card -->
 <div class="scene" id="scene">
   <div class="mastery-dot" id="mastery-dot"></div>
@@ -456,23 +473,6 @@ tr:hover td { background: #1e2d5a; }
     <button id="btn-adj-prev" style="background:#444;color:#eee;">← Prev</button>
     <button id="btn-adj-next" style="background:#a0c4ff;color:#1a1a2e;">Next →</button>
   </div>
-</div>
-
-<!-- Grammar topic grid -->
-<div id="grammar-topic-grid"></div>
-
-<!-- Grammar topic detail -->
-<div id="grammar-topic-detail">
-  <div id="topic-detail-header">
-    <button id="btn-topic-back">← Back</button>
-    <span id="topic-detail-title"></span>
-  </div>
-  <div id="topic-tab-row">
-    <button class="topic-tab-btn active" data-tab="overview">Overview</button>
-    <button class="topic-tab-btn" data-tab="practice" id="topic-tab-practice">Practice</button>
-    <button class="topic-tab-btn" data-tab="sentences">Sentences</button>
-  </div>
-  <div id="topic-overview-content"></div>
 </div>
 
 <!-- Word list -->
@@ -1167,7 +1167,7 @@ function updateModeTabs() {
     flip:    wordsActive,
     type:    wordsActive,
     mc:      wordsActive,
-    grammar: !wordsActive,
+    grammar: false,
     verb:    false,
     adj:     false,
   };
@@ -1289,8 +1289,11 @@ function setMode(m) {
   }
   document.querySelectorAll(".mode-btn").forEach(b =>
     b.classList.toggle("active", b.dataset.mode === m));
+  const showNav = ["flip", "type", "mc"].includes(m);
+  document.querySelector(".controls").style.display = showNav ? "" : "none";
+  document.querySelector(".progress").style.display = showNav ? "" : "none";
   const scoreBar = document.getElementById("score-bar");
-  scoreBar.style.display = m === "flip" ? "none" : "flex";
+  scoreBar.style.display = (m === "flip" || m === "grammar") ? "none" : "flex";
   const subtitles = {
     flip:    "Click the card to reveal the translation",
     type:    "See the English — type the Dutch word",
