@@ -1118,8 +1118,9 @@ function buildActiveDeck() {
 function buildGrammarQueue(deck) {
   const q = [];
   deck.forEach(c => {
-    const arr = c.grammarSentences || c.sentences;
-    (arr || []).forEach(s => q.push({ card: c, ...s }));
+    const arr = Array.isArray(c.grammarSentences) ? c.grammarSentences
+              : Array.isArray(c.sentences)        ? c.sentences : null;
+    if (arr) arr.forEach(s => q.push({ card: c, ...s }));
   });
   return q;
 }
