@@ -648,6 +648,18 @@ const DECK = [
   { id:"w151", type:"word", dutch:"het schuurtje",          english:"small shed",                   note:"", tag:"Ch 8", sentences:[] },
   { id:"w152", type:"word", dutch:"de garage",              english:"garage",                       note:"", tag:"Ch 8", sentences:[] },
   { id:"w153", type:"word", dutch:"de tafel",               english:"table",                        note:"", tag:"Ch 8", sentences:[] },
+  { id:"w154", type:"word", dutch:"tegen",                  english:"against",                      note:"", tag:"Ch 8", sentences:[] },
+  { id:"w155", type:"word", dutch:"achter",                 english:"behind",                       note:"", tag:"Ch 8", sentences:[] },
+  { id:"w156", type:"word", dutch:"naast",                  english:"next to",                      note:"", tag:"Ch 8", sentences:[] },
+  { id:"w157", type:"word", dutch:"voor",                   english:"in front of / for",            note:"", tag:"Ch 8", sentences:[] },
+  { id:"w158", type:"word", dutch:"op",                     english:"on",                           note:"", tag:"Ch 8", sentences:[] },
+  { id:"w159", type:"word", dutch:"aan",                    english:"on / at (hanging)",            note:"", tag:"Ch 8", sentences:[] },
+  { id:"w160", type:"word", dutch:"om",                     english:"around / at (time)",           note:"", tag:"Ch 8", sentences:[] },
+  { id:"w161", type:"word", dutch:"boven",                  english:"above",                        note:"", tag:"Ch 8", sentences:[] },
+  { id:"w162", type:"word", dutch:"onder",                  english:"under / below",                note:"", tag:"Ch 8", sentences:[] },
+  { id:"w163", type:"word", dutch:"bij",                    english:"near / at / with",             note:"", tag:"Ch 8", sentences:[] },
+  { id:"w164", type:"word", dutch:"tussen",                 english:"between",                      note:"", tag:"Ch 8", sentences:[] },
+  { id:"w165", type:"word", dutch:"tegenover",              english:"opposite",                     note:"", tag:"Ch 8", sentences:[] },
 
   // ── Ch 7 Verbs ──
   { id:"v003", type:"verb", dutch:"kopen", english:"to buy", tag:"Ch 7",
@@ -972,6 +984,41 @@ const DECK = [
     ]
   },
 
+  // ── Ch 8 Grammar Rules ──
+  { id:"gram003", type:"grammar-rule", dutch:"Negatie", english:"Negation (geen / niet)", tag:"Ch 8",
+    grammarSentences:[
+      { s:"Ik heb ___ idee.",                                      a:["geen"],   full:"Ik heb geen idee.",                                      hint:"geen/niet — negates a noun",                        topic:"Negatie — geen + noun" },
+      { s:"Wij hoeven ___ bad.",                                   a:["geen"],   full:"Wij hoeven geen bad.",                                   hint:"geen/niet — negates a noun (bad = noun)",           topic:"Negatie — geen + noun" },
+      { s:"Nee, wij hoeven ___ bad te hebben.",                    a:["geen"],   full:"Nee, wij hoeven geen bad te hebben.",                    hint:"geen/niet — geen before noun with te + infinitive",  topic:"Negatie — geen + noun" },
+      { s:"Dit is een leuke bovenwoning, ___ ver van het centrum.", a:["niet"],  full:"Dit is een leuke bovenwoning, niet ver van het centrum.", hint:"geen/niet — negates an adjective/adverb",           topic:"Negatie — niet + adj/adv" },
+      { s:"Dat gebruiken we toch ___.",                            a:["niet"],   full:"Dat gebruiken we toch niet.",                            hint:"geen/niet — negates a verb at end of sentence",     topic:"Negatie — niet + verb" },
+      { s:"Nee, ik hoef ___ te pinnen.",                           a:["niet"],   full:"Nee, ik hoef niet te pinnen.",                           hint:"geen/niet — niet before te + infinitive",           topic:"Negatie — niet te + infinitive" },
+      { s:"De woning is ___ gemeubileerd.",                        a:["niet"],   full:"De woning is niet gemeubileerd.",                        hint:"geen/niet — negates a predicate adjective",         topic:"Negatie — niet + adj" },
+      { s:"Ik ken de buurt ___.",                                  a:["niet"],   full:"Ik ken de buurt niet.",                                  hint:"geen/niet — niet at end after direct object",       topic:"Negatie — niet at end" },
+      { s:"Er zijn ___ slaapkamers op de begane grond.",           a:["geen"],   full:"Er zijn geen slaapkamers op de begane grond.",           hint:"geen/niet — geen before plural noun",               topic:"Negatie — geen + noun" },
+      { s:"De huurprijs is ___ hoog.",                             a:["niet"],   full:"De huurprijs is niet hoog.",                             hint:"geen/niet — negates an adjective",                  topic:"Negatie — niet + adj" }
+    ]
+  },
+
+  { id:"gram004", type:"grammar-rule", dutch:"Preposities van plaats", english:"Prepositions of place", tag:"Ch 8",
+    grammarSentences:[
+      { s:"De fiets staat ___ de muur.",                           a:["tegen"],     full:"De fiets staat tegen de muur.",                     hint:"against the wall",           topic:"Preposities van plaats" },
+      { s:"De boom staat ___ het huis.",                           a:["achter"],    full:"De boom staat achter het huis.",                   hint:"behind the house",           topic:"Preposities van plaats" },
+      { s:"De auto staat ___ het huis.",                           a:["naast"],     full:"De auto staat naast het huis.",                    hint:"next to the house",          topic:"Preposities van plaats" },
+      { s:"De stoel staat ___ de lamp.",                           a:["voor"],      full:"De stoel staat voor de lamp.",                     hint:"in front of the lamp",       topic:"Preposities van plaats" },
+      { s:"De boompjes staan ___ het balkon.",                     a:["op"],        full:"De boompjes staan op het balkon.",                 hint:"on the balcony",             topic:"Preposities van plaats" },
+      { s:"De foto hangt ___ de muur.",                            a:["aan"],       full:"De foto hangt aan de muur.",                       hint:"on / at the wall",           topic:"Preposities van plaats" },
+      { s:"De stoelen staan ___ de tafel.",                        a:["om"],        full:"De stoelen staan om de tafel.",                    hint:"around the table",           topic:"Preposities van plaats" },
+      { s:"De slaapkamer is ___ de keuken.",                       a:["boven"],     full:"De slaapkamer is boven de keuken.",                hint:"above the kitchen",          topic:"Preposities van plaats" },
+      { s:"De woonkamer is ___ het balkon.",                       a:["onder"],     full:"De woonkamer is onder het balkon.",                hint:"under the balcony",          topic:"Preposities van plaats" },
+      { s:"De televisie staat ___ de tafel.",                      a:["bij"],       full:"De televisie staat bij de tafel.",                 hint:"near / at the table",        topic:"Preposities van plaats" },
+      { s:"Het bed staat ___ de slaapkamer.",                      a:["in"],        full:"Het bed staat in de slaapkamer.",                  hint:"in the bedroom",             topic:"Preposities van plaats" },
+      { s:"De slaapkamer is ___ de keuken en de zolder.",          a:["tussen"],    full:"De slaapkamer is tussen de keuken en de zolder.", hint:"between kitchen and attic",  topic:"Preposities van plaats" },
+      { s:"De wasmachine staat ___ de deur.",                      a:["tegenover"], full:"De wasmachine staat tegenover de deur.",           hint:"opposite the door",          topic:"Preposities van plaats" },
+      { s:"Dit is een huis ___ een balkon.",                       a:["met"],       full:"Dit is een huis met een balkon.",                  hint:"with a balcony",             topic:"Preposities van plaats" }
+    ]
+  },
+
   // ── Verbs ──
   { id:"v001", type:"verb", dutch:"zijn", english:"to be", tag:"verbs",
     conjugations:{ "ik":"ben", "jij / je":"bent", "u":"bent", "hij":"is", "zij / ze":"is", "het":"is", "wij / we":"zijn", "jullie":"zijn", "zij / ze (pl)":"zijn" },
@@ -1013,6 +1060,16 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "negatie",
+    title: "Negation",             subtitle: "geen vs niet",
+    chapters: ["Ch 8", "all"],
+    match: c => c.id === "gram003",
+    practiceMode: null },
+  { id: "preposities",
+    title: "Prepositions",         subtitle: "tegen, achter, naast, op…",
+    chapters: ["Ch 8", "all"],
+    match: c => c.id === "gram004",
+    practiceMode: null },
 ];
 
 function getTopicOverviewHtml(topicId) {
@@ -1077,6 +1134,41 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "negatie": {
+      desc: `Use <strong>geen</strong> to negate nouns (replaces <em>een</em> or no article): ` +
+            `<em>Ik heb <strong>geen</strong> idee. Wij hoeven <strong>geen</strong> bad.</em> ` +
+            `Use <strong>niet</strong> to negate adjectives, adverbs, verbs and prepositional phrases: ` +
+            `<em>Dit is <strong>niet</strong> ver. Dat gebruiken we <strong>niet</strong>.</em> ` +
+            `With modal verbs + infinitive: <em>hoeven <strong>geen</strong> bad te hebben</em> &nbsp;·&nbsp; <em>hoef <strong>niet</strong> te pinnen</em>.`,
+      rows: [["use","geen","niet"],
+             ["before noun (a/an)","Ik heb geen idee","—"],
+             ["before noun (no article)","Wij hoeven geen bad","—"],
+             ["adjective / adverb","—","Dit is niet ver"],
+             ["verb (end of clause)","—","Dat gebruiken we niet"],
+             ["niet te + infinitive","—","Ik hoef niet te pinnen"],
+             ["geen … te + infinitive","Geen bad te hebben","—"]],
+    },
+    "preposities": {
+      desc: `Dutch prepositions of place describe position and direction. ` +
+            `Use <strong>staan</strong> for upright objects, <strong>liggen</strong> for flat/horizontal objects, ` +
+            `<strong>hangen</strong> for objects on walls. ` +
+            `<em>De fiets staat <strong>tegen</strong> de muur. De foto hangt <strong>aan</strong> de muur. Het bed ligt <strong>in</strong> de slaapkamer.</em>`,
+      rows: [["preposition","meaning","example"],
+             ["tegen","against","De fiets staat tegen de muur."],
+             ["achter","behind","De boom staat achter het huis."],
+             ["naast","next to","De auto staat naast het huis."],
+             ["voor","in front of","De stoel staat voor de lamp."],
+             ["op","on","De boompjes staan op het balkon."],
+             ["aan","on / at (hanging)","De foto hangt aan de muur."],
+             ["om","around","De stoelen staan om de tafel."],
+             ["boven","above","De slaapkamer is boven de keuken."],
+             ["onder","under","De woonkamer is onder het balkon."],
+             ["bij","near / at","De televisie staat bij de tafel."],
+             ["in","in","Het bed staat in de slaapkamer."],
+             ["tussen","between","De slaapkamer is tussen de keuken en de zolder."],
+             ["tegenover","opposite","De wasmachine staat tegenover de deur."],
+             ["met","with","Dit is een huis met een balkon."]],
     },
   };
   const t = tables[topicId];
