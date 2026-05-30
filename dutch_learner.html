@@ -1210,6 +1210,23 @@ const DECK = [
     ]
   },
 
+  { id:"gram009", type:"grammar-rule", dutch:"Een afspraak maken en reageren", english:"Making an appointment and responding", tag:"Ch 4",
+    grammarSentences:[
+      { s:"___ we voor zaterdag een afspraak maken?",           a:["Zullen","zullen"],  full:"Zullen we voor zaterdag een afspraak maken?",          hint:"zullen + infinitive = shall we…?",              topic:"Een afspraak maken" },
+      { s:"Zullen we iets ___?",                                a:["afspreken"],        full:"Zullen we iets afspreken?",                            hint:"to make an arrangement",                         topic:"Een afspraak maken" },
+      { s:"Zullen we voor ___ een afspraak maken?",             a:["zaterdag","vrijdag","zondag","maandag"], full:"Zullen we voor zaterdag een afspraak maken?", hint:"pick a day of the week",              topic:"Een afspraak maken" },
+      { s:"Ja, dat ___.",                                       a:["kan"],              full:"Ja, dat kan.",                                         hint:"+ positive: yes, that's possible",               topic:"Positief reageren" },
+      { s:"Ja, dat is ___.",                                    a:["goed"],             full:"Ja, dat is goed.",                                     hint:"+ positive: yes, that's good",                   topic:"Positief reageren" },
+      { s:"Nee, dat ___ niet.",                                 a:["lukt"],             full:"Nee, dat lukt niet.",                                  hint:"− negative: that doesn't work (lukken = to work)", topic:"Negatief reageren" },
+      { s:"Nee, ik heb al een ___.",                            a:["afspraak"],         full:"Nee, ik heb al een afspraak.",                         hint:"− negative: already have an appointment",        topic:"Negatief reageren" },
+      { s:"Nee, ___ kan ik niet.",                              a:["dan"],              full:"Nee, dan kan ik niet.",                                hint:"− negative: can't at that time",                  topic:"Negatief reageren" },
+      { s:"___, dat kan.",                                      a:["Ja"],               full:"Ja, dat kan.",                                         hint:"+ positive one-word start",                      topic:"Positief reageren" },
+      { s:"___, dat lukt niet.",                                a:["Nee"],              full:"Nee, dat lukt niet.",                                  hint:"− negative one-word start",                      topic:"Negatief reageren" },
+      { s:"Ja, dat ___ goed.",                                  a:["is"],               full:"Ja, dat is goed.",                                     hint:"+ positive: fill in the verb",                   topic:"Positief reageren" },
+      { s:"Nee, dan ___ ik niet.",                              a:["kan"],              full:"Nee, dan kan ik niet.",                                hint:"− negative: can't (modal verb)",                  topic:"Negatief reageren" }
+    ]
+  },
+
   // ── Ch 5 Grammar Rules ──
   { id:"gram005", type:"grammar-rule", dutch:"Pluralis", english:"Plurals (-en / -s / -'s / geen meervoud)", tag:"Ch 5",
     grammarSentences:[
@@ -1340,6 +1357,11 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "afspraak-maken",
+    title: "Making appointments",  subtitle: "Zullen we…? Ja, dat kan.",
+    chapters: ["Ch 4", "all"],
+    match: c => c.id === "gram009",
+    practiceMode: null },
   { id: "hoe-gaat-het",
     title: "How are you?",         subtitle: "Alles goed? Hoe gaat het?",
     chapters: ["Ch 4", "all"],
@@ -1434,6 +1456,17 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "afspraak-maken": {
+      desc: `Use <strong>Zullen we …?</strong> (shall we …?) to invite or suggest: ` +
+            `<em>Zullen we voor zaterdag een afspraak maken? &nbsp;·&nbsp; Zullen we iets afspreken?</em> ` +
+            `Respond positively or negatively with a fixed phrase:`,
+      rows: [["","expression","notes"],
+             ["+","Ja, dat kan.","Yes, that's possible."],
+             ["+","Ja, dat is goed.","Yes, that's good."],
+             ["−","Nee, dat lukt niet.","No, that doesn't work. (lukken = to work/succeed)"],
+             ["−","Nee, ik heb al een afspraak.","No, I already have an appointment."],
+             ["−","Nee, dan kan ik niet.","No, I can't at that time."]],
     },
     "hoe-gaat-het": {
       desc: `Two ways to ask: <em>Alles goed?</em> (neutral) &nbsp;·&nbsp; <em>Hoe <strong>gaat</strong> het (met jou/met u)?</em> / <em>Hoe <strong>is</strong> het?</em> (both correct). ` +
