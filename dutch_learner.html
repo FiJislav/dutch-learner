@@ -1586,7 +1586,7 @@ function showGrammar() {
     return;
   }
   const ex = grammarQueue[grammarIdx];
-  document.getElementById("grammar-topic").textContent   = "📚 Grammar";
+  document.getElementById("grammar-topic").textContent   = "📚 " + (ex.card.tag || "Grammar");
   document.getElementById("grammar-hint").textContent    = ex.hint || "";
   document.getElementById("grammar-sentence").innerHTML  =
     ex.s.replace("___", '<span class="blank">___</span>');
@@ -1613,7 +1613,8 @@ function checkGrammar() {
   const accepted = ex.a.map(s => s.toLowerCase());
   const correct  = accepted.includes(val);
   grammarAnswered = true;
-  document.getElementById("grammar-topic").textContent = "📚 " + (ex.topic || "Grammar");
+  const _ch = ex.card.tag ? ex.card.tag + " — " : "";
+  document.getElementById("grammar-topic").textContent = "📚 " + _ch + (ex.topic || "Grammar");
   document.getElementById("grammar-full").textContent = ex.full;
   recordResult(ex.card.id, correct);
   if (correct) {
