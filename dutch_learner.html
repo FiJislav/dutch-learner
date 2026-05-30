@@ -1273,6 +1273,44 @@ const DECK = [
     ]
   },
 
+  { id:"gram011", type:"grammar-rule", dutch:"Hoofdzin met inversie", english:"Main sentence with inversion", tag:"Ch 3",
+    grammarSentences:[
+      { s:"Nu ___ ik ook een biertje.",                        a:["wil"],        full:"Nu wil ik ook een biertje.",                            hint:"adverb first → verb in position 2, then subject", topic:"Inversie — adverbium" },
+      { s:"Dit rondje ___ ik.",                                a:["betaal"],     full:"Dit rondje betaal ik.",                                 hint:"object first → verb in position 2, then subject",  topic:"Inversie — object" },
+      { s:"Donderdag ___ Joyce jarig.",                        a:["is"],         full:"Donderdag is Joyce jarig.",                             hint:"day first → verb + subject (inversie)",            topic:"Inversie — tijdsbepaling" },
+      { s:"In de kantine ___ we koffie.",                      a:["drinken"],    full:"In de kantine drinken we koffie.",                      hint:"place first → verb + subject (inversie)",          topic:"Inversie — plaatsbepaling" },
+      { s:"Op het moment ___ ze in Indonesië.",                a:["zijn"],       full:"Op het moment zijn ze in Indonesië.",                   hint:"time phrase first → verb + subject",               topic:"Inversie — tijdsbepaling" },
+      { s:"Dat ___ ik niet.",                                  a:["weet"],       full:"Dat weet ik niet.",                                     hint:"object first → verb + subject",                    topic:"Inversie — object" },
+      { s:"In de winter ___ ze in Barcelona.",                 a:["wonen"],      full:"In de winter wonen ze in Barcelona.",                   hint:"time phrase first → verb + subject",               topic:"Inversie — tijdsbepaling" },
+      { s:"Na de pauze ___ we verder.",                        a:["gaan"],       full:"Na de pauze gaan we verder.",                           hint:"time phrase first → verb + subject",               topic:"Inversie — tijdsbepaling" },
+      { s:"Later ___ we over de tekst.",                       a:["spreken"],    full:"Later spreken we over de tekst.",                       hint:"adverb first → verb + subject",                    topic:"Inversie — adverbium" },
+      { s:"Nu ___ ik ook wijn.",                               a:["neem"],       full:"Nu neem ik ook wijn.",                                  hint:"adverb first → verb + subject",                    topic:"Inversie — adverbium" },
+      { s:"Vandaag ___ Eddy les.",                             a:["geeft"],      full:"Vandaag geeft Eddy les.",                               hint:"adverb first → verb + subject",                    topic:"Inversie — adverbium" },
+      { s:"Morgen ___ we met tekst 3.",                        a:["beginnen"],   full:"Morgen beginnen we met tekst 3.",                       hint:"adverb first → verb + subject",                    topic:"Inversie — adverbium" },
+      { s:"Op bladzijde 2 ___ de tekst.",                      a:["begint"],     full:"Op bladzijde 2 begint de tekst.",                       hint:"prepositional phrase first → verb + subject",      topic:"Inversie — plaatsbepaling" }
+    ]
+  },
+
+  { id:"gram012", type:"grammar-rule", dutch:"Rangtelwoorden", english:"Ordinal numbers (eerste, tweede…)", tag:"Ch 3",
+    grammarSentences:[
+      { s:"Vandaag is de ___ dag van de cursus. (1)",          a:["eerste"],          full:"Vandaag is de eerste dag van de cursus.",               hint:"1e = eerste (irregular)",                   topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ les. (2)",                            a:["tweede"],          full:"Dit is de tweede les.",                                 hint:"2e = tweede (irregular)",                   topic:"Rangtelwoorden" },
+      { s:"We beginnen met de ___ tekst. (3)",                 a:["derde"],           full:"We beginnen met de derde tekst.",                        hint:"3e = derde (irregular)",                    topic:"Rangtelwoorden" },
+      { s:"Eddy is op de ___ verdieping. (4)",                 a:["vierde"],          full:"Eddy is op de vierde verdieping.",                      hint:"4e = vierde",                               topic:"Rangtelwoorden" },
+      { s:"Het is de ___ keer. (5)",                           a:["vijfde"],          full:"Het is de vijfde keer.",                                hint:"5e = vijfde",                               topic:"Rangtelwoorden" },
+      { s:"De kantine is op de ___ etage. (6)",                a:["zesde"],           full:"De kantine is op de zesde etage.",                      hint:"6e = zesde",                                topic:"Rangtelwoorden" },
+      { s:"Zaterdag is de ___ dag van de week. (7)",           a:["zevende"],         full:"Zaterdag is de zevende dag van de week.",               hint:"7e = zevende",                              topic:"Rangtelwoorden" },
+      { s:"De ___ les is de moeilijkste. (8)",                 a:["achtste"],         full:"De achtste les is de moeilijkste.",                     hint:"8e = achtste (irregular -ste!)",             topic:"Rangtelwoorden" },
+      { s:"We zijn nu in de ___ week. (9)",                    a:["negende"],         full:"We zijn nu in de negende week.",                        hint:"9e = negende",                              topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ bladzijde. (10)",                     a:["tiende"],          full:"Dit is de tiende bladzijde.",                           hint:"10e = tiende",                              topic:"Rangtelwoorden" },
+      { s:"Het is de ___ keer dat ik hier ben. (11)",          a:["elfde"],           full:"Het is de elfde keer dat ik hier ben.",                 hint:"11e = elfde (irregular)",                   topic:"Rangtelwoorden" },
+      { s:"De ___ maand is december. (12)",                    a:["twaalfde"],        full:"De twaalfde maand is december.",                        hint:"12e = twaalfde (irregular)",                topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ les van de cursus. (20)",             a:["twintigste"],      full:"Dit is de twintigste les van de cursus.",               hint:"20e = twintigste (irregular -ste!)",         topic:"Rangtelwoorden" },
+      { s:"Het is de ___ bladzijde. (21)",                     a:["eenentwintigste"], full:"Het is de eenentwintigste bladzijde.",                  hint:"21e = eenentwintigste",                     topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ les. (100)",                          a:["honderdste"],      full:"Dit is de honderdste les.",                             hint:"100e = honderdste (-ste ending)",            topic:"Rangtelwoorden" }
+    ]
+  },
+
   // ── Ch 4 Grammar Rules ──
   { id:"gram008", type:"grammar-rule", dutch:"Vragen en vertellen hoe het gaat", english:"Asking and telling how you are", tag:"Ch 4",
     grammarSentences:[
@@ -1438,6 +1476,16 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "inversie",
+    title: "Inversion",            subtitle: "Nu wil ik… Dit rondje betaal ik.",
+    chapters: ["Ch 3", "all"],
+    match: c => c.id === "gram011",
+    practiceMode: null },
+  { id: "rangtelwoorden",
+    title: "Ordinal numbers",      subtitle: "eerste, tweede, derde…",
+    chapters: ["Ch 3", "all"],
+    match: c => c.id === "gram012",
+    practiceMode: null },
   { id: "artikel",
     title: "Articles",             subtitle: "de / het / een",
     chapters: ["Ch 3", "all"],
@@ -1542,6 +1590,35 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "inversie": {
+      desc: `In Dutch the <strong>verb always stays in position 2</strong>. When something other than the subject starts the sentence, ` +
+            `the subject and verb swap — this is called <em>inversie</em>. ` +
+            `<em>Ik wil <strong>nu</strong> ook een biertje. → <strong>Nu</strong> wil ik ook een biertje.</em> ` +
+            `The element in position 1 can be a time adverb, place phrase, or object — the conjugated verb always comes second.`,
+      rows: [["position","normal order","inverted"],
+             ["1","subject","other element (time/place/object)"],
+             ["2","verb","verb (always position 2!)"],
+             ["3+","rest of sentence","subject + rest"],
+             ["example","Ik wil nu ook een biertje.","Nu wil ik ook een biertje."],
+             ["example","We drinken koffie in de kantine.","In de kantine drinken we koffie."],
+             ["example","Ik betaal dit rondje.","Dit rondje betaal ik."]],
+    },
+    "rangtelwoorden": {
+      desc: `Form ordinal numbers by adding <strong>-de</strong> (most numbers) or <strong>-ste</strong> (numbers ending in -t, -d, or multiples of 10+). ` +
+            `Irregular: <strong>eerste</strong> (1), <strong>tweede</strong> (2), <strong>derde</strong> (3), <strong>achtste</strong> (8). ` +
+            `Write as: <em>de eerste dag, de tweede les, op de derde verdieping.</em>`,
+      rows: [["nr","ordinal","nr","ordinal","nr","ordinal"],
+             ["1","eerste","11","elfde","21","eenentwintigste"],
+             ["2","tweede","12","twaalfde","100","honderdste"],
+             ["3","derde","13","dertiende","",""],
+             ["4","vierde","14","veertiende","",""],
+             ["5","vijfde","15","vijftiende","",""],
+             ["6","zesde","16","zestiende","",""],
+             ["7","zevende","17","zeventiende","",""],
+             ["8","achtste ⚠️","18","achttiende","",""],
+             ["9","negende","19","negentiende","",""],
+             ["10","tiende","20","twintigste ⚠️","",""]],
     },
     "artikel": {
       desc: `Every Dutch noun is either a <strong>de</strong>-word or a <strong>het</strong>-word — you must learn this per word. ` +
