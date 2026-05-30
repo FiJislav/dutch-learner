@@ -266,6 +266,53 @@ tr:hover td { background: #1e2d5a; }
   transition: opacity 0.2s;
 }
 .overview-practice-btn:hover { opacity: 0.8; }
+
+/* ── GRAMMAR TOPIC GRID ── */
+#grammar-topic-grid {
+  display: none; flex-wrap: wrap; gap: 12px; justify-content: center;
+  width: 560px; max-width: 96vw; margin-bottom: 12px;
+}
+#grammar-topic-grid.visible { display: flex; }
+.topic-tile {
+  background: linear-gradient(135deg, #16213e, #0f3460);
+  border: 2px solid #6c63ff; border-radius: 14px;
+  padding: 14px 18px; cursor: pointer;
+  flex: 1 1 160px; max-width: 220px; min-width: 140px;
+  text-align: left; transition: border-color 0.2s, transform 0.12s;
+  outline: none;
+}
+.topic-tile:hover { border-color: #a0c4ff; transform: translateY(-2px); }
+.topic-tile-title { color: #fff; font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
+.topic-tile-sub   { color: #888; font-size: 0.74rem; }
+
+/* ── GRAMMAR TOPIC DETAIL ── */
+#grammar-topic-detail {
+  display: none; flex-direction: column; gap: 10px;
+  width: 560px; max-width: 96vw; margin-bottom: 12px;
+}
+#grammar-topic-detail.visible { display: flex; }
+#topic-detail-header { display: flex; align-items: center; gap: 12px; margin-bottom: 2px; }
+#btn-topic-back {
+  background: #333; color: #aaa; font-size: 0.78rem;
+  padding: 4px 12px; border-radius: 8px; border: none; cursor: pointer;
+}
+#btn-topic-back:hover { color: #fff; }
+#topic-detail-title { font-size: 1.05rem; font-weight: 700; color: #a0c4ff; }
+#topic-tab-row {
+  display: flex; gap: 0; border: 2px solid #6c63ff; border-radius: 8px;
+  overflow: hidden; width: fit-content;
+}
+.topic-tab-btn {
+  padding: 5px 16px; border: none; cursor: pointer;
+  font-size: 0.82rem; font-weight: 600;
+  background: transparent; color: #888;
+  transition: background 0.2s, color 0.2s;
+}
+.topic-tab-btn.active { background: #6c63ff; color: #fff; }
+#topic-overview-content { color: #bbb; font-size: 0.82rem; line-height: 1.6; }
+#topic-overview-content p  { margin-bottom: 8px; }
+#topic-overview-content strong { color: #fff; }
+#topic-overview-content em { color: #a0c4ff; font-style: italic; }
 </style>
 </head>
 <body>
@@ -298,7 +345,6 @@ tr:hover td { background: #1e2d5a; }
   <button class="mode-btn" data-mode="grammar">📚 Grammar</button>
   <button class="mode-btn" data-mode="verb">🔀 Verbs</button>
   <button class="mode-btn" data-mode="adj">🔡 Forms</button>
-  <button class="mode-btn" data-mode="overview">📋 Overview</button>
 </div>
 
 <div class="controls">
@@ -412,8 +458,21 @@ tr:hover td { background: #1e2d5a; }
   </div>
 </div>
 
-<!-- Grammar Overview -->
-<div class="exercise-box" id="overview-box" style="width:560px;max-width:96vw;align-items:flex-start;gap:16px;">
+<!-- Grammar topic grid -->
+<div id="grammar-topic-grid"></div>
+
+<!-- Grammar topic detail -->
+<div id="grammar-topic-detail">
+  <div id="topic-detail-header">
+    <button id="btn-topic-back">← Back</button>
+    <span id="topic-detail-title"></span>
+  </div>
+  <div id="topic-tab-row">
+    <button class="topic-tab-btn active" data-tab="overview">Overview</button>
+    <button class="topic-tab-btn" data-tab="practice" id="topic-tab-practice">Practice</button>
+    <button class="topic-tab-btn" data-tab="sentences">Sentences</button>
+  </div>
+  <div id="topic-overview-content"></div>
 </div>
 
 <!-- Word list -->
@@ -846,6 +905,113 @@ const DECK = [
     sentences:{   "ik":"Ik ___ morgen een belangrijke afspraak.", "jij / je":"Jij ___ vandaag helemaal gelijk.", "u":"U ___ een afspraak om drie uur.", "hij":"Hij ___ helaas vandaag geen tijd.", "zij / ze":"Zij ___ een hond en twee katten.", "het":"Het huis ___ drie grote slaapkamers.", "wij / we":"Wij ___ het deze week erg druk.", "jullie":"Jullie ___ heel veel geluk gehad.", "zij / ze (pl)":"Zij ___ samen een nieuw huis gekocht." } },
 ];
 
+// ── GRAMMAR TOPICS ──
+const GRAMMAR_TOPICS = [
+  { id: "verb-Ch7",
+    title: "Verb conjugation",     subtitle: "kopen, helpen, zoeken…",
+    chapters: ["Ch 7", "all"],
+    match: c => c.type === "verb" && c.tag === "Ch 7",
+    practiceMode: "verb" },
+  { id: "modals",
+    title: "Modal verbs",          subtitle: "kunnen, willen, moeten…",
+    chapters: ["Ch 7", "grammar-topics", "all"],
+    match: c => c.type === "verb" && c.tag === "Modal verbs",
+    practiceMode: "verb" },
+  { id: "comparative",
+    title: "Comparative & Superlative", subtitle: "kleiner, kleinst, even … als",
+    chapters: ["grammar-topics", "all"],
+    match: c => c.type === "adjective" && c.tag === "Comparative",
+    practiceMode: "adj" },
+  { id: "demonstrative",
+    title: "Demonstrative pronouns", subtitle: "deze, dit, die, dat",
+    chapters: ["Ch 7", "all"],
+    match: c => c.id === "gram001",
+    practiceMode: null },
+  { id: "objectform",
+    title: "Object pronouns",      subtitle: "mij, hem, haar, het, ze…",
+    chapters: ["Ch 7", "all"],
+    match: c => c.id === "gram002",
+    practiceMode: null },
+  { id: "zijn-hebben",
+    title: "zijn & hebben",        subtitle: "to be, to have",
+    chapters: ["grammar-topics", "all"],
+    match: c => c.type === "verb" && c.tag === "verbs",
+    practiceMode: "verb" },
+];
+
+function getTopicOverviewHtml(topicId) {
+  const tables = {
+    "verb-Ch7": {
+      desc: `The stem = infinitive minus <strong>-en</strong> (werken → werk). ` +
+            `<strong>ik</strong> = stem &nbsp;·&nbsp; <strong>jij/u/hij/zij/het</strong> = stem + <em>-t</em> ` +
+            `(unless stem ends in -t; inversion: <em>werk jij</em>). ` +
+            `<strong>wij/jullie/zij</strong> = infinitive. ` +
+            `Doubling: short vowel + consonant → double: <em>stoppen → ik stop</em>.`,
+      rows: [["pronoun","werken","stoppen","zijn"],["ik","werk","stop","ben"],
+             ["jij / je","werkt","stopt","bent"],["u","werkt","stopt","bent/heeft"],
+             ["hij / zij / het","werkt","stopt","is"],["wij / jullie / zij","werken","stoppen","zijn"]],
+    },
+    "modals": {
+      desc: `Modal verbs always combine with an infinitive: <em>Ik <strong>kan</strong> zwemmen.</em> ` +
+            `<strong>kunnen</strong> = can &nbsp;·&nbsp; <strong>willen</strong> = want &nbsp;·&nbsp; ` +
+            `<strong>moeten</strong> = must &nbsp;·&nbsp; <strong>mogen</strong> = may &nbsp;·&nbsp; ` +
+            `<strong>zullen</strong> = will &nbsp;·&nbsp; <strong>hoeven</strong> = need to (almost always with <em>niet</em>). ` +
+            `Key: <em>niet moeten</em> = must NOT &nbsp;·&nbsp; <em>niet hoeven</em> = don't need to.`,
+      rows: [["modal","ik","jij/je","hij/zij/het","wij/jullie/zij"],
+             ["kunnen","kan","kunt/kan","kan","kunnen"],["willen","wil","wilt/wil","wil","willen"],
+             ["moeten","moet","moet","moet","moeten"],["mogen","mag","mag","mag","mogen"],
+             ["zullen","zal","zal/zult","zal","zullen"],["hoeven","hoef","hoeft","hoeft","hoeven"]],
+    },
+    "comparative": {
+      desc: `Add <strong>-er (dan)</strong> for the comparative, <strong>(het) -st</strong> for the superlative. ` +
+            `Equal: <strong>even … als</strong> or <strong>net zo … als</strong>. ` +
+            `<em>Mijn moeder is kleiner <strong>dan</strong> ik. Jouw kamer is even groot <strong>als</strong> mijn kamer.</em> ` +
+            `Irregular: goed→beter→best &nbsp;·&nbsp; veel→meer→meest &nbsp;·&nbsp; weinig→minder→minst &nbsp;·&nbsp; graag→liever→liefst.`,
+      rows: [["base","comparative","superlative","even … als"],
+             ["klein","kleiner (dan)","(het) kleinst","even klein als"],
+             ["groot","groter (dan)","(het) grootst","even groot als"],
+             ["duur","duurder (dan)","(het) duurst","even duur als"],
+             ["goed ⚠️","beter (dan)","(het) best","even goed als"],
+             ["veel ⚠️","meer (dan)","(het) meest","even veel als"],
+             ["weinig ⚠️","minder (dan)","(het) minst","even weinig als"],
+             ["graag ⚠️","liever (dan)","(het) liefst","even graag als"]],
+    },
+    "demonstrative": {
+      desc: `<strong>deze</strong> = de-word near &nbsp;·&nbsp; <strong>dit</strong> = het-word near &nbsp;·&nbsp; ` +
+            `<strong>die</strong> = de-word far &nbsp;·&nbsp; <strong>dat</strong> = het-word far. ` +
+            `Plural: always <strong>deze</strong> (near) or <strong>die</strong> (far). ` +
+            `<em><strong>Deze</strong> broek zit beter dan <strong>die</strong> andere broek. <strong>Dit</strong> roze shirt staat me het best.</em>`,
+      rows: [["","hier (near)","daar (far)"],
+             ["de-word singular","deze broek","die broek"],
+             ["het-word singular","dit shirt","dat shirt"],
+             ["plural","deze broeken / shirts","die broeken / shirts"]],
+    },
+    "objectform": {
+      desc: `After a verb or preposition use the object form instead of the subject form. ` +
+            `<em>Kunt u <strong>mij</strong> helpen? Hebt u <strong>hem</strong> in een kleinere maat? Mag ik <strong>ze</strong> passen?</em> ` +
+            `Non-persons: de-word (sing) → <strong>hem</strong> &nbsp;·&nbsp; het-word (sing) → <strong>het</strong> &nbsp;·&nbsp; plural → <strong>ze</strong>.`,
+      rows: [["subject","object"],["ik","mij / me"],["jij / je","jou / je"],["u","u"],
+             ["hij / de-word (sing)","hem"],["zij / ze","haar"],
+             ["het / het-word (sing)","het"],["wij / we","ons"],["jullie","jullie"],
+             ["zij / ze / plural","ze (hen / hun)"]],
+    },
+    "zijn-hebben": {
+      desc: `Both <strong>zijn</strong> (to be) and <strong>hebben</strong> (to have) are irregular. ` +
+            `They are used as main verbs and as auxiliary verbs in perfect tenses.`,
+      rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
+             ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
+             ["wij / jullie / zij","zijn","hebben"]],
+    },
+  };
+  const t = tables[topicId];
+  if (!t) return "<p>No overview available.</p>";
+  let html = `<p>${t.desc}</p>`;
+  html += `<table class="overview-table"><thead><tr>${t.rows[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>`;
+  t.rows.slice(1).forEach(row => { html += `<tr>${row.map(c=>`<td>${c}</td>`).join("")}</tr>`; });
+  html += `</tbody></table>`;
+  return html;
+}
+
 // ── STATS ENGINE ──
 const STATS_KEY = "nl_learner_stats";
 
@@ -906,6 +1072,8 @@ let verbViewMode    = "table";
 let adjDeck     = [];
 let adjIdx      = 0;
 let adjAnswered = false;
+let currentGrammarTopic = null;
+let currentTopicTab     = "overview";
 
 function isChapterEntry(ch) {
   return ch !== "grammar-practice" && ch !== "grammar-topics";
@@ -922,6 +1090,11 @@ function getChapterVerbTags(ch) {
 }
 
 function buildActiveDeck() {
+  if (currentGrammarTopic) {
+    const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+    const cards = topic ? DECK.filter(topic.match) : [];
+    return weakMode ? cards.filter(c => isWeak(c.id)) : cards;
+  }
   let cards;
   if (currentChapter === "grammar-practice") {
     cards = DECK.filter(c => c.type === "word" || c.type === "grammar-rule");
@@ -990,19 +1163,18 @@ function updateContentToggle() {
 
 function updateModeTabs() {
   const wordsActive = contentMode === "words" && isChapterEntry(currentChapter);
-  const hasAdj = adjDeck.length > 0;
   const show = {
-    flip:     wordsActive,
-    type:     wordsActive,
-    mc:       wordsActive,
-    grammar:  !wordsActive,
-    verb:     !wordsActive && currentChapter !== "grammar-practice",
-    adj:      !wordsActive && hasAdj,
-    overview: true,
+    flip:    wordsActive,
+    type:    wordsActive,
+    mc:      wordsActive,
+    grammar: !wordsActive,
+    verb:    false,
+    adj:     false,
   };
-  Object.entries(show).forEach(([mode, visible]) =>
-    document.querySelector(`.mode-btn[data-mode='${mode}']`).style.display = visible ? "" : "none"
-  );
+  Object.entries(show).forEach(([mode, visible]) => {
+    const el = document.querySelector(`.mode-btn[data-mode='${mode}']`);
+    if (el) el.style.display = visible ? "" : "none";
+  });
   if (!show[currentMode]) currentMode = wordsActive ? "flip" : "grammar";
 }
 
@@ -1010,24 +1182,6 @@ function updateSubcatRow() {
   const row = document.getElementById("subcat-row");
   row.innerHTML = "";
   row.classList.remove("visible");
-
-  if (currentChapter === "grammar-topics") {
-    if (!currentSubcat) currentSubcat = "Modal verbs";
-    row.classList.add("visible");
-    [["Modal verbs", "Modal verbs"], ["Verb forms", "verbs"], ["Comparative", "Comparative"]].forEach(([label, tag]) =>
-      row.appendChild(makeSubcatBtn(label, tag))
-    );
-  } else if (contentMode === "grammar" && isChapterEntry(currentChapter)) {
-    const chapterTags = getChapterVerbTags(currentChapter);
-    const allSubcats = [
-      ...chapterTags.map(t => ({ label: `Verb conjugation (${t})`, tag: t })),
-      { label: "Modal verbs", tag: "Modal verbs" }
-    ];
-    const validTags = allSubcats.map(s => s.tag);
-    if (!validTags.includes(currentSubcat)) currentSubcat = validTags[0];
-    row.classList.add("visible");
-    allSubcats.forEach(({ label, tag }) => row.appendChild(makeSubcatBtn(label, tag)));
-  }
 }
 
 function rebuildDecks() {
@@ -1121,7 +1275,7 @@ function updateWordTable() {
 }
 
 // ── MODE SWITCHING ──
-const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", overview: "overview-box" };
+const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box" };
 function setMode(m) {
   currentMode = m;
   Object.entries(BOXES).forEach(([mode, id]) => {
@@ -1129,28 +1283,30 @@ function setMode(m) {
     if (mode === "flip") el.style.display = m === "flip" ? "" : "none";
     else el.classList.toggle("visible", mode === m);
   });
+  if (m !== "grammar") {
+    document.getElementById("grammar-topic-grid").classList.remove("visible");
+    document.getElementById("grammar-topic-detail").classList.remove("visible");
+  }
   document.querySelectorAll(".mode-btn").forEach(b =>
     b.classList.toggle("active", b.dataset.mode === m));
   const scoreBar = document.getElementById("score-bar");
   scoreBar.style.display = m === "flip" ? "none" : "flex";
   const subtitles = {
-    flip:     "Click the card to reveal the translation",
-    type:     "See the English — type the Dutch word",
-    mc:       "See the Dutch — pick the correct English",
-    grammar:  "Fill in the missing Dutch word",
-    verb:     "Type the correct conjugated form",
-    adj:      "Fill in the comparative, superlative and equal form",
-    overview: "Grammar reference — click Practice to start drilling",
+    flip:    "Click the card to reveal the translation",
+    type:    "See the English — type the Dutch word",
+    mc:      "See the Dutch — pick the correct English",
+    grammar: "Select a grammar topic to practise",
+    verb:    "Type the correct conjugated form",
+    adj:     "Fill in the comparative, superlative and equal form",
   };
-  document.getElementById("subtitle").textContent = subtitles[m];
+  document.getElementById("subtitle").textContent = subtitles[m] || "";
   resetSession();
-  if (m === "flip")    showFlip();
+  if      (m === "flip")    showFlip();
   else if (m === "type")    showTyping();
   else if (m === "mc")      showMC();
-  else if (m === "grammar") showGrammar();
+  else if (m === "grammar") { document.getElementById("grammar-box").classList.remove("visible"); showTopicGrid(); }
   else if (m === "verb")    showVerbForm();
   else if (m === "adj")     showAdjForm();
-  else if (m === "overview") buildOverview();
 }
 
 // ── FLIP CARDS MODE ──
@@ -1460,7 +1616,13 @@ function checkAdjForm() {
     const correct = val && accepted.includes(val);
     inp.classList.toggle("correct", !!correct);
     inp.classList.toggle("wrong", !correct);
-    if (!correct) { allCorrect = false; inp.value = inp.dataset.answer; }
+    if (!correct) {
+      allCorrect = false;
+      const hint = document.createElement("div");
+      hint.style.cssText = "color:#e07070;font-size:0.68rem;margin-top:2px;text-align:center;";
+      hint.textContent = "→ " + inp.dataset.answer;
+      inp.parentNode.appendChild(hint);
+    }
   });
   adjAnswered = true;
   const card = adjDeck[adjIdx];
@@ -1480,8 +1642,10 @@ document.querySelectorAll(".mode-btn").forEach(btn =>
 
 // ── CHAPTER SELECTOR + WEAK TOGGLE ──
 document.getElementById("chapter-select").addEventListener("change", function () {
-  currentChapter = this.value;
-  currentSubcat  = null;
+  currentChapter      = this.value;
+  currentSubcat       = null;
+  currentGrammarTopic = null;
+  currentTopicTab     = "overview";
   updateContentToggle();
   updateSubcatRow();
   updateModeTabs();
@@ -1489,8 +1653,10 @@ document.getElementById("chapter-select").addEventListener("change", function ()
   setMode(currentMode);
 });
 document.getElementById("btn-words").addEventListener("click", () => {
-  contentMode   = "words";
-  currentSubcat = null;
+  contentMode         = "words";
+  currentSubcat       = null;
+  currentGrammarTopic = null;
+  currentTopicTab     = "overview";
   updateContentToggle();
   updateSubcatRow();
   updateModeTabs();
@@ -1498,8 +1664,10 @@ document.getElementById("btn-words").addEventListener("click", () => {
   setMode(currentMode);
 });
 document.getElementById("btn-grammar-content").addEventListener("click", () => {
-  contentMode   = "grammar";
-  currentSubcat = null;
+  contentMode         = "grammar";
+  currentSubcat       = null;
+  currentGrammarTopic = null;
+  currentTopicTab     = "overview";
   updateContentToggle();
   updateSubcatRow();
   updateModeTabs();
@@ -1613,6 +1781,19 @@ document.getElementById("btn-speak-grammar").addEventListener("click", () => {
   speakDutch(grammarAnswered ? ex.full : ex.s.replace("___", "…"));
 });
 
+// ── TOPIC NAVIGATION LISTENERS ──
+document.getElementById("btn-topic-back").addEventListener("click", () => {
+  currentGrammarTopic = null;
+  currentTopicTab     = "overview";
+  showBox(null);
+  document.getElementById("grammar-topic-detail").classList.remove("visible");
+  document.getElementById("topic-overview-content").innerHTML = "";
+  showTopicGrid();
+});
+document.querySelectorAll(".topic-tab-btn").forEach(btn =>
+  btn.addEventListener("click", () => setTopicTab(btn.dataset.tab))
+);
+
 // ── ADJ FORMS LISTENERS ──
 document.getElementById("btn-adj-check").addEventListener("click", checkAdjForm);
 document.getElementById("btn-adj-prev").addEventListener("click", () => {
@@ -1714,6 +1895,87 @@ document.getElementById("import-file").addEventListener("change", function () {
   reader.readAsText(file);
   this.value = "";
 });
+
+// ── GRAMMAR TOPIC NAVIGATION ──
+function getAvailableTopics() {
+  return GRAMMAR_TOPICS.filter(t =>
+    t.chapters.includes(currentChapter) && DECK.some(t.match)
+  );
+}
+
+function showBox(boxId) {
+  Object.values(BOXES).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id === "scene") el.style.display = "none";
+    else el.classList.remove("visible");
+  });
+  if (!boxId) return;
+  const el = document.getElementById(boxId);
+  if (!el) return;
+  if (boxId === "scene") el.style.display = "";
+  else el.classList.add("visible");
+}
+
+function showTopicGrid() {
+  currentGrammarTopic = null;
+  currentTopicTab     = "overview";
+  showBox(null);
+  const grid   = document.getElementById("grammar-topic-grid");
+  const detail = document.getElementById("grammar-topic-detail");
+  grid.innerHTML = "";
+  detail.classList.remove("visible");
+  const topics = getAvailableTopics();
+  if (!topics.length) {
+    grid.innerHTML = "<p style='color:#888;font-size:0.85rem;'>No grammar topics for this selection.</p>";
+    grid.classList.add("visible");
+    return;
+  }
+  topics.forEach(t => {
+    const btn = document.createElement("button");
+    btn.className = "topic-tile";
+    btn.innerHTML = `<div class="topic-tile-title">${t.title}</div><div class="topic-tile-sub">${t.subtitle}</div>`;
+    btn.addEventListener("click", () => selectGrammarTopic(t.id));
+    grid.appendChild(btn);
+  });
+  grid.classList.add("visible");
+  document.getElementById("score-bar").style.display = "none";
+}
+
+function selectGrammarTopic(topicId) {
+  currentGrammarTopic = topicId;
+  currentTopicTab     = "overview";
+  rebuildDecks();
+  const topic = GRAMMAR_TOPICS.find(t => t.id === topicId);
+  document.getElementById("grammar-topic-grid").classList.remove("visible");
+  document.getElementById("topic-detail-title").textContent = topic.title;
+  document.getElementById("topic-tab-practice").style.display = topic.practiceMode ? "" : "none";
+  document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === "overview"));
+  document.getElementById("grammar-topic-detail").classList.add("visible");
+  setTopicTab("overview");
+}
+
+function setTopicTab(tab) {
+  currentTopicTab = tab;
+  document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+  if (tab === "overview") {
+    showBox(null);
+    document.getElementById("topic-overview-content").innerHTML = getTopicOverviewHtml(currentGrammarTopic);
+    document.getElementById("topic-overview-content").style.display = "";
+  } else if (tab === "practice") {
+    document.getElementById("topic-overview-content").style.display = "none";
+    if (topic.practiceMode === "verb") { showBox("verb-box"); showVerbForm(); }
+    else if (topic.practiceMode === "adj") { showBox("adj-box"); showAdjForm(); }
+  } else if (tab === "sentences") {
+    document.getElementById("topic-overview-content").style.display = "none";
+    grammarQueue = buildGrammarQueue(activeDeck);
+    grammarIdx   = 0;
+    showBox("grammar-box");
+    showGrammar();
+  }
+  document.getElementById("score-bar").style.display = tab === "sentences" ? "flex" : "none";
+}
 
 // ── GRAMMAR OVERVIEW ──
 function handleOverviewPractice(btn) {
