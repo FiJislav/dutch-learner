@@ -1134,6 +1134,27 @@ const DECK = [
     ]
   },
 
+  // ── Ch 5 Grammar Rules ──
+  { id:"gram005", type:"grammar-rule", dutch:"Pluralis", english:"Plurals (-en / -s / -'s / geen meervoud)", tag:"Ch 5",
+    grammarSentences:[
+      { s:"Mag ik twee gele ___?",                              a:["paprika's"],      full:"Mag ik twee gele paprika's?",                              hint:"de paprika → -'s (ends in vowel)",         topic:"Pluralis — -'s" },
+      { s:"Ik wil zes mooie ___.",                              a:["tomaten"],        full:"Ik wil zes mooie tomaten.",                                hint:"de tomaat → tomaten (-en, vowel shortens)",  topic:"Pluralis — -en" },
+      { s:"Hans gaat ___ doen op de markt.",                    a:["boodschappen"],   full:"Hans gaat boodschappen doen op de markt.",                 hint:"de boodschap → -pen (consonant doubled)",    topic:"Pluralis — -en" },
+      { s:"___ vinden stamppot met spekjes vaak heerlijk.",     a:["Buitenlanders","buitenlanders"], full:"Buitenlanders vinden stamppot met spekjes vaak heerlijk.", hint:"de buitenlander → -s",          topic:"Pluralis — -s" },
+      { s:"Ik heb mooie, fijne ___ voor je.",                   a:["boontjes"],       full:"Ik heb mooie, fijne boontjes voor je.",                   hint:"het boontje → -s (diminutive)",              topic:"Pluralis — -s" },
+      { s:"Drie ___ voor één euro.",                            a:["komkommers"],     full:"Drie komkommers voor één euro.",                           hint:"de komkommer → -s (ends in -er)",            topic:"Pluralis — -s" },
+      { s:"Ik wil een bakje ___.",                              a:["champignons"],    full:"Ik wil een bakje champignons.",                            hint:"de champignon → -s",                         topic:"Pluralis — -s" },
+      { s:"Heeft u ook verse ___?",                             a:["aardappels"],     full:"Heeft u ook verse aardappels?",                            hint:"de aardappel → -s (ends in -el)",            topic:"Pluralis — -s" },
+      { s:"De ___ komen morgen eten.",                          a:["buren"],          full:"De buren komen morgen eten.",                              hint:"de buur → buren (-en, irregular)",           topic:"Pluralis — -en" },
+      { s:"Heb je er dertig ___ bij?",                          a:["cent"],           full:"Heb je er dertig cent bij?",                               hint:"cent — geen meervoud",                       topic:"Pluralis — geen meervoud" },
+      { s:"Ik woon hier al twintig ___.",                       a:["jaar"],           full:"Ik woon hier al twintig jaar.",                            hint:"jaar — geen meervoud",                       topic:"Pluralis — geen meervoud" },
+      { s:"Ik heb twee ___ les.",                               a:["uur"],            full:"Ik heb twee uur les.",                                     hint:"uur — geen meervoud",                        topic:"Pluralis — geen meervoud" },
+      { s:"Dat is dan acht ___.",                               a:["euro"],           full:"Dat is dan acht euro.",                                    hint:"euro — geen meervoud",                       topic:"Pluralis — geen meervoud" },
+      { s:"Mag ik twee ___ andijvie?",                          a:["kilo"],           full:"Mag ik twee kilo andijvie?",                               hint:"kilo — geen meervoud",                       topic:"Pluralis — geen meervoud" },
+      { s:"Er zijn drie ___ op de markt.",                      a:["personen"],       full:"Er zijn drie personen op de markt.",                       hint:"de persoon → personen (-en, vowel shortens)", topic:"Pluralis — -en" }
+    ]
+  },
+
   // ── Ch 8 Grammar Rules ──
   { id:"gram003", type:"grammar-rule", dutch:"Negatie", english:"Negation (geen / niet)", tag:"Ch 8",
     grammarSentences:[
@@ -1210,6 +1231,11 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "pluralis",
+    title: "Plurals",              subtitle: "-en, -s, -'s, geen meervoud",
+    chapters: ["Ch 5", "all"],
+    match: c => c.id === "gram005",
+    practiceMode: null },
   { id: "negatie",
     title: "Negation",             subtitle: "geen vs niet",
     chapters: ["Ch 8", "all"],
@@ -1284,6 +1310,22 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "pluralis": {
+      desc: `Three main plural endings in Dutch. ` +
+            `<strong>-en</strong>: most nouns — often with spelling changes (de tomaat → tomat<strong>en</strong>, de boodschap → boodschapp<strong>en</strong>, de persoon → person<strong>en</strong>). ` +
+            `<strong>-s</strong>: nouns ending in unstressed <em>-el, -em, -en, -er, -aar, -ie</em>, and all diminutives (<em>-je</em>) — de komkommer → komkommer<strong>s</strong>, het boontje → boontje<strong>s</strong>. ` +
+            `<strong>-'s</strong>: nouns ending in a vowel (not <em>-e</em>) — de paprika → paprika<strong>'s</strong>. ` +
+            `<em>No plural:</em> <strong>cent, jaar, uur, euro, kilo</strong> always stay singular after a number.`,
+      rows: [["ending","rule / example","singular → plural"],
+             ["-en","most nouns","de tomaat → de tomaten"],
+             ["-en","double consonant","de boodschap → de boodschappen"],
+             ["-en","shorten vowel","de persoon → de personen"],
+             ["-s","ends in -el/-er/-je","de komkommer → de komkommers"],
+             ["-s","diminutive -je","het boontje → de boontjes"],
+             ["-s","ends in -aar/-ie","de champignon → de champignons"],
+             ["-'s","ends in vowel ≠ -e","de paprika → de paprika's"],
+             ["(none)","cent / jaar / uur / euro / kilo","twee euro, dertig cent, twee kilo"]],
     },
     "negatie": {
       desc: `Use <strong>geen</strong> to negate nouns (replaces <em>een</em> or no article): ` +
