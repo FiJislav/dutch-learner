@@ -1347,6 +1347,36 @@ const DECK = [
     ]
   },
 
+  // ── Ch 2 Grammar Rules ──
+  { id:"gram013", type:"grammar-rule", dutch:"Vraagwoordvragen", english:"Question word questions", tag:"Ch 2",
+    grammarSentences:[
+      { s:"___ heet jouw zus?",                                a:["Hoe"],      full:"Hoe heet jouw zus?",                                    hint:"asking a name → Hoe heet…?",                    topic:"Vraagwoorden — Hoe" },
+      { s:"___ doe je vandaag?",                               a:["Wat"],      full:"Wat doe je vandaag?",                                   hint:"asking about action → Wat…?",                   topic:"Vraagwoorden — Wat" },
+      { s:"___ woont Astrid?",                                 a:["Waar"],     full:"Waar woont Astrid?",                                    hint:"asking a place → Waar…?",                       topic:"Vraagwoorden — Waar" },
+      { s:"___ cursus doe je?",                                a:["Welke"],    full:"Welke cursus doe je?",                                  hint:"asking which (de-word/plural) → Welke…?",       topic:"Vraagwoorden — Welke" },
+      { s:"___ heeft mijn boek?",                              a:["Wie"],      full:"Wie heeft mijn boek?",                                  hint:"asking a person → Wie…?",                       topic:"Vraagwoorden — Wie" },
+      { s:"___ laat is het?",                                  a:["Hoe"],      full:"Hoe laat is het?",                                      hint:"asking the time → Hoe laat…?",                  topic:"Vraagwoorden — Hoe laat" },
+      { s:"___ zijn de docenten?",                             a:["Waar"],     full:"Waar zijn de docenten?",                                hint:"asking a place → Waar…?",                       topic:"Vraagwoorden — Waar" },
+      { s:"___ komen uit Australië?",                          a:["Wie"],      full:"Wie komen uit Australië?",                              hint:"asking who → Wie…?",                            topic:"Vraagwoorden — Wie" },
+      { s:"___ komt Patrick vandaan?",                         a:["Waar"],     full:"Waar komt Patrick vandaan?",                            hint:"asking origin → Waar vandaan…?",                topic:"Vraagwoorden — Waar vandaan" },
+      { s:"___ dag is het?",                                   a:["Welke"],    full:"Welke dag is het?",                                     hint:"asking which (de-word) → Welke…?",              topic:"Vraagwoorden — Welke" },
+      { s:"Over ___ vakantie vertelt Jeroen?",                 a:["welke"],    full:"Over welke vakantie vertelt Jeroen?",                   hint:"welke after preposition (de-word)",              topic:"Vraagwoorden — Welke" },
+      { s:"Met ___ zit je in de kantine?",                     a:["wie"],      full:"Met wie zit je in de kantine?",                         hint:"wie after preposition",                         topic:"Vraagwoorden — Wie" },
+      { s:"___ is je broer in China?",                         a:["Waarom"],   full:"Waarom is je broer in China?",                          hint:"asking a reason → Waarom…?",                    topic:"Vraagwoorden — Waarom" },
+      { s:"___ zussen heb je?",                                a:["Hoeveel"],  full:"Hoeveel zussen heb je?",                                hint:"asking a quantity → Hoeveel…?",                 topic:"Vraagwoorden — Hoeveel" },
+      { s:"___ ben jij?",                                      a:["Wie"],      full:"Wie ben jij?",                                          hint:"asking identity → Wie…?",                       topic:"Vraagwoorden — Wie" },
+      { s:"___ heet jij?",                                     a:["Hoe"],      full:"Hoe heet jij?",                                         hint:"asking a name → Hoe heet…?",                    topic:"Vraagwoorden — Hoe" },
+      { s:"___ is je adres?",                                  a:["Wat"],      full:"Wat is je adres?",                                      hint:"asking information → Wat…?",                    topic:"Vraagwoorden — Wat" },
+      { s:"___ woon je?",                                      a:["Waar"],     full:"Waar woon je?",                                         hint:"asking a place → Waar…?",                       topic:"Vraagwoorden — Waar" },
+      { s:"___ kom je vandaan?",                               a:["Waar"],     full:"Waar kom je vandaan?",                                  hint:"asking origin → Waar vandaan…?",                topic:"Vraagwoorden — Waar vandaan" },
+      { s:"Uit ___ land kom je?",                              a:["welk"],     full:"Uit welk land kom je?",                                 hint:"welk (not welke) before het-word: het land",    topic:"Vraagwoorden — Welk (het-woord)" },
+      { s:"___ is het in jouw land zomer?",                    a:["Wanneer"],  full:"Wanneer is het in jouw land zomer?",                    hint:"asking time → Wanneer…?",                       topic:"Vraagwoorden — Wanneer" },
+      { s:"___ zijn je ouders in Indonesië?",                  a:["Waarom"],   full:"Waarom zijn je ouders in Indonesië?",                   hint:"asking a reason → Waarom…?",                    topic:"Vraagwoorden — Waarom" },
+      { s:"___ broers heb je?",                                a:["Hoeveel"],  full:"Hoeveel broers heb je?",                                hint:"asking a quantity → Hoeveel…?",                 topic:"Vraagwoorden — Hoeveel" },
+      { s:"___ doen je ouders daar?",                          a:["Wat"],      full:"Wat doen je ouders daar?",                              hint:"asking about action → Wat…?",                   topic:"Vraagwoorden — Wat" }
+    ]
+  },
+
   // ── Ch 3 Grammar Rules ──
   { id:"gram010", type:"grammar-rule", dutch:"Artikel", english:"Articles (de / het / een)", tag:"Ch 3",
     grammarSentences:[
@@ -1576,6 +1606,11 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "vraagwoorden",
+    title: "Question words",       subtitle: "Wie, Hoe, Wat, Waar, Wanneer…",
+    chapters: ["Ch 2", "all"],
+    match: c => c.id === "gram013",
+    practiceMode: null },
   { id: "inversie",
     title: "Inversion",            subtitle: "Nu wil ik… Dit rondje betaal ik.",
     chapters: ["Ch 3", "all"],
@@ -1690,6 +1725,24 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "vraagwoorden": {
+      desc: `Dutch question words always come first, followed by the verb (inversion applies). ` +
+            `Note <strong>Welke</strong> (de-words &amp; plural) vs <strong>Welk</strong> (het-words): ` +
+            `<em>Welke dag? Welke cursus? — Uit welk land?</em> ` +
+            `<strong>Hoe laat</strong> asks the time; <strong>Waar vandaan</strong> asks origin.`,
+      rows: [["question word","meaning","example"],
+             ["Wie","who","Wie ben jij? / Met wie zit je?"],
+             ["Hoe","how","Hoe heet jij?"],
+             ["Hoe laat","what time","Hoe laat is het?"],
+             ["Hoeveel","how many / much","Hoeveel broers heb je?"],
+             ["Wat","what","Wat doe je vandaag?"],
+             ["Waar","where","Waar woon je?"],
+             ["Waar vandaan","where from","Waar kom je vandaan?"],
+             ["Welke","which (de-word/plural)","Welke dag is het? / Welke cursus?"],
+             ["Welk","which (het-word)","Uit welk land kom je?"],
+             ["Wanneer","when","Wanneer is het zomer?"],
+             ["Waarom","why","Waarom zijn je ouders in Indonesië?"]],
     },
     "inversie": {
       desc: `In Dutch the <strong>verb always stays in position 2</strong>. When something other than the subject starts the sentence, ` +
