@@ -266,6 +266,14 @@ tr:hover td { background: #1e2d5a; }
   transition: opacity 0.2s;
 }
 .overview-practice-btn:hover { opacity: 0.8; }
+.possessive-table { border-collapse: collapse; width: 100%; max-width: 480px; margin: 8px 0; font-size: 0.82rem; }
+.possessive-table th { color: #6c63ff; font-weight: 700; padding: 4px 10px; text-align: left; border-bottom: 1px solid #1e2d5a; font-size: 0.78rem; }
+.possessive-table td { padding: 5px 10px; color: #ddd; }
+.possessive-inp { background: #0d1b2a; border: 1px solid #6c63ff; color: #fff; border-radius: 5px; padding: 3px 8px; font-size: 0.82rem; width: 110px; outline: none; }
+.possessive-inp:focus { border-color: #a0c4ff; }
+.possessive-inp.correct { border-color: #4caf93; background: #0d2a1e; }
+.possessive-inp.wrong   { border-color: #e07070; background: #2a0d0d; }
+.poss-hint { color: #e07070; font-size: 0.68rem; margin-top: 2px; }
 
 /* ── GRAMMAR TOPIC GRID ── */
 #grammar-topic-grid {
@@ -479,6 +487,20 @@ tr:hover td { background: #1e2d5a; }
     <button id="btn-adj-check" style="background:#f0c070;color:#1a1a2e;font-weight:700;">Check ↵</button>
     <button id="btn-adj-prev" style="background:#444;color:#eee;">← Prev</button>
     <button id="btn-adj-next" style="background:#a0c4ff;color:#1a1a2e;">Next →</button>
+  </div>
+</div>
+
+<!-- Possessive pronouns fill-in table -->
+<div class="exercise-box" id="possessive-box">
+  <div class="ex-label">Fill in the possessive pronoun</div>
+  <table class="possessive-table">
+    <thead><tr><th>subject</th><th>possessief pronomen</th><th>example</th></tr></thead>
+    <tbody id="possessive-table-body"></tbody>
+  </table>
+  <div class="ex-feedback" id="possessive-feedback"></div>
+  <div class="ex-actions">
+    <button id="btn-possessive-check" style="background:#a0c4ff;color:#1a1a2e;font-weight:700;">Check ↵</button>
+    <button id="btn-possessive-reset" style="background:#444;color:#eee;">Try again</button>
   </div>
 </div>
 
@@ -1377,6 +1399,26 @@ const DECK = [
     ]
   },
 
+  { id:"gram014", type:"grammar-rule", dutch:"Possessief pronomen", english:"Possessive pronouns (mijn, jouw, zijn…)", tag:"Ch 2",
+    grammarSentences:[
+      { s:"Wij wonen in Zwolle. ___ adres is Rozenstraat 8.",         a:["Ons","ons"],       full:"Wij wonen in Zwolle. Ons adres is Rozenstraat 8.",           hint:"wij/we + het-woord → ons",             topic:"Possessief — ons (het-woord)" },
+      { s:"Ik woon in Amersfoort en ___ zus woont in Rotterdam.",     a:["mijn"],            full:"Ik woon in Amersfoort en mijn zus woont in Rotterdam.",       hint:"ik → mijn",                            topic:"Possessief — mijn (ik)" },
+      { s:"Mevrouw Jansen, gaat u met ___ broer op vakantie?",        a:["uw"],              full:"Mevrouw Jansen, gaat u met uw broer op vakantie?",            hint:"u → uw (formeel)",                     topic:"Possessief — uw (u)" },
+      { s:"Vera en Hilda, vertellen jullie eens over ___ vakantie.",  a:["jullie"],          full:"Vera en Hilda, vertellen jullie eens over jullie vakantie.",  hint:"jullie → jullie",                      topic:"Possessief — jullie" },
+      { s:"Dit is Farah en ___ achternaam is Ahmany.",                a:["haar"],            full:"Dit is Farah en haar achternaam is Ahmany.",                  hint:"zij/ze → haar",                        topic:"Possessief — haar (zij/ze)" },
+      { s:"Herman spreekt met ___ buurman over de cursus.",           a:["zijn"],            full:"Herman spreekt met zijn buurman over de cursus.",             hint:"hij → zijn",                           topic:"Possessief — zijn (hij)" },
+      { s:"Wij komen uit Polen en ___ cursus begint maandag.",        a:["onze"],            full:"Wij komen uit Polen en onze cursus begint maandag.",          hint:"wij/we + de-woord → onze",             topic:"Possessief — onze (de-woord)" },
+      { s:"Edit en Ning zitten met ___ docent in de kantine.",        a:["hun"],             full:"Edit en Ning zitten met hun docent in de kantine.",           hint:"zij/ze (plural) → hun",                topic:"Possessief — hun (zij/ze pl)" },
+      { s:"Theresa, woont ___ familie ook in Nederland?",             a:["jouw","je"],       full:"Theresa, woont jouw familie ook in Nederland?",               hint:"jij/je → jouw / je",                   topic:"Possessief — jouw/je (jij)" },
+      { s:"Peter moet voor ___ werk naar Indonesië.",                 a:["zijn"],            full:"Peter moet voor zijn werk naar Indonesië.",                   hint:"hij → zijn",                           topic:"Possessief — zijn (hij)" },
+      { s:"___ broer komt morgen op bezoek.",                         a:["Mijn","mijn"],     full:"Mijn broer komt morgen op bezoek.",                           hint:"ik → mijn",                            topic:"Possessief — mijn (ik)" },
+      { s:"Wat is ___ adres?",                                        a:["jouw","je"],       full:"Wat is jouw adres?",                                          hint:"jij/je → jouw / je",                   topic:"Possessief — jouw/je (jij)" },
+      { s:"Wij sturen ___ ouders een kaart.",                         a:["onze"],            full:"Wij sturen onze ouders een kaart.",                           hint:"wij/we + de-woord (plural) → onze",    topic:"Possessief — onze (de-woord)" },
+      { s:"Hij werkt met ___ vader in de winkel.",                    a:["zijn"],            full:"Hij werkt met zijn vader in de winkel.",                      hint:"hij → zijn",                           topic:"Possessief — zijn (hij)" },
+      { s:"Zij laat ___ foto zien.",                                  a:["haar"],            full:"Zij laat haar foto zien.",                                    hint:"zij/ze → haar",                        topic:"Possessief — haar (zij/ze)" }
+    ]
+  },
+
   // ── Ch 3 Grammar Rules ──
   { id:"gram010", type:"grammar-rule", dutch:"Artikel", english:"Articles (de / het / een)", tag:"Ch 3",
     grammarSentences:[
@@ -1606,6 +1648,22 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "possessief",
+    title: "Possessive pronouns",  subtitle: "mijn, jouw, zijn, haar…",
+    chapters: ["Ch 2", "all"],
+    match: c => c.id === "gram014",
+    practiceMode: "possessive",
+    possessiveRows: [
+      { subject: "ik",            answers: ["mijn"],          example: "mijn broer / mijn werk" },
+      { subject: "jij / je",      answers: ["jouw","je"],     example: "jouw adres / je zus" },
+      { subject: "u",             answers: ["uw"],            example: "uw adres" },
+      { subject: "hij",           answers: ["zijn"],          example: "zijn werk" },
+      { subject: "zij / ze",      answers: ["haar"],          example: "haar foto" },
+      { subject: "wij / we",      answers: ["onze","ons"],    example: "onze cursus / ons adres" },
+      { subject: "jullie",        answers: ["jullie"],        example: "jullie docent" },
+      { subject: "zij / ze (pl)", answers: ["hun"],           example: "hun familie" },
+    ]
+  },
   { id: "vraagwoorden",
     title: "Question words",       subtitle: "Wie, Hoe, Wat, Waar, Wanneer…",
     chapters: ["Ch 2", "all"],
@@ -1725,6 +1783,21 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "possessief": {
+      desc: `Possessive pronouns agree with the <strong>owner</strong>, not the thing owned. ` +
+            `Exception: <strong>wij/we</strong> has two forms — <strong>onze</strong> before de-words &amp; plurals, ` +
+            `<strong>ons</strong> before het-words: <em>onze cursus, onze ouders — ons adres, ons werk</em>. ` +
+            `<strong>jij/je</strong>: both <em>jouw</em> and <em>je</em> are correct; use <em>jouw</em> for emphasis.`,
+      rows: [["subject","possessief","example"],
+             ["ik","mijn","mijn broer / mijn werk"],
+             ["jij / je","jouw / je","jouw adres / je zus"],
+             ["u","uw","uw adres"],
+             ["hij","zijn","zijn werk"],
+             ["zij / ze","haar","haar foto"],
+             ["wij / we","onze (de-word/pl.) · ons (het-word)","onze cursus · ons adres"],
+             ["jullie","jullie","jullie docent"],
+             ["zij / ze (pl)","hun","hun familie"]],
     },
     "vraagwoorden": {
       desc: `Dutch question words always come first, followed by the verb (inversion applies). ` +
@@ -2163,7 +2236,7 @@ function updateWordTable() {
 }
 
 // ── MODE SWITCHING ──
-const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box" };
+const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", possessive: "possessive-box" };
 function setMode(m) {
   currentMode = m;
   Object.entries(BOXES).forEach(([mode, id]) => {
@@ -2691,6 +2764,66 @@ document.querySelectorAll(".topic-tab-btn").forEach(btn =>
   btn.addEventListener("click", () => setTopicTab(btn.dataset.tab))
 );
 
+// ── POSSESSIVE TABLE ──
+function showPossessiveTable() {
+  const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+  if (!topic || !topic.possessiveRows) return;
+  const tbody = document.getElementById("possessive-table-body");
+  tbody.innerHTML = "";
+  topic.possessiveRows.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td style="color:#a0c4ff;font-weight:600;">${row.subject}</td>` +
+      `<td><input class="possessive-inp" type="text" autocomplete="off" spellcheck="false" data-answers="${row.answers.join("|")}"></td>` +
+      `<td style="color:#555;font-size:0.74rem;">${row.example}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById("possessive-feedback").textContent = "";
+  document.getElementById("possessive-feedback").className = "ex-feedback";
+  setTimeout(() => tbody.querySelector(".possessive-inp")?.focus(), 50);
+}
+
+function checkPossessiveTable() {
+  const inputs = [...document.querySelectorAll("#possessive-table-body .possessive-inp")];
+  if (!inputs.some(inp => inp.value.trim())) return;
+  let allCorrect = true;
+  inputs.forEach(inp => {
+    inp.parentNode.querySelectorAll(".poss-hint").forEach(h => h.remove());
+    const val = inp.value.trim().toLowerCase();
+    const accepted = inp.dataset.answers.split("|").map(s => s.toLowerCase());
+    const correct = val && accepted.includes(val);
+    inp.classList.toggle("correct", !!correct);
+    inp.classList.toggle("wrong", !correct);
+    if (!correct) {
+      allCorrect = false;
+      const hint = document.createElement("div");
+      hint.className = "poss-hint";
+      hint.textContent = "→ " + inp.dataset.answers.split("|").join(" / ");
+      inp.parentNode.appendChild(hint);
+    }
+  });
+  const fb = document.getElementById("possessive-feedback");
+  fb.textContent = allCorrect ? "✓ All correct!" : "✗ Some incorrect — correct answers shown";
+  fb.className = "ex-feedback " + (allCorrect ? "correct" : "wrong");
+}
+
+document.getElementById("btn-possessive-check").addEventListener("click", checkPossessiveTable);
+document.getElementById("btn-possessive-reset").addEventListener("click", () => {
+  document.querySelectorAll("#possessive-table-body .possessive-inp").forEach(inp => {
+    inp.value = ""; inp.className = "possessive-inp";
+    inp.parentNode.querySelectorAll(".poss-hint").forEach(h => h.remove());
+  });
+  document.getElementById("possessive-feedback").textContent = "";
+  document.getElementById("possessive-feedback").className = "ex-feedback";
+  document.querySelector("#possessive-table-body .possessive-inp")?.focus();
+});
+document.getElementById("possessive-table-body").addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const inputs = [...document.querySelectorAll("#possessive-table-body .possessive-inp")];
+  const cur = inputs.indexOf(e.target);
+  if (cur < inputs.length - 1) inputs[cur + 1].focus();
+  else checkPossessiveTable();
+});
+
 // ── ADJ FORMS LISTENERS ──
 document.getElementById("btn-adj-check").addEventListener("click", checkAdjForm);
 document.getElementById("btn-adj-prev").addEventListener("click", () => {
@@ -2850,7 +2983,9 @@ function selectGrammarTopic(topicId) {
   const topic = GRAMMAR_TOPICS.find(t => t.id === topicId);
   document.getElementById("grammar-topic-grid").classList.remove("visible");
   document.getElementById("topic-detail-title").textContent = topic.title;
-  document.getElementById("topic-tab-practice").style.display = topic.practiceMode ? "" : "none";
+  const practiceBtn = document.getElementById("topic-tab-practice");
+  practiceBtn.style.display = topic.practiceMode ? "" : "none";
+  practiceBtn.textContent = topic.practiceMode === "possessive" ? "Table" : "Practice";
   document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === "overview"));
   document.getElementById("grammar-topic-detail").classList.add("visible");
   setTopicTab("overview");
@@ -2868,6 +3003,7 @@ function setTopicTab(tab) {
     document.getElementById("topic-overview-content").style.display = "none";
     if (topic.practiceMode === "verb") { showBox("verb-box"); showVerbForm(); }
     else if (topic.practiceMode === "adj") { showBox("adj-box"); showAdjForm(); }
+    else if (topic.practiceMode === "possessive") { showBox("possessive-box"); showPossessiveTable(); }
   } else if (tab === "sentences") {
     document.getElementById("topic-overview-content").style.display = "none";
     grammarQueue = buildGrammarQueue(activeDeck);
