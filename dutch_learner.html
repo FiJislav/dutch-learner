@@ -284,7 +284,7 @@ tr:hover td { background: #1e2d5a; }
 .topic-tile:hover { border-color: #a0c4ff; transform: translateY(-2px); }
 .topic-tile-title { color: #fff; font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
 .topic-tile-sub   { color: #888; font-size: 0.74rem; }
-.tile-chapter     { font-size: 0.62rem; font-weight: 600; color: #a0c4ff; background: rgba(108,99,255,0.18); border-radius: 4px; padding: 1px 5px; vertical-align: middle; margin-left: 5px; }
+.tile-chapter     { font-size: 0.75rem; font-weight: 600; color: #a0c4ff; }
 
 /* ── GRAMMAR TOPIC DETAIL ── */
 #grammar-topic-detail {
@@ -2374,7 +2374,8 @@ function showTopicGrid() {
     const btn = document.createElement("button");
     btn.className = "topic-tile";
     const ch = t.chapters.find(c => c !== "all" && c !== "grammar-topics") || "";
-    btn.innerHTML = `<div class="topic-tile-title">${t.title}${ch ? ` <span class="tile-chapter">${ch}</span>` : ""}</div><div class="topic-tile-sub">${t.subtitle}</div>`;
+    const prefix = ch ? `<span class="tile-chapter">${ch}:</span> ` : "";
+    btn.innerHTML = `<div class="topic-tile-title">${prefix}${t.title}</div><div class="topic-tile-sub">${t.subtitle}</div>`;
     btn.addEventListener("click", () => selectGrammarTopic(t.id));
     grid.appendChild(btn);
   });
