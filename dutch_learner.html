@@ -274,6 +274,11 @@ tr:hover td { background: #1e2d5a; }
 .possessive-inp.correct { border-color: #4caf93; background: #0d2a1e; }
 .possessive-inp.wrong   { border-color: #e07070; background: #2a0d0d; }
 .poss-hint { color: #e07070; font-size: 0.68rem; margin-top: 2px; }
+#twb-mode-row { display:flex; gap:0; border:2px solid #6c63ff; border-radius:8px; overflow:hidden; width:fit-content; margin-bottom:12px; }
+.twm-btn { padding:5px 16px; border:none; cursor:pointer; font-size:0.82rem; font-weight:600; background:transparent; color:#888; transition:background 0.2s,color 0.2s; }
+.twm-btn.active { background:#6c63ff; color:#fff; }
+#twb-reveal { background:#6c63ff; color:#fff; border:none; border-radius:20px; padding:6px 18px; cursor:pointer; font-size:0.82rem; margin-top:8px; }
+#twb-reveal:hover { opacity:0.85; }
 
 /* ── GRAMMAR TOPIC GRID ── */
 #grammar-topic-grid {
@@ -386,6 +391,7 @@ tr:hover td { background: #1e2d5a; }
   </div>
   <div id="topic-tab-row">
     <button class="topic-tab-btn active" data-tab="overview">Overview</button>
+    <button class="topic-tab-btn" data-tab="words" id="topic-tab-words">Words</button>
     <button class="topic-tab-btn" data-tab="practice" id="topic-tab-practice">Practice</button>
     <button class="topic-tab-btn" data-tab="sentences">Sentences</button>
   </div>
@@ -502,6 +508,30 @@ tr:hover td { background: #1e2d5a; }
     <button id="btn-possessive-check" style="background:#a0c4ff;color:#1a1a2e;font-weight:700;">Check ↵</button>
     <button id="btn-possessive-reset" style="background:#444;color:#eee;">Try again</button>
   </div>
+</div>
+
+<!-- Topic word practice (flip / type) -->
+<div class="exercise-box" id="topic-words-box">
+  <div id="twb-mode-row">
+    <button class="twm-btn active" data-wmode="flip">🃏 Flip</button>
+    <button class="twm-btn" data-wmode="type">✏️ Type</button>
+  </div>
+  <div id="twb-flip-area">
+    <div id="twb-card-front" class="ex-question"></div>
+    <div id="twb-card-back" style="display:none;font-size:1.1rem;font-weight:700;color:#a0c4ff;text-align:center;padding:10px 0;"></div>
+    <button id="twb-reveal">Reveal →</button>
+  </div>
+  <div id="twb-type-area" style="display:none;">
+    <div id="twb-type-q" class="ex-question"></div>
+    <input class="ex-input" id="twb-type-inp" type="text" autocomplete="off" spellcheck="false" placeholder="type the Dutch word…">
+    <div class="ex-feedback" id="twb-type-fb"></div>
+  </div>
+  <div class="ex-actions">
+    <button id="twb-prev">← Prev</button>
+    <button id="twb-next">Next →</button>
+    <button id="twb-shuffle" style="background:#6c63ff;color:#fff;">⇄ Shuffle</button>
+  </div>
+  <div class="progress" id="twb-progress" style="margin-top:4px;font-size:0.8rem;"></div>
 </div>
 
 <!-- Word list -->
@@ -1668,7 +1698,20 @@ const GRAMMAR_TOPICS = [
     title: "Question words",       subtitle: "Wie, Hoe, Wat, Waar, Wanneer…",
     chapters: ["Ch 2", "all"],
     match: c => c.id === "gram013",
-    practiceMode: null },
+    practiceMode: null,
+    wordRows: [
+      { dutch: "Wie",          english: "who" },
+      { dutch: "Hoe",          english: "how" },
+      { dutch: "Hoe laat",     english: "what time" },
+      { dutch: "Hoeveel",      english: "how many / much" },
+      { dutch: "Wat",          english: "what" },
+      { dutch: "Waar",         english: "where" },
+      { dutch: "Waar vandaan", english: "where from" },
+      { dutch: "Welke",        english: "which (de-word / plural)" },
+      { dutch: "Welk",         english: "which (het-word)" },
+      { dutch: "Wanneer",      english: "when" },
+      { dutch: "Waarom",       english: "why" },
+    ] },
   { id: "inversie",
     title: "Inversion",            subtitle: "Nu wil ik… Dit rondje betaal ik.",
     chapters: ["Ch 3", "all"],
@@ -2236,7 +2279,7 @@ function updateWordTable() {
 }
 
 // ── MODE SWITCHING ──
-const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", possessive: "possessive-box" };
+const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", possessive: "possessive-box", topicwords: "topic-words-box" };
 function setMode(m) {
   currentMode = m;
   Object.entries(BOXES).forEach(([mode, id]) => {
@@ -2764,6 +2807,92 @@ document.querySelectorAll(".topic-tab-btn").forEach(btn =>
   btn.addEventListener("click", () => setTopicTab(btn.dataset.tab))
 );
 
+// ── TOPIC WORD PRACTICE ──
+let topicWordDeck     = [];
+let topicWordIdx      = 0;
+let topicWordMode     = "flip";
+let topicWordAnswered = false;
+
+function showTopicWords() {
+  const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+  if (!topic || !topic.wordRows) return;
+  topicWordDeck = [...topic.wordRows];
+  shuffle(topicWordDeck);
+  topicWordIdx = 0;
+  topicWordMode = document.querySelector(".twm-btn.active")?.dataset.wmode || "flip";
+  renderTopicWordCard();
+}
+
+function renderTopicWordCard() {
+  if (!topicWordDeck.length) return;
+  const w = topicWordDeck[topicWordIdx];
+  topicWordAnswered = false;
+  document.getElementById("twb-progress").textContent = `${topicWordIdx + 1} / ${topicWordDeck.length}`;
+  if (topicWordMode === "flip") {
+    document.getElementById("twb-flip-area").style.display = "";
+    document.getElementById("twb-type-area").style.display = "none";
+    document.getElementById("twb-card-front").textContent = w.english;
+    const back = document.getElementById("twb-card-back");
+    back.textContent = w.dutch; back.style.display = "none";
+    document.getElementById("twb-reveal").textContent = "Reveal →";
+  } else {
+    document.getElementById("twb-flip-area").style.display = "none";
+    document.getElementById("twb-type-area").style.display = "";
+    document.getElementById("twb-type-q").textContent = w.english;
+    const inp = document.getElementById("twb-type-inp");
+    inp.value = ""; inp.className = "ex-input";
+    document.getElementById("twb-type-fb").textContent = "";
+    document.getElementById("twb-type-fb").className = "ex-feedback";
+    setTimeout(() => inp.focus(), 50);
+  }
+}
+
+function checkTopicWordType() {
+  if (topicWordAnswered) {
+    topicWordIdx = (topicWordIdx + 1) % topicWordDeck.length;
+    renderTopicWordCard(); return;
+  }
+  const w   = topicWordDeck[topicWordIdx];
+  const inp = document.getElementById("twb-type-inp");
+  const fb  = document.getElementById("twb-type-fb");
+  const val = inp.value.trim().toLowerCase();
+  if (!val) return;
+  const accepted = w.dutch.toLowerCase().split(" / ").map(s => s.trim());
+  const correct  = accepted.includes(val);
+  topicWordAnswered = true;
+  inp.classList.add(correct ? "correct" : "wrong");
+  fb.textContent = correct ? "✓ Correct!" : `✗ → ${w.dutch}`;
+  fb.className = "ex-feedback " + (correct ? "correct" : "wrong");
+}
+
+document.getElementById("twb-reveal").addEventListener("click", () => {
+  document.getElementById("twb-card-back").style.display = "";
+  document.getElementById("twb-reveal").textContent = "✓ Got it — click Next";
+});
+document.getElementById("twb-prev").addEventListener("click", () => {
+  topicWordIdx = (topicWordIdx - 1 + topicWordDeck.length) % topicWordDeck.length;
+  renderTopicWordCard();
+});
+document.getElementById("twb-next").addEventListener("click", () => {
+  topicWordIdx = (topicWordIdx + 1) % topicWordDeck.length;
+  renderTopicWordCard();
+});
+document.getElementById("twb-shuffle").addEventListener("click", () => {
+  shuffle(topicWordDeck); topicWordIdx = 0; renderTopicWordCard();
+});
+document.getElementById("twb-type-inp").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkTopicWordType();
+});
+document.querySelectorAll(".twm-btn").forEach(btn =>
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".twm-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    topicWordMode = btn.dataset.wmode;
+    topicWordIdx = 0;
+    renderTopicWordCard();
+  })
+);
+
 // ── POSSESSIVE TABLE ──
 function showPossessiveTable() {
   const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
@@ -2986,6 +3115,7 @@ function selectGrammarTopic(topicId) {
   const practiceBtn = document.getElementById("topic-tab-practice");
   practiceBtn.style.display = topic.practiceMode ? "" : "none";
   practiceBtn.textContent = topic.practiceMode === "possessive" ? "Table" : "Practice";
+  document.getElementById("topic-tab-words").style.display = topic.wordRows ? "" : "none";
   document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === "overview"));
   document.getElementById("grammar-topic-detail").classList.add("visible");
   setTopicTab("overview");
@@ -2999,6 +3129,10 @@ function setTopicTab(tab) {
     showBox(null);
     document.getElementById("topic-overview-content").innerHTML = getTopicOverviewHtml(currentGrammarTopic);
     document.getElementById("topic-overview-content").style.display = "";
+  } else if (tab === "words") {
+    document.getElementById("topic-overview-content").style.display = "none";
+    showBox("topic-words-box");
+    showTopicWords();
   } else if (tab === "practice") {
     document.getElementById("topic-overview-content").style.display = "none";
     if (topic.practiceMode === "verb") { showBox("verb-box"); showVerbForm(); }
