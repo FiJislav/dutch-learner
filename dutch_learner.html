@@ -2148,6 +2148,7 @@ function setTopicTab(tab) {
   } else if (tab === "sentences") {
     document.getElementById("topic-overview-content").style.display = "none";
     grammarQueue = buildGrammarQueue(activeDeck);
+    shuffle(grammarQueue);
     grammarIdx   = 0;
     showBox("grammar-box");
     showGrammar();
