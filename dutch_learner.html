@@ -1155,6 +1155,39 @@ const DECK = [
     ]
   },
 
+  { id:"gram006", type:"grammar-rule", dutch:"Adjectief", english:"Adjective inflection (-e / no -e)", tag:"Ch 5",
+    grammarSentences:[
+      { s:"Mag ik een ___ courgette?",                          a:["kleine"],      full:"Mag ik een kleine courgette?",                           hint:"de courgette + een → adjective + -e",              topic:"Adjectief — de-woord + een" },
+      { s:"Ik wil graag een ___ bakje champignons.",            a:["klein"],       full:"Ik wil graag een klein bakje champignons.",              hint:"het bakje + een → adjective (no -e!)",             topic:"Adjectief — het-woord + een" },
+      { s:"Dat ___ bosje graag.",                               a:["kleine"],      full:"Dat kleine bosje graag.",                                hint:"het bosje + dat/het (definite) → adjective + -e",  topic:"Adjectief — het-woord + de/het" },
+      { s:"De tomaten zijn hier altijd ___.",                   a:["mooi"],        full:"De tomaten zijn hier altijd mooi.",                      hint:"predicate after zijn → no -e",                     topic:"Adjectief — predicatief" },
+      { s:"Ik heb ___, fijne boontjes voor je.",               a:["mooie"],       full:"Ik heb mooie, fijne boontjes voor je.",                  hint:"plural → always -e",                               topic:"Adjectief — pluralis" },
+      { s:"Een ___ bloemkool graag.",                          a:["kleine"],      full:"Een kleine bloemkool graag.",                            hint:"de bloemkool + een → adjective + -e",              topic:"Adjectief — de-woord + een" },
+      { s:"Ongeveer een ___ kilo andijvie.",                   a:["halve"],       full:"Ongeveer een halve kilo andijvie.",                      hint:"de kilo + een → adjective + -e",                   topic:"Adjectief — de-woord + een" },
+      { s:"De andijvie is ___.",                               a:["heerlijk"],    full:"De andijvie is heerlijk.",                               hint:"predicate after zijn → no -e",                     topic:"Adjectief — predicatief" },
+      { s:"Het gerecht is ___.",                               a:["typisch","heerlijk","lekker"], full:"Het gerecht is typisch.",               hint:"predicate after zijn → no -e",                     topic:"Adjectief — predicatief" },
+      { s:"De ___ vakantie was geweldig.",                     a:["prettige"],    full:"De prettige vakantie was geweldig.",                     hint:"de vakantie + de (definite) → adjective + -e",     topic:"Adjectief — de-woord + de/het" },
+      { s:"Het ___ idee is om naar de markt te gaan.",         a:["goede"],       full:"Het goede idee is om naar de markt te gaan.",            hint:"het idee + het (definite) → adjective + -e",       topic:"Adjectief — het-woord + de/het" },
+      { s:"Een ___ idee!",                                     a:["goed"],        full:"Een goed idee!",                                         hint:"het idee + een → adjective (no -e!)",              topic:"Adjectief — het-woord + een" },
+      { s:"Ik wil ___ boontjes.",                              a:["verse"],       full:"Ik wil verse boontjes.",                                 hint:"plural → always -e",                               topic:"Adjectief — pluralis" },
+      { s:"___ courgettes zijn op de markt goedkoop.",         a:["Kleine","kleine"], full:"Kleine courgettes zijn op de markt goedkoop.",      hint:"plural, no article → -e",                          topic:"Adjectief — pluralis" }
+    ]
+  },
+
+  { id:"gram007", type:"grammar-rule", dutch:"Imperatief", english:"Imperative (commands)", tag:"Ch 5",
+    grammarSentences:[
+      { s:"___ het maar.",                                     a:["Zeg","zeg"],   full:"Zeg het maar.",                                          hint:"neutral: stem of zeggen (no -en)",                 topic:"Imperatief — neutraal" },
+      { s:"Prima, ___ maar.",                                  a:["doe","Doe"],   full:"Prima, doe maar.",                                       hint:"neutral: stem of doen",                            topic:"Imperatief — neutraal" },
+      { s:"___ u maar een kilo aardappels.",                   a:["Doet","doet"], full:"Doet u maar een kilo aardappels.",                       hint:"polite: conjugated form + u",                      topic:"Imperatief — beleefd (u)" },
+      { s:"Goed, ___ maar spaghetti.",                         a:["maak","Maak"], full:"Goed, maak maar spaghetti.",                             hint:"neutral + maar: stem of maken",                    topic:"Imperatief — maar (vriendelijk)" },
+      { s:"___ eens over je familie.",                         a:["Vertel","vertel"], full:"Vertel eens over je familie.",                       hint:"neutral + eens: stem of vertellen",                topic:"Imperatief — eens (vriendelijk)" },
+      { s:"___ maar even naar de groenteboer.",                a:["Ga","ga"],     full:"Ga maar even naar de groenteboer.",                      hint:"neutral + maar even: stem of gaan",                topic:"Imperatief — maar even (vriendelijk)" },
+      { s:"___ u maar een bakje champignons.",                 a:["Neemt","neemt"], full:"Neemt u maar een bakje champignons.",                  hint:"polite: Neemt u + ...",                            topic:"Imperatief — beleefd (u)" },
+      { s:"___ de menukaart maar.",                            a:["Neem","neem"], full:"Neem de menukaart maar.",                                hint:"neutral + maar: stem of nemen",                    topic:"Imperatief — maar (vriendelijk)" },
+      { s:"___ maar even — ik zoek de prijs.",                 a:["Wacht","wacht"], full:"Wacht maar even — ik zoek de prijs.",                  hint:"neutral + maar even: stem of wachten",             topic:"Imperatief — maar even (vriendelijk)" }
+    ]
+  },
+
   // ── Ch 8 Grammar Rules ──
   { id:"gram003", type:"grammar-rule", dutch:"Negatie", english:"Negation (geen / niet)", tag:"Ch 8",
     grammarSentences:[
@@ -1236,6 +1269,16 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 5", "all"],
     match: c => c.id === "gram005",
     practiceMode: null },
+  { id: "adjectief",
+    title: "Adjective inflection", subtitle: "-e or no -e?",
+    chapters: ["Ch 5", "all"],
+    match: c => c.id === "gram006",
+    practiceMode: null },
+  { id: "imperatief",
+    title: "Imperative",           subtitle: "Zeg maar, Doet u maar",
+    chapters: ["Ch 5", "all"],
+    match: c => c.id === "gram007",
+    practiceMode: null },
   { id: "negatie",
     title: "Negation",             subtitle: "geen vs niet",
     chapters: ["Ch 8", "all"],
@@ -1310,6 +1353,30 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "adjectief": {
+      desc: `Adjectives take <strong>-e</strong> in most positions — except <em>het</em>-words after <strong>een</strong>, <strong>geen</strong>, or no article, and in predicate position (after <em>zijn/worden</em>). ` +
+            `Rule of thumb: if the noun has <em>de/het/dit/dat/een</em> + de-word → <strong>-e</strong>. ` +
+            `If <em>een</em> + het-word → <strong>no -e</strong>. Predicate → <strong>no -e</strong> always. ` +
+            `<em>De klein<strong>e</strong> courgette. Een klein<strong>e</strong> courgette. Een <strong>klein</strong> bosje. De courgette is <strong>klein</strong>.</em>`,
+      rows: [["context","de-word","het-word"],
+             ["de / het (definite)","de klein<strong>e</strong> courgette","het klein<strong>e</strong> bosje"],
+             ["een (indefinite)","een klein<strong>e</strong> courgette","een <strong>klein</strong> bosje"],
+             ["geen / no article","klein<strong>e</strong> courgettes","<strong>klein</strong> bosje"],
+             ["plural (all)","de klein<strong>e</strong> courgettes","de klein<strong>e</strong> bosjes"],
+             ["predicate (after zijn)","De courgette is <strong>klein</strong>","Het bosje is <strong>klein</strong>"]],
+    },
+    "imperatief": {
+      desc: `The <strong>neutral imperative</strong> = the verb stem (infinitive minus <em>-en</em>): <em>zeggen → <strong>Zeg</strong> het maar. doen → <strong>Doe</strong> maar.</em> ` +
+            `The <strong>polite imperative</strong> uses the conjugated form + <em>u</em>: <em><strong>Doet u</strong> maar een kilo aardappels.</em> ` +
+            `Soften any imperative with: <strong>maar</strong> (go ahead), <strong>maar even</strong> (just for a moment), <strong>eens</strong> (invitation). ` +
+            `<em>Goed, maak <strong>maar</strong> spaghetti. Vertel <strong>eens</strong> over je familie.</em>`,
+      rows: [["type","form","example"],
+             ["neutral","stem (inf. − en)","Zeg het maar. Doe maar."],
+             ["polite","conjugated + u","Doet u maar een kilo aardappels."],
+             ["+ maar","soften / go ahead","Maak maar spaghetti."],
+             ["+ maar even","just for a moment","Wacht maar even."],
+             ["+ eens","friendly invitation","Vertel eens over je familie."]],
     },
     "pluralis": {
       desc: `Three main plural endings in Dutch. ` +
