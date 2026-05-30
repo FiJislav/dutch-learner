@@ -2363,6 +2363,8 @@ function showTopicGrid() {
   grid.innerHTML = "";
   detail.classList.remove("visible");
   const topics = getAvailableTopics();
+  const chNum = t => parseInt((t.chapters.find(c => c !== "all" && c !== "grammar-topics") || "Ch 999").replace("Ch ", ""));
+  topics.sort((a, b) => chNum(a) - chNum(b));
   if (!topics.length) {
     grid.innerHTML = "<p style='color:#888;font-size:0.85rem;'>No grammar topics for this selection.</p>";
     grid.classList.add("visible");
