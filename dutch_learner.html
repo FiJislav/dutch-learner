@@ -1247,6 +1247,32 @@ const DECK = [
     ]
   },
 
+  // ── Ch 3 Grammar Rules ──
+  { id:"gram010", type:"grammar-rule", dutch:"Artikel", english:"Articles (de / het / een)", tag:"Ch 3",
+    grammarSentences:[
+      { s:"Ik roep ___ ober.",                                 a:["de"],       full:"Ik roep de ober.",                                      hint:"de-woord (definite)",                           topic:"Artikel — de / het" },
+      { s:"Edit viert haar verjaardag in ___ café.",           a:["het"],      full:"Edit viert haar verjaardag in het café.",                hint:"het-woord (definite)",                           topic:"Artikel — de / het" },
+      { s:"Doe mij maar ___ biertje.",                         a:["een"],      full:"Doe mij maar een biertje.",                             hint:"indefinite: een (for both de and het words)",    topic:"Artikel — een (indefiniet)" },
+      { s:"Zullen we nog ___ keer bestellen?",                 a:["een"],      full:"Zullen we nog een keer bestellen?",                     hint:"een keer = once (indefinite)",                   topic:"Artikel — een (indefiniet)" },
+      { s:"Welkom in ___ cursus Nederlands.",                  a:["de"],       full:"Welkom in de cursus Nederlands.",                       hint:"de-woord (definite)",                            topic:"Artikel — de / het" },
+      { s:"___ rondje is van mij.",                            a:["Het"],      full:"Het rondje is van mij.",                                hint:"diminutief (-je) → always het",                  topic:"Artikel — diminutief = het" },
+      { s:"Nee, ik betaal ___ eerste rondje.",                 a:["het"],      full:"Nee, ik betaal het eerste rondje.",                     hint:"diminutief (-je) → always het",                  topic:"Artikel — diminutief = het" },
+      { s:"___ adres is correct.",                             a:["Het"],      full:"Het adres is correct.",                                 hint:"het adres (het-woord)",                          topic:"Artikel — de / het" },
+      { s:"___ broer werkt in de stad.",                       a:["De"],       full:"De broer werkt in de stad.",                            hint:"de broer (de-woord)",                            topic:"Artikel — de / het" },
+      { s:"___ biertje is koud.",                              a:["Het"],      full:"Het biertje is koud.",                                  hint:"diminutief (-je) → always het",                  topic:"Artikel — diminutief = het" },
+      { s:"___ cursus begint om negen uur.",                   a:["De"],       full:"De cursus begint om negen uur.",                        hint:"de cursus (de-woord)",                           topic:"Artikel — de / het" },
+      { s:"___ foto is mooi.",                                 a:["De"],       full:"De foto is mooi.",                                      hint:"de foto (de-woord)",                             topic:"Artikel — de / het" },
+      { s:"___ koffie is lekker.",                             a:["De"],       full:"De koffie is lekker.",                                  hint:"de koffie (de-woord)",                           topic:"Artikel — de / het" },
+      { s:"___ seizoen begint in september.",                  a:["Het"],      full:"Het seizoen begint in september.",                      hint:"het seizoen (het-woord)",                        topic:"Artikel — de / het" },
+      { s:"___ maand is bijna voorbij.",                       a:["De"],       full:"De maand is bijna voorbij.",                            hint:"de maand (de-woord)",                            topic:"Artikel — de / het" },
+      { s:"___ land is groot.",                                a:["Het"],      full:"Het land is groot.",                                    hint:"het land (het-woord)",                           topic:"Artikel — de / het" },
+      { s:"___ kantine is open.",                              a:["De"],       full:"De kantine is open.",                                   hint:"de kantine (de-woord)",                          topic:"Artikel — de / het" },
+      { s:"___ pauze duurt tien minuten.",                     a:["De"],       full:"De pauze duurt tien minuten.",                          hint:"de pauze (de-woord)",                            topic:"Artikel — de / het" },
+      { s:"In ___ pluralis gebruik je altijd de.",             a:["de","het"], full:"In de pluralis gebruik je altijd de.",                  hint:"plurals always use 'de'",                        topic:"Artikel — pluralis = de" },
+      { s:"Ik wil ___ kopje koffie.",                          a:["een"],      full:"Ik wil een kopje koffie.",                              hint:"indefinite: een kopje (diminutief, indefinite)",  topic:"Artikel — een (indefiniet)" }
+    ]
+  },
+
   // ── Ch 4 Grammar Rules ──
   { id:"gram008", type:"grammar-rule", dutch:"Vragen en vertellen hoe het gaat", english:"Asking and telling how you are", tag:"Ch 4",
     grammarSentences:[
@@ -1412,6 +1438,11 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "artikel",
+    title: "Articles",             subtitle: "de / het / een",
+    chapters: ["Ch 3", "all"],
+    match: c => c.id === "gram010",
+    practiceMode: null },
   { id: "afspraak-maken",
     title: "Making appointments",  subtitle: "Zullen we…? Ja, dat kan.",
     chapters: ["Ch 4", "all"],
@@ -1511,6 +1542,20 @@ function getTopicOverviewHtml(topicId) {
       rows: [["pronoun","zijn","hebben"],["ik","ben","heb"],["jij / je","bent","hebt"],
              ["u","bent","hebt / heeft"],["hij / zij / het","is","heeft"],
              ["wij / jullie / zij","zijn","hebben"]],
+    },
+    "artikel": {
+      desc: `Every Dutch noun is either a <strong>de</strong>-word or a <strong>het</strong>-word — you must learn this per word. ` +
+            `Key shortcuts: <strong>all diminutives (-je)</strong> are always <em>het</em>-words (het rondje, het biertje, het kopje). ` +
+            `<strong>All plurals</strong> always use <em>de</em> (de cafés, de cursussen, de rondjes). ` +
+            `The indefinite article is <strong>een</strong> for both de- and het-words. ` +
+            `<em>Ik roep <strong>de</strong> ober. Edit viert in <strong>het</strong> café. Doe mij maar <strong>een</strong> biertje.</em>`,
+      rows: [["","definitief","indefinitief"],
+             ["de-woord","<strong>de</strong> cursus","<strong>een</strong> cursus"],
+             ["het-woord","<strong>het</strong> café","<strong>een</strong> café"],
+             ["diminutief (-je) → always het","<strong>het</strong> rondje","<strong>een</strong> rondje"],
+             ["pluralis → always de","<strong>de</strong> cafés / rondjes","cafés / rondjes (no article)"],
+             ["Opdracht 5 — de","broer · café · cursus · foto · koffie · kantine · maand · pauze · zus · haar",""],
+             ["Opdracht 5 — het","adres · biertje · café · gezin · land · rondje · seizoen · tekst · zusje",""]],
     },
     "afspraak-maken": {
       desc: `Use <strong>Zullen we …?</strong> (shall we …?) to invite or suggest: ` +
