@@ -2279,6 +2279,24 @@ const GRAMMAR_TOPICS = [
       { dutch: "al",        english: "already" },
     ]
   },
+  { id: "likes-dislikes",
+    title: "Likes & Dislikes",       subtitle: "hou van, vind mooi, graag, haat…",
+    chapters: ["mijn-grammatica", "all"],
+    match: c => c.id === "gram024",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "hou van",           english: "like / love" },
+      { dutch: "hou niet van",      english: "don't like" },
+      { dutch: "vind … leuk",       english: "find … nice" },
+      { dutch: "vind … mooi",       english: "find … beautiful" },
+      { dutch: "vind … niet leuk",  english: "don't find … nice" },
+      { dutch: "graag",             english: "gladly / like to (adverb after verb)" },
+      { dutch: "liever",            english: "prefer / rather (comparative)" },
+      { dutch: "het liefst",        english: "like most / best of all (superlative)" },
+      { dutch: "ben dol op",        english: "am crazy about / love" },
+      { dutch: "haat",              english: "hate" },
+    ]
+  },
   { id: "begroeten-ch1",
     title: "Greetings & farewells", subtitle: "goedemorgen, dag, tot ziens…",
     chapters: ["Ch 1", "all"],
@@ -2897,6 +2915,20 @@ function getTopicOverviewHtml(topicId) {
                  ["mid-sentence","Hij is ook aardig. (no inversion)"],
                  ["start of sentence → inversion","Echter heeft ze geen tijd. / Ook is hij aardig."]]
         },
+      ],
+    },
+    "likes-dislikes": {
+      desc: `Use <strong>hou van</strong> for liking/loving (stronger) and <strong>vind … leuk/mooi</strong> for a milder appreciation. ` +
+            `<strong>Graag</strong> is an adverb placed after the conjugated verb: <em>Ik eet <strong>graag</strong> pizza.</em> ` +
+            `Its comparative is <strong>liever</strong> and superlative <strong>het liefst</strong>. ` +
+            `Negation: <em>ik hou <strong>niet</strong> van geel</em> &nbsp;·&nbsp; <em>ik eet <strong>niet</strong> graag vis.</em>`,
+      rows: [
+        ["pattern",        "positive",                    "negative"],
+        ["hou van",        "Ik hou van muziek",           "Ik hou niet van geel"],
+        ["vind … mooi",    "Ik vind rood mooi",           "Ik vind groen niet mooi"],
+        ["graag (adverb)", "Ik eet graag pizza",          "Ik eet niet graag vis"],
+        ["ben dol op",     "Ik ben dol op kaas",          "—"],
+        ["haat",           "—",                           "Ik haat schreeuwerige kleuren"],
       ],
     },
     "begroeten-ch1": {
