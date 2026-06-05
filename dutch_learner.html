@@ -2519,6 +2519,36 @@ const GRAMMAR_TOPICS = [
     chapters: ["Ch 3", "all"],
     match: c => c.id === "gram010",
     practiceMode: null },
+  { id: "artikelen",
+    title: "Articles: de / het / een", subtitle: "bepaald · onbepaald · geen artikel",
+    chapters: ["Ch 3", "all"],
+    match: c => c.id === "gram010",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "de",              english: "the (de-word — ~75% of nouns)" },
+      { dutch: "het",             english: "the (het-word — ~25% of nouns)" },
+      { dutch: "een",             english: "a / an (any one of something)" },
+      { dutch: "geen",            english: "no / not a / not any (negates een)" },
+      { dutch: "het meisje",      english: "the girl (diminutive -je → always het)" },
+      { dutch: "het boek",        english: "the book" },
+      { dutch: "het land",        english: "the country" },
+      { dutch: "het restaurant",  english: "the restaurant" },
+      { dutch: "het gesprek",     english: "the conversation (ge- prefix → het)" },
+      { dutch: "het moment",      english: "the moment (-ment → het)" },
+      { dutch: "het museum",      english: "the museum (-um → het)" },
+      { dutch: "het centrum",     english: "the centre (-um → het)" },
+    ],
+    passages: [
+      { title: "In de stad",
+        text: "Het [het] centrum van [de] stad is groot. Er is [een] markt en [een] museum. [Het] museum is oud. [De] kinderen vinden [het] museum mooi. Op [de] markt koop ik [een] brood." },
+      { title: "Thuis",
+        text: "[Het] huis van mijn vriendin is klein maar mooi. In [de] keuken staat [een] tafel. Op [de] tafel liggen [-] boeken. [Het] raam is open. [De] kat slaapt op [het] bed." },
+      { title: "Op school",
+        text: "[De] school begint om acht uur. [Het] kind heeft [een] rugzak. In [de] rugzak zit [een] boek en [een] potlood. [De] docent spreekt [-] Nederlands. [Het] lokaal is groot." },
+      { title: "In de winkel",
+        text: "Ik ga naar [de] winkel. Ik zoek [een] jurk voor [het] feest. [De] verkoopster helpt mij. Zij laat mij [een] blauwe jurk zien. [Het] past goed. Ik koop [de] jurk." },
+    ]
+  },
   { id: "afspraak-maken",
     title: "Making appointments",  subtitle: "Zullen we…? Ja, dat kan.",
     chapters: ["Ch 4", "all"],
@@ -3068,6 +3098,19 @@ function getTopicOverviewHtml(topicId) {
                  ["over","about (topic)","We praten over het werk."],
                  ["over","over / across","We gaan over de brug."]]
         },
+      ],
+    },
+    "artikelen": {
+      desc: `<strong>de</strong> = common gender (~75% of nouns) &nbsp;·&nbsp; <strong>het</strong> = neuter (~25%). ` +
+            `<strong>een</strong> = indefinite (any one thing, same for de- and het-words). ` +
+            `<strong>geen</strong> = negates <em>een</em>: <em>Ik heb geen auto.</em> ` +
+            `Plurals always use <strong>de</strong> with no <em>een</em>. ` +
+            `Reliable het-word categories: diminutives <em>(-je)</em>, infinitives used as nouns, <em>ge-</em> prefix nouns, words ending in <em>-ment / -um / -isme</em>, languages.`,
+      rows: [
+        ["",          "bepaald (the)",  "onbepaald (a)",  "negatief (no)"],
+        ["de-word",   "de man",         "een man",        "geen man"],
+        ["het-word",  "het huis",       "een huis",       "geen huis"],
+        ["plural",    "de mannen",      "—",              "geen mannen"],
       ],
     },
   };
