@@ -3449,7 +3449,7 @@ function updateWordTable() {
 }
 
 // ── MODE SWITCHING ──
-const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", possessive: "possessive-box", topicwords: "topic-words-box" };
+const BOXES = { flip: "scene", type: "type-box", mc: "mc-box", grammar: "grammar-box", verb: "verb-box", adj: "adj-box", possessive: "possessive-box", topicwords: "topic-words-box", passage: "passage-box" };
 function setMode(m) {
   currentMode = m;
   Object.entries(BOXES).forEach(([mode, id]) => {
@@ -4378,6 +4378,7 @@ function selectGrammarTopic(topicId) {
   practiceBtn.style.display = topic.practiceMode ? "" : "none";
   practiceBtn.textContent = topic.practiceMode === "possessive" ? "Table" : "Practice";
   document.getElementById("topic-tab-words").style.display = topic.wordRows ? "" : "none";
+  document.getElementById("topic-tab-passage").style.display = topic.passages ? "" : "none";
   document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === "overview"));
   document.getElementById("grammar-topic-detail").classList.add("visible");
   setTopicTab("overview");
@@ -4458,6 +4459,12 @@ function setTopicTab(tab) {
     grammarIdx   = 0;
     showBox("grammar-box");
     showGrammar();
+  } else if (tab === "passage") {
+    document.getElementById("topic-overview-content").style.display = "none";
+    const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+    currentPassageIdx = 0;
+    showBox("passage");
+    renderPassageTab(topic);
   }
   document.getElementById("score-bar").style.display = tab === "sentences" ? "flex" : "none";
 }
