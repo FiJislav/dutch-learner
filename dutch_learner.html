@@ -77,6 +77,8 @@ button:hover { opacity: 0.85; }
 #btn-next    { background: #a0c4ff; color: #1a1a2e; }
 #btn-shuffle { background: #6c63ff; color: #fff; }
 #btn-reset   { background: #444; color: #eee; }
+#btn-mark-weak { background: transparent; border: 2px solid #e07070; color: #e07070; font-size: 1rem; padding: 4px 10px; }
+#btn-mark-weak.marked { background: #e07070; color: #1a1a2e; }
 
 /* ── PROGRESS ── */
 .progress { color: #888; font-size: 0.82rem; margin-bottom: 6px; }
@@ -109,12 +111,12 @@ button:hover { opacity: 0.85; }
 .word  { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1.2; }
 .note  { font-size: 0.78rem; color: #aaa; margin-top: 8px; font-style: italic; }
 .hint-tap { font-size: 0.72rem; color: #444; margin-top: 12px; }
-#btn-speak-flip {
+#btn-speak-flip, #btn-speak-twb, #btn-speak-type {
   position: absolute; top: 12px; right: 12px;
   background: transparent; border: none; font-size: 1.3rem;
   cursor: pointer; opacity: 0.4; transition: opacity 0.2s;
 }
-#btn-speak-flip:hover { opacity: 1; }
+#btn-speak-flip:hover, #btn-speak-twb:hover, #btn-speak-type:hover { opacity: 1; }
 .mastery-dot {
   position: absolute; top: 12px; left: 12px;
   width: 10px; height: 10px; border-radius: 50%;
@@ -149,11 +151,10 @@ button:hover { opacity: 0.85; }
 .ex-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 #btn-check        { background: #6c63ff; color: #fff; }
 #btn-skip         { background: #333; color: #aaa; font-size: 0.82rem; }
-#btn-speak-type   { background: #1e3a5f; color: #a0c4ff; font-size: 0.85rem; }
 .tts-notice { font-size: 0.72rem; color: #555; }
 
 /* ── TYPE BOX ── */
-#type-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #6c63ff; }
+#type-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #6c63ff; position: relative; }
 
 /* ── MULTIPLE CHOICE ── */
 #mc-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #a0c4ff; }
@@ -176,7 +177,7 @@ button:hover { opacity: 0.85; }
   display: inline-block; border-bottom: 2px solid #a0c4ff;
   min-width: 80px; color: #a0c4ff; font-style: italic; text-align: center;
 }
-#grammar-hint { font-size: 0.78rem; color: #a0c4ff; opacity: 0.7; font-style: italic; margin-top: -6px; }
+#grammar-hint { font-size: 0.82rem; color: #8ab8d8; opacity: 0.9; font-style: italic; margin-top: -4px; }
 #grammar-full { font-size: 1rem; color: #a0c4ff; text-align: center; font-style: italic; min-height: 1.4em; }
 #grammar-input { width: 200px; }
 #btn-grammar-check { background: #4caf93; color: #1a1a2e; font-weight: 700; }
@@ -274,11 +275,12 @@ tr:hover td { background: #1e2d5a; }
 .possessive-inp.correct { border-color: #4caf93; background: #0d2a1e; }
 .possessive-inp.wrong   { border-color: #e07070; background: #2a0d0d; }
 .poss-hint { color: #e07070; font-size: 0.68rem; margin-top: 2px; }
-#twb-mode-row { display:flex; gap:0; border:2px solid #6c63ff; border-radius:8px; overflow:hidden; width:fit-content; margin-bottom:12px; }
+#twb-mode-row { display:flex; gap:0; border:2px solid #6c63ff; border-radius:8px; overflow:hidden; width:fit-content; margin-bottom:14px; }
 .twm-btn { padding:5px 16px; border:none; cursor:pointer; font-size:0.82rem; font-weight:600; background:transparent; color:#888; transition:background 0.2s,color 0.2s; }
 .twm-btn.active { background:#6c63ff; color:#fff; }
-#twb-reveal { background:#6c63ff; color:#fff; border:none; border-radius:20px; padding:6px 18px; cursor:pointer; font-size:0.82rem; margin-top:8px; }
-#twb-reveal:hover { opacity:0.85; }
+#twb-lang-toggle, #main-lang-toggle { padding:5px 12px; border:1px solid #444; border-radius:6px; cursor:pointer; font-size:0.78rem; font-weight:600; background:transparent; color:#aaa; margin-left:8px; transition:border-color 0.2s,color 0.2s; }
+#twb-lang-toggle:hover, #main-lang-toggle:hover { border-color:#a0c4ff; color:#a0c4ff; }
+#twb-scene { cursor: pointer; }
 
 /* ── GRAMMAR TOPIC GRID ── */
 #grammar-topic-grid {
@@ -327,16 +329,235 @@ tr:hover td { background: #1e2d5a; }
 #topic-overview-content p  { margin-bottom: 8px; }
 #topic-overview-content strong { color: #fff; }
 #topic-overview-content em { color: #a0c4ff; font-style: italic; }
+
+/* ── ADJ BOX BUTTONS (moved from inline) ── */
+#adj-title { color: #f0c070; }
+#btn-adj-check { background: #f0c070; color: #1a1a2e; font-weight: 700; }
+#btn-adj-prev  { background: #444; color: #eee; }
+#btn-adj-next  { background: #a0c4ff; color: #1a1a2e; }
+
+/* ── POSSESSIVE BOX ── */
+#possessive-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #a0c4ff; }
+#btn-possessive-check { background: #a0c4ff; color: #1a1a2e; font-weight: 700; }
+#btn-possessive-reset { background: #444; color: #eee; }
+
+/* ── THEME SLIDER TOGGLE ── */
+#theme-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 999;
+  display: flex; align-items: center; gap: 7px; cursor: pointer;
+  user-select: none;
+}
+#ti-sun, #ti-moon { font-size: 1.15rem; transition: opacity 0.3s, filter 0.3s; line-height: 1; }
+#ti-sun  { opacity: 0.35; filter: grayscale(1); }
+#ti-moon { opacity: 1;    filter: none; }
+#theme-track {
+  width: 52px; height: 28px; border-radius: 14px; position: relative;
+  background: #1e1e3c;
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.5), inset -1px -1px 4px rgba(255,255,255,0.06);
+  transition: background 0.35s;
+}
+#theme-thumb {
+  position: absolute; top: 4px; left: 4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  transform: translateX(24px);
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1), background 0.35s;
+}
+/* Light mode state */
+body.light #ti-sun  { opacity: 1;    filter: none; }
+body.light #ti-moon { opacity: 0.35; filter: grayscale(1); }
+body.light #theme-track { background: #d0d4e8; box-shadow: inset 2px 2px 6px rgba(0,0,0,0.15), inset -1px -1px 4px rgba(255,255,255,0.7); }
+body.light #theme-thumb { transform: translateX(0); background: #fff; box-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
+
+/* ══════════════════════════════════════
+   LIGHT MODE — complete override
+   ══════════════════════════════════════ */
+body.light { background: #eef0f8; color: #1a1a2e; }
+
+/* ── page chrome ── */
+body.light #subtitle { color: #666; }
+
+/* ── top controls ── */
+body.light #chapter-select { background: #fff; color: #1a1a2e; border-color: #8880e8; }
+body.light #content-toggle { border-color: #9890e0; }
+body.light .content-btn { background: transparent; color: #555; }
+body.light .content-btn.active { background: #6c63ff; color: #fff; }
+body.light #weak-toggle { color: #c0392b; border-color: #c0392b; background: transparent; }
+body.light #weak-toggle.active { background: #c0392b; color: #fff; }
+body.light .subcat-btn { border-color: #6c63ff; color: #6c63ff; background: transparent; }
+body.light .subcat-btn.active { background: #6c63ff; color: #fff; }
+
+/* ── mode tabs ── */
+body.light .mode-toggle { border-color: #9890e0; }
+body.light .mode-btn { background: transparent; color: #555; }
+body.light .mode-btn.active { background: #6c63ff; color: #fff; }
+body.light #main-lang-toggle { border-color: #b0b4cc; color: #555; }
+
+/* ── nav controls ── */
+body.light #btn-prev, body.light #btn-reset { background: #e2e4f0; color: #333; }
+body.light #btn-mark-weak { border-color: #c03030; color: #c03030; }
+body.light #btn-mark-weak.marked { background: #c03030; color: #fff; }
+body.light #btn-next   { background: #6c63ff; color: #fff; }
+body.light #btn-shuffle { background: #6c63ff; color: #fff; }
+
+/* ── progress ── */
+body.light .progress { color: #666; }
+body.light .progress span { color: #4040c0; }
+
+/* ── flip card ── */
+body.light .face.front { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #6c63ff; }
+body.light .face.back  { background: linear-gradient(135deg, #e4eeff, #d4e2ff); border-color: #9890e0; }
+body.light .word       { color: #1a1a2e; }
+body.light .note       { color: #666; }
+body.light .lang-label { color: #666; opacity: 1; }
+body.light .hint-tap   { color: #bbb; }
+body.light #mastery-dot { background: #ccc; }
+body.light #btn-speak-flip, body.light #btn-speak-twb, body.light #btn-speak-type { color: #444; }
+
+/* ── type box ── */
+body.light #type-box { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #6c63ff; }
+body.light .ex-label    { color: #666; opacity: 1; }
+body.light .ex-question { color: #1a1a2e; }
+body.light .ex-input    { background: #f8f9ff; border-color: #c0c4d8; color: #1a1a2e; }
+body.light .ex-input:focus   { border-color: #6c63ff; }
+body.light .ex-input.correct { background: #e8fff5; border-color: #4caf93; }
+body.light .ex-input.wrong   { background: #fff0f0; border-color: #e07070; }
+body.light #btn-check { background: #6c63ff; color: #fff; }
+body.light #btn-skip  { background: #e2e4f0; color: #555; }
+body.light .tts-notice { color: #999; }
+
+/* ── multiple choice ── */
+body.light #mc-box { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #9890e0; }
+body.light .mc-option { background: #f2f4ff; color: #1a1a2e; border-color: #c0c8e0; }
+body.light .mc-option:hover  { border-color: #6c63ff; background: #eaeeff; }
+body.light .mc-option.correct { background: #e8fff5; border-color: #4caf93; color: #1a6050; }
+body.light .mc-option.wrong   { background: #fff0f0; border-color: #e07070; color: #903030; }
+body.light .mc-option.reveal  { background: #e8fff5; border-color: #4caf93; color: #1a6050; }
+
+/* ── grammar sentence box ── */
+body.light #grammar-box { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #4caf93; }
+body.light .grammar-topic { color: #2a8a6e; opacity: 1; }
+body.light #grammar-sentence { color: #1a1a2e; }
+body.light #grammar-sentence .blank { border-bottom-color: #6c63ff; color: #6c63ff; }
+body.light #grammar-hint { color: #668; opacity: 1; }
+body.light #grammar-full { color: #4040b0; }
+body.light #btn-grammar-check { background: #4caf93; color: #fff; }
+body.light #btn-grammar-skip  { background: #e2e4f0; color: #555; }
+body.light #btn-speak-grammar { background: #e4eeff; color: #4040b0; }
+
+/* ── verb forms box ── */
+body.light #verb-box { background: linear-gradient(135deg, #ffffff, #f4f0ff); border-color: #b0a0d8; }
+body.light #verb-infinitive    { color: #5030a0; }
+body.light #verb-pronoun       { color: #3050a0; }
+body.light #verb-pronoun-display { color: #3050a0; }
+body.light .verb-view-toggle   { border-color: #b0a0d8; }
+body.light .verb-view-btn      { color: #555; background: transparent; }
+body.light .verb-view-btn.active { background: #b0a0d8; color: #1a1a2e; }
+body.light .verb-inp { background: #f8f9ff; border-color: #c0c4d8; color: #1a1a2e; }
+body.light .verb-inp:focus   { border-color: #b0a0d8; }
+body.light .verb-inp.correct { background: #e8fff5; border-color: #4caf93; color: #1a6050; }
+body.light .verb-inp.wrong   { background: #fff0f0; border-color: #e07070; color: #903030; }
+body.light .verb-table tr + tr td { border-top-color: #e4e2f0; }
+body.light .vcell-pronoun { color: #3050a0; }
+body.light .vcell-sentence { color: #4060a0; opacity: 1; }
+body.light .vcell-sentence strong { color: #2a7a60; }
+body.light .vcell-sentence-en { color: #6677aa; }
+body.light .verb-blank { border-bottom-color: #6c63ff; color: #6c63ff; }
+body.light #btn-verb-check { background: #b0a0d8; color: #1a1a2e; }
+body.light #btn-verb-skip  { background: #e2e4f0; color: #555; }
+body.light #btn-speak-verb { background: #ede8ff; color: #4030a0; }
+
+/* ── adj forms box ── */
+body.light #adj-box { background: linear-gradient(135deg, #fffef5, #fff8e0); border-color: #c8980a; }
+body.light #adj-title { color: #7a5a00; }
+body.light #adj-table-el th { color: #4050a0 !important; border-bottom-color: #e8e4c0 !important; }
+body.light .adj-inp { background: #f8f9ff; border-color: #c0c4d8; color: #1a1a2e; }
+body.light .adj-inp:focus   { border-color: #c8980a; }
+body.light .adj-inp.correct { background: #e8fff5; border-color: #4caf93; color: #1a6050; }
+body.light .adj-inp.wrong   { background: #fff0f0; border-color: #e07070; color: #903030; }
+body.light .adj-base { color: #7a5a00; }
+body.light #adj-table-body tr + tr td { border-top-color: #f0ead8; }
+body.light #btn-adj-check { background: #c8980a; color: #fff; }
+body.light #btn-adj-prev  { background: #e2e4f0; color: #333; }
+body.light #btn-adj-next  { background: #6c63ff; color: #fff; }
+
+/* ── possessive box ── */
+body.light #possessive-box { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #9890e0; }
+body.light .possessive-table th { color: #4050a0; border-bottom-color: #d8d4f0; }
+body.light .possessive-table td { color: #333; }
+body.light .possessive-table td:first-child { color: #4050a0 !important; }
+body.light .possessive-inp { background: #f8f9ff; border-color: #9890e0; color: #1a1a2e; }
+body.light .possessive-inp:focus   { border-color: #6c63ff; }
+body.light .possessive-inp.correct { background: #e8fff5; border-color: #4caf93; }
+body.light .possessive-inp.wrong   { background: #fff0f0; border-color: #e07070; }
+body.light .poss-hint { color: #b03030; }
+body.light #btn-possessive-check { background: #6c63ff; color: #fff; }
+body.light #btn-possessive-reset { background: #e2e4f0; color: #555; }
+
+/* ── grammar topic grid ── */
+body.light .topic-tile { background: #fff; border-color: #c0c8e8; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+body.light .topic-tile:hover { border-color: #6c63ff; }
+body.light .topic-tile-title { color: #1a1a2e; }
+body.light .topic-tile-sub   { color: #777; }
+body.light .tile-chapter     { color: #4050a0; }
+
+/* ── grammar topic detail ── */
+body.light #btn-topic-back { background: #e2e4f0; color: #555; }
+body.light #btn-topic-back:hover { color: #1a1a2e; }
+body.light #topic-detail-title { color: #4040b0; }
+body.light #topic-tab-row { border-color: #9890e0; }
+body.light .topic-tab-btn { color: #555; background: transparent; }
+body.light .topic-tab-btn.active { background: #6c63ff; color: #fff; }
+body.light #topic-overview-content { color: #444; }
+body.light #topic-overview-content strong { color: #1a1a2e; }
+body.light #topic-overview-content em { color: #3050b0; }
+
+/* ── overview box ── */
+body.light #overview-box { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #9890e0; }
+body.light #topic-overview-content p[style] { color: #4040b0 !important; }
+body.light .overview-section { border-bottom-color: #e2e4f0; }
+body.light .overview-section h3 { color: #4040b0; }
+body.light .overview-section p  { color: #444; }
+body.light .overview-table th { color: #6c63ff; border-bottom-color: #e2e4f0; }
+body.light .overview-table td { color: #333; }
+body.light .overview-table tr:hover td { background: #eaeeff; }
+body.light .overview-practice-btn { background: #6c63ff; color: #fff; }
+
+/* ── topic words box ── */
+body.light #topic-words-box { background: linear-gradient(135deg, #ffffff, #f2f3ff); border-color: #9890e0; }
+body.light #twb-mode-row { border-color: #9890e0; }
+body.light .twm-btn { color: #555; background: transparent; }
+body.light .twm-btn.active { background: #6c63ff; color: #fff; }
+body.light #twb-lang-toggle { border-color: #b0b4cc; color: #555; }
+body.light #twb-prev, body.light #twb-next { background: #e2e4f0; color: #333; }
+
+/* ── word list / table ── */
+body.light details summary { color: #5050c0; }
+body.light table th { background: #e4e6f8; color: #1a1a2e; }
+body.light table td { color: #333; border-bottom-color: #e8eaf0; }
+body.light tr:hover td { background: #eceeff; }
+body.light .dutch-col { color: #5030a0; }
+
+/* ── footer ── */
+body.light .footer button { background: #e2e4f0; color: #555; border-color: #c0c4d8; }
+body.light .footer button:hover { color: #1a1a2e; border-color: #888; }
 </style>
 </head>
 <body>
 
+<div id="theme-toggle" title="Toggle light/dark mode">
+  <span id="ti-sun">☀</span>
+  <div id="theme-track"><div id="theme-thumb"></div></div>
+  <span id="ti-moon">☽</span>
+</div>
 <p id="subtitle">Click the card to reveal the translation</p>
 
 <div id="top-controls">
   <select id="chapter-select">
     <option value="all">All cards</option>
     <optgroup label="Chapters">
+      <option value="Ch 1">Ch 1: Welkom</option>
       <option value="Ch 2">Ch 2: In de kantine</option>
       <option value="Ch 3">Ch 3: In het café</option>
       <option value="Ch 4">Ch 4: Op straat</option>
@@ -348,6 +569,9 @@ tr:hover td { background: #1e2d5a; }
     <optgroup label="Grammar">
       <option value="grammar-practice">Grammar practice</option>
       <option value="grammar-topics">Grammar topics</option>
+    </optgroup>
+    <optgroup label="Extra">
+      <option value="mijn-grammatica">⭐ Mijn grammatica</option>
     </optgroup>
   </select>
   <div id="content-toggle">
@@ -365,6 +589,7 @@ tr:hover td { background: #1e2d5a; }
   <button class="mode-btn" data-mode="grammar">📚 Grammar</button>
   <button class="mode-btn" data-mode="verb">🔀 Verbs</button>
   <button class="mode-btn" data-mode="adj">🔡 Forms</button>
+  <button id="main-lang-toggle" title="Toggle which language shows first">NL → EN</button>
 </div>
 
 <div class="controls">
@@ -372,6 +597,7 @@ tr:hover td { background: #1e2d5a; }
   <button id="btn-next">Next →</button>
   <button id="btn-shuffle">⇄ Shuffle</button>
   <button id="btn-reset">↺ Reset</button>
+  <button id="btn-mark-weak" title="Add to weak list">☆</button>
 </div>
 
 <div class="progress">Card <span id="cur">1</span> of <span id="total">0</span></div>
@@ -403,13 +629,13 @@ tr:hover td { background: #1e2d5a; }
   <div class="mastery-dot" id="mastery-dot"></div>
   <div class="card" id="card">
     <div class="face front">
-      <div class="lang-label">Dutch</div>
+      <div class="lang-label" id="flip-front-label">Dutch</div>
       <div class="word" id="flip-dutch"></div>
       <div class="note" id="flip-note"></div>
       <div class="hint-tap">tap to flip</div>
     </div>
     <div class="face back">
-      <div class="lang-label">English</div>
+      <div class="lang-label" id="flip-back-label">English</div>
       <div class="word" id="flip-english"></div>
     </div>
   </div>
@@ -418,13 +644,13 @@ tr:hover td { background: #1e2d5a; }
 
 <!-- Type Dutch -->
 <div class="exercise-box" id="type-box">
-  <div class="ex-label">English → type Dutch</div>
+  <button id="btn-speak-type" title="Listen">🔊</button>
+  <div class="ex-label" id="type-label">English → type Dutch</div>
   <div class="ex-question" id="type-question"></div>
   <input class="ex-input" id="type-input" type="text" placeholder="Type the Dutch word…" autocomplete="off" spellcheck="false" />
   <div class="ex-feedback" id="type-feedback"></div>
   <div class="ex-actions">
     <button id="btn-check">Check ↵</button>
-    <button id="btn-speak-type">🔊 Listen</button>
     <button id="btn-skip">Skip</button>
   </div>
   <div class="tts-notice" id="tts-notice"></div>
@@ -474,7 +700,7 @@ tr:hover td { background: #1e2d5a; }
 
 <!-- Adjective forms -->
 <div class="exercise-box" id="adj-box">
-  <div id="adj-title" style="font-size:1.1rem;font-weight:700;color:#f0c070;margin-bottom:4px;"></div>
+  <div id="adj-title" style="font-size:1.1rem;font-weight:700;margin-bottom:4px;"></div>
   <div id="adj-table-el" style="width:100%;overflow-x:auto;">
     <table style="width:100%;border-collapse:collapse;">
       <thead>
@@ -490,23 +716,23 @@ tr:hover td { background: #1e2d5a; }
   </div>
   <div class="ex-feedback" id="adj-feedback"></div>
   <div class="ex-actions">
-    <button id="btn-adj-check" style="background:#f0c070;color:#1a1a2e;font-weight:700;">Check ↵</button>
-    <button id="btn-adj-prev" style="background:#444;color:#eee;">← Prev</button>
-    <button id="btn-adj-next" style="background:#a0c4ff;color:#1a1a2e;">Next →</button>
+    <button id="btn-adj-check">Check ↵</button>
+    <button id="btn-adj-prev">← Prev</button>
+    <button id="btn-adj-next">Next →</button>
   </div>
 </div>
 
-<!-- Possessive pronouns fill-in table -->
+<!-- Possessive / object pronoun fill-in table -->
 <div class="exercise-box" id="possessive-box">
-  <div class="ex-label">Fill in the possessive pronoun</div>
+  <div class="ex-label" id="possessive-box-label">Fill in the possessive pronoun</div>
   <table class="possessive-table">
-    <thead><tr><th>subject</th><th>possessief pronomen</th><th>example</th></tr></thead>
+    <thead><tr id="possessive-table-head"><th>subject</th><th>possessief pronomen</th><th>example</th></tr></thead>
     <tbody id="possessive-table-body"></tbody>
   </table>
   <div class="ex-feedback" id="possessive-feedback"></div>
   <div class="ex-actions">
-    <button id="btn-possessive-check" style="background:#a0c4ff;color:#1a1a2e;font-weight:700;">Check ↵</button>
-    <button id="btn-possessive-reset" style="background:#444;color:#eee;">Try again</button>
+    <button id="btn-possessive-check">Check ↵</button>
+    <button id="btn-possessive-reset">Try again</button>
   </div>
 </div>
 
@@ -515,11 +741,23 @@ tr:hover td { background: #1e2d5a; }
   <div id="twb-mode-row">
     <button class="twm-btn active" data-wmode="flip">🃏 Flip</button>
     <button class="twm-btn" data-wmode="type">✏️ Type</button>
+    <button id="twb-lang-toggle" title="Toggle which language shows first">EN → NL</button>
   </div>
   <div id="twb-flip-area">
-    <div id="twb-card-front" class="ex-question"></div>
-    <div id="twb-card-back" style="display:none;font-size:1.1rem;font-weight:700;color:#a0c4ff;text-align:center;padding:10px 0;"></div>
-    <button id="twb-reveal">Reveal →</button>
+    <div class="scene" id="twb-scene">
+      <div class="card" id="twb-card">
+        <div class="face front">
+          <div class="lang-label" id="twb-front-label">English</div>
+          <div class="word" id="twb-card-front"></div>
+          <div class="hint-tap">tap to flip</div>
+        </div>
+        <div class="face back">
+          <div class="lang-label" id="twb-back-label">Dutch</div>
+          <div class="word" id="twb-card-back"></div>
+        </div>
+      </div>
+      <button id="btn-speak-twb" title="Listen">🔊</button>
+    </div>
   </div>
   <div id="twb-type-area" style="display:none;">
     <div id="twb-type-q" class="ex-question"></div>
@@ -531,7 +769,7 @@ tr:hover td { background: #1e2d5a; }
     <button id="twb-next">Next →</button>
     <button id="twb-shuffle" style="background:#6c63ff;color:#fff;">⇄ Shuffle</button>
   </div>
-  <div class="progress" id="twb-progress" style="margin-top:4px;font-size:0.8rem;"></div>
+  <div class="progress" id="twb-progress" style="margin-top:4px;font-size:0.8rem;color:#888;"></div>
 </div>
 
 <!-- Word list -->
@@ -966,6 +1204,96 @@ const DECK = [
   { id:"w510", type:"word", dutch:"de lente / het voorjaar",  english:"spring",                       note:"", tag:"Ch 2", sentences:[] },
   { id:"w511", type:"word", dutch:"de herfst / het najaar",   english:"autumn",                       note:"", tag:"Ch 2", sentences:[] },
 
+  // ── Ch 1: Welkom ──
+  { id:"w601", type:"word", dutch:"welkom",                   english:"welcome",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w602", type:"word", dutch:"goedemorgen",              english:"good morning",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w603", type:"word", dutch:"allemaal",                 english:"everyone / all",               note:"", tag:"Ch 1", sentences:[] },
+  { id:"w604", type:"word", dutch:"de cursus",                english:"course",                       note:"", tag:"Ch 1", sentences:[] },
+  { id:"w605", type:"word", dutch:"Nederlands",               english:"Dutch",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w606", type:"word", dutch:"zijn",                     english:"to be",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w607", type:"word", dutch:"en",                       english:"and",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w608", type:"word", dutch:"jullie",                   english:"you (plural)",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w609", type:"word", dutch:"de docent",                english:"teacher",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w610", type:"word", dutch:"hebben",                   english:"to have",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w611", type:"word", dutch:"twee",                     english:"two",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w612", type:"word", dutch:"ander",                    english:"other",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w613", type:"word", dutch:"hij",                      english:"he",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w614", type:"word", dutch:"lesgeven",                 english:"to teach / give lessons",      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w615", type:"word", dutch:"de dag",                   english:"the day",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w616", type:"word", dutch:"drie",                     english:"three",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w617", type:"word", dutch:"wij / we",                 english:"we",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w618", type:"word", dutch:"beginnen",                 english:"to begin / start",             note:"", tag:"Ch 1", sentences:[] },
+  { id:"w619", type:"word", dutch:"met",                      english:"with",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w620", type:"word", dutch:"kennismaken",              english:"to get to know",               note:"", tag:"Ch 1", sentences:[] },
+  { id:"w621", type:"word", dutch:"wie",                      english:"who",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w622", type:"word", dutch:"jij / je",                 english:"you (singular)",               note:"", tag:"Ch 1", sentences:[] },
+  { id:"w623", type:"word", dutch:"wat",                      english:"what",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w624", type:"word", dutch:"jouw / je",                english:"your (singular)",              note:"", tag:"Ch 1", sentences:[] },
+  { id:"w625", type:"word", dutch:"de naam",                  english:"name",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w626", type:"word", dutch:"mijn",                     english:"my",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w627", type:"word", dutch:"de voornaam",              english:"first name",                   note:"", tag:"Ch 1", sentences:[] },
+  { id:"w628", type:"word", dutch:"de achternaam",            english:"surname",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w629", type:"word", dutch:"uit",                      english:"from",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w630", type:"word", dutch:"welk",                     english:"which",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w631", type:"word", dutch:"het land",                 english:"country",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w632", type:"word", dutch:"Engeland",                 english:"England",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w633", type:"word", dutch:"komen",                    english:"to come",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w634", type:"word", dutch:"de buurman",               english:"neighbour",                    note:"", tag:"Ch 1", sentences:[] },
+  { id:"w635", type:"word", dutch:"van",                      english:"of / from",                    note:"", tag:"Ch 1", sentences:[] },
+  { id:"w636", type:"word", dutch:"hoe",                      english:"how",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w637", type:"word", dutch:"hoe heet jij?",            english:"what's your name?",            note:"", tag:"Ch 1", sentences:[] },
+  { id:"w638", type:"word", dutch:"heten",                    english:"to be called",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w639", type:"word", dutch:"waar … vandaan",           english:"where … from",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w640", type:"word", dutch:"waar",                     english:"where",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w641", type:"word", dutch:"wonen",                    english:"to live",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w642", type:"word", dutch:"nu",                       english:"now",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w643", type:"word", dutch:"het adres",                english:"address",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w644", type:"word", dutch:"het nummer",               english:"number",                       note:"", tag:"Ch 1", sentences:[] },
+  { id:"w645", type:"word", dutch:"het antwoord",             english:"answer",                       note:"", tag:"Ch 1", sentences:[] },
+  { id:"w646", type:"word", dutch:"nee",                      english:"no",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w647", type:"word", dutch:"de postcode",              english:"postal code",                  note:"", tag:"Ch 1", sentences:[] },
+  { id:"w648", type:"word", dutch:"u",                        english:"you (formal)",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w649", type:"word", dutch:"mevrouw",                  english:"Ms / Mrs",                     note:"", tag:"Ch 1", sentences:[] },
+  { id:"w650", type:"word", dutch:"ook",                      english:"also / too",                   note:"", tag:"Ch 1", sentences:[] },
+  { id:"w651", type:"word", dutch:"in",                       english:"in",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w652", type:"word", dutch:"zeggen",                   english:"to say",                       note:"", tag:"Ch 1", sentences:[] },
+  { id:"w653", type:"word", dutch:"maar",                     english:"but",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w654", type:"word", dutch:"hoor",                     english:"(friendly particle — not translated)", note:"", tag:"Ch 1", sentences:[] },
+  { id:"w655", type:"word", dutch:"ja",                       english:"yes",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w656", type:"word", dutch:"hier",                     english:"here",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w657", type:"word", dutch:"al",                       english:"already",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w658", type:"word", dutch:"twintig",                  english:"twenty",                       note:"", tag:"Ch 1", sentences:[] },
+  { id:"w659", type:"word", dutch:"het jaar",                 english:"year",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w660", type:"word", dutch:"verdergaan",               english:"to go on / continue",          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w661", type:"word", dutch:"de les",                   english:"lesson",                       note:"", tag:"Ch 1", sentences:[] },
+  { id:"w662", type:"word", dutch:"iedereen",                 english:"everyone",                     note:"", tag:"Ch 1", sentences:[] },
+  { id:"w663", type:"word", dutch:"het boek",                 english:"book",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w664", type:"word", dutch:"de tekst",                 english:"text",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w665", type:"word", dutch:"één",                      english:"one",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w666", type:"word", dutch:"op",                       english:"on",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w667", type:"word", dutch:"de bladzijde",             english:"page",                         note:"", tag:"Ch 1", sentences:[] },
+  { id:"w668", type:"word", dutch:"acht",                     english:"eight",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w669", type:"word", dutch:"luisteren",                english:"to listen",                    note:"", tag:"Ch 1", sentences:[] },
+  { id:"w670", type:"word", dutch:"naar",                     english:"to",                           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w671", type:"word", dutch:"lezen",                    english:"to read",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w672", type:"word", dutch:"stoppen",                  english:"to stop",                      note:"", tag:"Ch 1", sentences:[] },
+  { id:"w673", type:"word", dutch:"even",                     english:"for a moment / just",          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w674", type:"word", dutch:"de pauze",                 english:"break",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w675", type:"word", dutch:"tot straks",               english:"see you later",                note:"", tag:"Ch 1", sentences:[] },
+  { id:"w676", type:"word", dutch:"straks",                   english:"soon / later",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w677", type:"word", dutch:"goedemiddag",              english:"good afternoon / goodbye",     note:"", tag:"Ch 1", sentences:[] },
+  { id:"w678", type:"word", dutch:"goedenavond",              english:"good evening / goodnight",     note:"", tag:"Ch 1", sentences:[] },
+  { id:"w679", type:"word", dutch:"goedendag",                english:"good day / goodbye",           note:"", tag:"Ch 1", sentences:[] },
+  { id:"w680", type:"word", dutch:"hoi",                      english:"hi / hello",                   note:"", tag:"Ch 1", sentences:[] },
+  { id:"w681", type:"word", dutch:"hallo",                    english:"hello",                        note:"", tag:"Ch 1", sentences:[] },
+  { id:"w682", type:"word", dutch:"dag",                      english:"hello / bye",                  note:"(greeting/farewell)", tag:"Ch 1", sentences:[] },
+  { id:"w683", type:"word", dutch:"daag",                     english:"bye",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w684", type:"word", dutch:"doeg",                     english:"bye",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w685", type:"word", dutch:"doei",                     english:"bye",                          note:"", tag:"Ch 1", sentences:[] },
+  { id:"w686", type:"word", dutch:"tot zo",                   english:"see you soon",                 note:"", tag:"Ch 1", sentences:[] },
+  { id:"w687", type:"word", dutch:"tot morgen",               english:"see you tomorrow",             note:"", tag:"Ch 1", sentences:[] },
+  { id:"w688", type:"word", dutch:"tot ziens",                english:"goodbye / so long",            note:"", tag:"Ch 1", sentences:[] },
+
   // ── Ch 3: In het café ──
   { id:"w364", type:"word", dutch:"vieren",                   english:"to celebrate",                 note:"", tag:"Ch 3", sentences:[] },
   { id:"w365", type:"word", dutch:"de verjaardag",            english:"birthday",                     note:"", tag:"Ch 3", sentences:[] },
@@ -1382,96 +1710,199 @@ const DECK = [
 
   { id:"gram002", type:"grammar-rule", dutch:"Objectvorm personaal pronomen", english:"Object form of personal pronouns (mij, hem, haar, het, ons, ze...)", tag:"Ch 7",
     grammarSentences:[
-      { s:"Kunt u ___ helpen met de maten, alsjeblieft?",       a:["mij","me"],   full:"Kunt u mij helpen met de maten, alsjeblieft?",       hint:"en: Can you help me with the sizes? (ik → mij/me as object)",      topic:"Objectvorm — mij/me (ik)" },
-      { s:"Geeft u ___ die broek even in maat 38?",             a:["mij","me"],   full:"Geeft u mij die broek even in maat 38?",             hint:"en: Could you give me that trouser in size 38? (ik → mij/me)",    topic:"Objectvorm — mij/me (ik)" },
-      { s:"Ik zie ___ morgen bij de winkel.",                   a:["jou","je"],   full:"Ik zie jou morgen bij de winkel.",                   hint:"en: I'll see you tomorrow at the shop. (jij/je → jou/je)",        topic:"Objectvorm — jou/je (jij)" },
+      { s:"Kunt u ___ helpen met de maten, alsjeblieft?",       a:["mij","me"],   full:"Kunt u mij helpen met de maten, alsjeblieft?",       hint:"en: Can you help me with the sizes? (object = first person singular)",   topic:"Objectvorm — mij/me (ik)" },
+      { s:"Geeft u ___ die broek even in maat 38?",             a:["mij","me"],   full:"Geeft u mij die broek even in maat 38?",             hint:"en: Could you give me that trouser in size 38? (object = first person singular)", topic:"Objectvorm — mij/me (ik)" },
+      { s:"Ik zie ___ morgen bij de winkel.",                   a:["jou","je"],   full:"Ik zie jou morgen bij de winkel.",                   hint:"en: I'll see you tomorrow at the shop. (object = second person singular informal)", topic:"Objectvorm — jou/je (jij)" },
       { s:"Kan ik ___ helpen, meneer?",                         a:["u"],          full:"Kan ik u helpen, meneer?",                           hint:"en: Can I help you, sir? (u → u, formal)",                        topic:"Objectvorm — u (formeel)" },
-      { s:"De broek is te groot. Hebt u ___ in een kleinere maat?", a:["hem"],    full:"De broek is te groot. Hebt u hem in een kleinere maat?", hint:"en: The trouser is too big. Do you have it in a smaller size? (de-woord → hem)", topic:"Objectvorm — hem (hij/de-woord)" },
-      { s:"Ik zoek mijn jas. Ik kan ___ niet vinden.",          a:["hem"],        full:"Ik zoek mijn jas. Ik kan hem niet vinden.",          hint:"en: I'm looking for my coat. I can't find it. (de-woord → hem)", topic:"Objectvorm — hem (hij/de-woord)" },
-      { s:"Mijn zus belt straks. Ik bel ___ terug.",            a:["haar"],       full:"Mijn zus belt straks. Ik bel haar terug.",           hint:"en: My sister will call later. I'll call her back. (zij → haar)", topic:"Objectvorm — haar (zij)" },
-      { s:"Dit is een goed boek. Ik koop ___ voor mijn vriendin.", a:["het"],     full:"Dit is een goed boek. Ik koop het voor mijn vriendin.", hint:"en: This is a good book. I'll buy it for my friend. (het-woord → het)", topic:"Objectvorm — het (het/het-woord)" },
-      { s:"Dat jasje is mooi. Mag ik ___ even passen?",         a:["het"],        full:"Dat jasje is mooi. Mag ik het even passen?",         hint:"en: That jacket is nice. May I try it on? (het-woord → het)",    topic:"Objectvorm — het (het/het-woord)" },
-      { s:"Wachten zij op ___?",                                a:["ons"],        full:"Wachten zij op ons?",                                hint:"en: Are they waiting for us? (wij/we → ons)",                    topic:"Objectvorm — ons (wij)" },
-      { s:"Dat zijn leuke schoenen! Mag ik ___ even passen?",   a:["ze"],         full:"Dat zijn leuke schoenen! Mag ik ze even passen?",    hint:"en: Those are nice shoes! May I try them on? (pluralis → ze)",   topic:"Objectvorm — ze (pluralis)" },
-      { s:"De shirts zijn mooi. Ik koop ___ allemaal.",         a:["ze"],         full:"De shirts zijn mooi. Ik koop ze allemaal.",          hint:"en: The shirts are nice. I'll buy them all. (pluralis → ze)",    topic:"Objectvorm — ze (pluralis)" },
-      { s:"Waar kan ik ___ passen, de broeken?",                a:["ze"],         full:"Waar kan ik ze passen, de broeken?",                 hint:"en: Where can I try them on, the trousers? (pluralis → ze)",     topic:"Objectvorm — ze (pluralis)" },
-      { s:"Ik zie ___ elke dag bij school.",                    a:["jullie"],     full:"Ik zie jullie elke dag bij school.",                 hint:"en: I see you all every day at school. (jullie → jullie)",       topic:"Objectvorm — jullie (jullie)" }
+      { s:"De broek is te groot. Hebt u ___ in een kleinere maat?", a:["hem"],    full:"De broek is te groot. Hebt u hem in een kleinere maat?", hint:"en: The trouser is too big. Do you have it in a smaller size? (de-woord singular as object)", topic:"Objectvorm — hem (hij/de-woord)" },
+      { s:"Ik zoek mijn jas. Ik kan ___ niet vinden.",          a:["hem"],        full:"Ik zoek mijn jas. Ik kan hem niet vinden.",          hint:"en: I'm looking for my coat. I can't find it. (de-woord singular as object)", topic:"Objectvorm — hem (hij/de-woord)" },
+      { s:"Mijn zus belt straks. Ik bel ___ terug.",            a:["haar"],       full:"Mijn zus belt straks. Ik bel haar terug.",           hint:"en: My sister will call later. I'll call her back. (object = third person singular feminine)", topic:"Objectvorm — haar (zij)" },
+      { s:"Dit is een goed boek. Ik koop ___ voor mijn vriendin.", a:["het"],     full:"Dit is een goed boek. Ik koop het voor mijn vriendin.", hint:"en: This is a good book. I'll buy it for my friend. (het-woord singular as object)", topic:"Objectvorm — het (het/het-woord)" },
+      { s:"Dat jasje is mooi. Mag ik ___ even passen?",         a:["het"],        full:"Dat jasje is mooi. Mag ik het even passen?",         hint:"en: That jacket is nice. May I try it on? (het-woord/diminutief as object)",    topic:"Objectvorm — het (het/het-woord)" },
+      { s:"Wachten zij op ___?",                                a:["ons"],        full:"Wachten zij op ons?",                                hint:"en: Are they waiting for us? (object = first person plural)",    topic:"Objectvorm — ons (wij)" },
+      { s:"Dat zijn leuke schoenen! Mag ik ___ even passen?",   a:["ze"],         full:"Dat zijn leuke schoenen! Mag ik ze even passen?",    hint:"en: Those are nice shoes! May I try them on? (plural noun as object)",   topic:"Objectvorm — ze (pluralis)" },
+      { s:"De shirts zijn mooi. Ik koop ___ allemaal.",         a:["ze"],         full:"De shirts zijn mooi. Ik koop ze allemaal.",          hint:"en: The shirts are nice. I'll buy them all. (plural noun as object)",    topic:"Objectvorm — ze (pluralis)" },
+      { s:"Waar kan ik ___ passen, de broeken?",                a:["ze"],         full:"Waar kan ik ze passen, de broeken?",                 hint:"en: Where can I try them on, the trousers? (plural noun as object)",     topic:"Objectvorm — ze (pluralis)" },
+      { s:"Ik zie ___ elke dag bij school.",                    a:["jullie"],     full:"Ik zie jullie elke dag bij school.",                 hint:"en: I see you all every day at school. (object = second person plural, same as subject)", topic:"Objectvorm — jullie (jullie)" }
+    ]
+  },
+
+  // ── Ch 1 Grammar Rules ──
+  { id:"gram018", type:"grammar-rule", dutch:"Personaal pronomen", english:"Personal pronouns", tag:"Ch 1",
+    grammarSentences:[
+      { s:"Dit is Mustafa, mijn buurman. ___ woont in de Emmastraat.",      a:["Hij","hij"],           full:"Hij woont in de Emmastraat.",              hint:"referring to a male person (Mustafa)",                     topic:"Pronomen — hij" },
+      { s:"Sonja, kun ___ je achternaam spellen?",                           a:["jij","je"],            full:"Kun jij je achternaam spellen?",           hint:"informal singular 'you' (direct address)",                 topic:"Pronomen — jij/je" },
+      { s:"De andere docent heet Herman. ___ geeft twee dagen les.",         a:["Hij","hij"],           full:"Hij geeft twee dagen les.",                hint:"referring to a male person (Herman)",                      topic:"Pronomen — hij" },
+      { s:"Juha en Arto, komen ___ uit Finland?",                            a:["jullie"],              full:"Komen jullie uit Finland?",                hint:"plural 'you' (direct address to a group)",                 topic:"Pronomen — jullie" },
+      { s:"Mijn naam is Shirley en ___ kom uit Australië.",                  a:["ik"],                  full:"ik kom uit Australië.",                    hint:"the speaker / first person singular",                      topic:"Pronomen — ik" },
+      { s:"Mevrouw Govers, hebt ___ het boek?",                              a:["u"],                   full:"Hebt u het boek?",                         hint:"formal 'you' (mevrouw = polite address)",                  topic:"Pronomen — u" },
+      { s:"Dit is de andere docent. ___ heet Anne-Marie.",                   a:["Zij","Ze","zij","ze"], full:"Zij heet Anne-Marie.",                     hint:"referring to a female person (Anne-Marie)",                topic:"Pronomen — zij/ze" },
+      { s:"Jullie docenten zijn Herman en Anne-Marie. ___ geven les.",       a:["Zij","Ze","zij","ze"], full:"Zij geven les.",                           hint:"third person plural (meerdere mensen)",                    topic:"Pronomen — zij/ze (pl)" },
+      { s:"Ning komt uit China. En ___, Yin? Kom jij ook uit China?",        a:["jij","je"],            full:"En jij, Yin?",                             hint:"informal singular 'you' (asking Yin directly)",            topic:"Pronomen — jij/je" },
+      { s:"___ bent nu twee dagen in Nederland en spreekt al Nederlands!",   a:["Jij","Je","jij","je"], full:"Jij bent nu twee dagen in Nederland...",   hint:"informal singular 'you' (singular)",                       topic:"Pronomen — jij/je" },
+      { s:"Waar woont ___? In de Emmastraat.",                               a:["hij"],                 full:"Waar woont hij?",                          hint:"referring to a male person already mentioned",             topic:"Pronomen — hij" },
+      { s:"___ luisteren naar de tekst.",                                    a:["Wij","We","wij","we"], full:"Wij luisteren naar de tekst.",             hint:"first person plural (the group/class)",                    topic:"Pronomen — wij/we" },
+    ]
+  },
+
+  { id:"gram019", type:"grammar-rule", dutch:"Telwoorden", english:"Numbers", tag:"Ch 1",
+    grammarSentences:[
+      { s:"De cursus duurt ___ jaar.",                                       a:["één","een"],           full:"De cursus duurt één jaar.",                hint:"the number 1 (with trema to distinguish from article een)", topic:"Telwoorden — één" },
+      { s:"Hij geeft les ___ dagen per week.",                               a:["twee"],                full:"Hij geeft les twee dagen per week.",       hint:"the number 2",                                            topic:"Telwoorden — twee" },
+      { s:"We beginnen op bladzijde ___.",                                   a:["acht"],                full:"We beginnen op bladzijde acht.",           hint:"the number 8",                                            topic:"Telwoorden — acht" },
+      { s:"Er zijn ___ docenten: Herman en Anne-Marie.",                     a:["twee"],                full:"Er zijn twee docenten.",                   hint:"the number 2",                                            topic:"Telwoorden — twee" },
+      { s:"Er zijn ___ cursisten in de klas.",                               a:["twintig"],             full:"Er zijn twintig cursisten in de klas.",    hint:"the number 20",                                           topic:"Telwoorden — twintig" },
+      { s:"De cursus is ___ weken lang.",                                    a:["tien","drie","vijf"],  full:"De cursus is tien weken lang.",            hint:"a number of weeks",                                       topic:"Telwoorden — getallen" },
+      { s:"Het telefoonnummer is zes-nul-___ .",                             a:["nul"],                 full:"Het telefoonnummer is zes-nul-nul.",        hint:"the number 0 (used in phone numbers)",                    topic:"Telwoorden — nul" },
+    ]
+  },
+
+  { id:"gram020", type:"grammar-rule", dutch:"Begroeten en afscheid nemen", english:"Greetings and farewells", tag:"Ch 1",
+    grammarSentences:[
+      { s:"Het is 9 uur 's ochtends. Je zegt: '___!'",         a:["Goedemorgen","goedemorgen"],   full:"Goedemorgen!",     hint:"time-of-day greeting for the morning",              topic:"Begroeten — ochtend" },
+      { s:"Het is 14 uur. Je zegt: '___!'",                    a:["Goedemiddag","goedemiddag"],   full:"Goedemiddag!",     hint:"time-of-day greeting for the afternoon",            topic:"Begroeten — middag" },
+      { s:"Het is 20 uur. Je zegt: '___!'",                    a:["Goedenavond","goedenavond"],   full:"Goedenavond!",     hint:"time-of-day greeting for the evening",              topic:"Begroeten — avond" },
+      { s:"Een informele begroeting: '___!'",                   a:["Hoi","hoi","Hallo","hallo","Dag","dag"], full:"Hoi!",   hint:"casual/informal hello — not time-of-day specific",  topic:"Begroeten — informeel" },
+      { s:"Je ziet iemand over een paar minuten terug. Je zegt: 'Tot ___!'", a:["zo"],             full:"Tot zo!",          hint:"the shortest time gap — departing momentarily",     topic:"Afscheid — tot zo" },
+      { s:"Je ziet iemand vanavond nog terug. Je zegt: 'Tot ___!'",          a:["straks"],          full:"Tot straks!",      hint:"later the same day, but not in minutes",            topic:"Afscheid — tot straks" },
+      { s:"Je ziet iemand de volgende dag. Je zegt: 'Tot ___!'",             a:["morgen"],          full:"Tot morgen!",      hint:"the Dutch word for 'tomorrow'",                     topic:"Afscheid — tot morgen" },
+      { s:"Een formeel afscheid, voor langere tijd. Je zegt: 'Tot ___!'",    a:["ziens"],           full:"Tot ziens!",       hint:"formal farewell — may be a long time before meeting again", topic:"Afscheid — tot ziens" },
+      { s:"Een informele manier om afscheid te nemen: '___!'",  a:["Dag","dag","Daag","daag","Doei","doei","Doeg","doeg"], full:"Dag!", hint:"casual farewell — four very similar-sounding options", topic:"Afscheid — informeel" },
+      { s:"___ kan begroeting én afscheid zijn.",               a:["Dag","dag","Goedemorgen","goedemorgen","Goedemiddag","goedemiddag"], full:"Dag kan beide zijn.", hint:"think of a word used for both hello and goodbye", topic:"Begroeten én afscheid" },
     ]
   },
 
   // ── Ch 2 Grammar Rules ──
   { id:"gram013", type:"grammar-rule", dutch:"Vraagwoordvragen", english:"Question word questions", tag:"Ch 2",
     grammarSentences:[
-      { s:"___ heet jouw zus?",                                a:["Hoe"],      full:"Hoe heet jouw zus?",                                    hint:"asking a name → Hoe heet…?",                    topic:"Vraagwoorden — Hoe" },
-      { s:"___ doe je vandaag?",                               a:["Wat"],      full:"Wat doe je vandaag?",                                   hint:"asking about action → Wat…?",                   topic:"Vraagwoorden — Wat" },
-      { s:"___ woont Astrid?",                                 a:["Waar"],     full:"Waar woont Astrid?",                                    hint:"asking a place → Waar…?",                       topic:"Vraagwoorden — Waar" },
-      { s:"___ cursus doe je?",                                a:["Welke"],    full:"Welke cursus doe je?",                                  hint:"asking which (de-word/plural) → Welke…?",       topic:"Vraagwoorden — Welke" },
-      { s:"___ heeft mijn boek?",                              a:["Wie"],      full:"Wie heeft mijn boek?",                                  hint:"asking a person → Wie…?",                       topic:"Vraagwoorden — Wie" },
-      { s:"___ laat is het?",                                  a:["Hoe"],      full:"Hoe laat is het?",                                      hint:"asking the time → Hoe laat…?",                  topic:"Vraagwoorden — Hoe laat" },
-      { s:"___ zijn de docenten?",                             a:["Waar"],     full:"Waar zijn de docenten?",                                hint:"asking a place → Waar…?",                       topic:"Vraagwoorden — Waar" },
-      { s:"___ komen uit Australië?",                          a:["Wie"],      full:"Wie komen uit Australië?",                              hint:"asking who → Wie…?",                            topic:"Vraagwoorden — Wie" },
-      { s:"___ komt Patrick vandaan?",                         a:["Waar"],     full:"Waar komt Patrick vandaan?",                            hint:"asking origin → Waar vandaan…?",                topic:"Vraagwoorden — Waar vandaan" },
-      { s:"___ dag is het?",                                   a:["Welke"],    full:"Welke dag is het?",                                     hint:"asking which (de-word) → Welke…?",              topic:"Vraagwoorden — Welke" },
-      { s:"Over ___ vakantie vertelt Jeroen?",                 a:["welke"],    full:"Over welke vakantie vertelt Jeroen?",                   hint:"welke after preposition (de-word)",              topic:"Vraagwoorden — Welke" },
-      { s:"Met ___ zit je in de kantine?",                     a:["wie"],      full:"Met wie zit je in de kantine?",                         hint:"wie after preposition",                         topic:"Vraagwoorden — Wie" },
-      { s:"___ is je broer in China?",                         a:["Waarom"],   full:"Waarom is je broer in China?",                          hint:"asking a reason → Waarom…?",                    topic:"Vraagwoorden — Waarom" },
-      { s:"___ zussen heb je?",                                a:["Hoeveel"],  full:"Hoeveel zussen heb je?",                                hint:"asking a quantity → Hoeveel…?",                 topic:"Vraagwoorden — Hoeveel" },
-      { s:"___ ben jij?",                                      a:["Wie"],      full:"Wie ben jij?",                                          hint:"asking identity → Wie…?",                       topic:"Vraagwoorden — Wie" },
-      { s:"___ heet jij?",                                     a:["Hoe"],      full:"Hoe heet jij?",                                         hint:"asking a name → Hoe heet…?",                    topic:"Vraagwoorden — Hoe" },
-      { s:"___ is je adres?",                                  a:["Wat"],      full:"Wat is je adres?",                                      hint:"asking information → Wat…?",                    topic:"Vraagwoorden — Wat" },
-      { s:"___ woon je?",                                      a:["Waar"],     full:"Waar woon je?",                                         hint:"asking a place → Waar…?",                       topic:"Vraagwoorden — Waar" },
-      { s:"___ kom je vandaan?",                               a:["Waar"],     full:"Waar kom je vandaan?",                                  hint:"asking origin → Waar vandaan…?",                topic:"Vraagwoorden — Waar vandaan" },
-      { s:"Uit ___ land kom je?",                              a:["welk"],     full:"Uit welk land kom je?",                                 hint:"welk (not welke) before het-word: het land",    topic:"Vraagwoorden — Welk (het-woord)" },
-      { s:"___ is het in jouw land zomer?",                    a:["Wanneer"],  full:"Wanneer is het in jouw land zomer?",                    hint:"asking time → Wanneer…?",                       topic:"Vraagwoorden — Wanneer" },
-      { s:"___ zijn je ouders in Indonesië?",                  a:["Waarom"],   full:"Waarom zijn je ouders in Indonesië?",                   hint:"asking a reason → Waarom…?",                    topic:"Vraagwoorden — Waarom" },
-      { s:"___ broers heb je?",                                a:["Hoeveel"],  full:"Hoeveel broers heb je?",                                hint:"asking a quantity → Hoeveel…?",                 topic:"Vraagwoorden — Hoeveel" },
-      { s:"___ doen je ouders daar?",                          a:["Wat"],      full:"Wat doen je ouders daar?",                              hint:"asking about action → Wat…?",                   topic:"Vraagwoorden — Wat" }
+      { s:"___ heet jouw zus?",                                a:["Hoe"],      full:"Hoe heet jouw zus?",                                    hint:"asking someone's name",                         topic:"Vraagwoorden — Hoe" },
+      { s:"___ doe je vandaag?",                               a:["Wat"],      full:"Wat doe je vandaag?",                                   hint:"asking about an activity",                      topic:"Vraagwoorden — Wat" },
+      { s:"___ woont Astrid?",                                 a:["Waar"],     full:"Waar woont Astrid?",                                    hint:"asking about a location",                       topic:"Vraagwoorden — Waar" },
+      { s:"___ cursus doe je?",                                a:["Welke"],    full:"Welke cursus doe je?",                                  hint:"asking which specific one (de-word / plural)",  topic:"Vraagwoorden — Welke" },
+      { s:"___ heeft mijn boek?",                              a:["Wie"],      full:"Wie heeft mijn boek?",                                  hint:"asking about a person",                         topic:"Vraagwoorden — Wie" },
+      { s:"___ laat is het?",                                  a:["Hoe"],      full:"Hoe laat is het?",                                      hint:"asking the time of day",                        topic:"Vraagwoorden — Hoe laat" },
+      { s:"___ zijn de docenten?",                             a:["Waar"],     full:"Waar zijn de docenten?",                                hint:"asking where someone or something is",          topic:"Vraagwoorden — Waar" },
+      { s:"___ komen uit Australië?",                          a:["Wie"],      full:"Wie komen uit Australië?",                              hint:"asking which people",                           topic:"Vraagwoorden — Wie" },
+      { s:"___ komt Patrick vandaan?",                         a:["Waar"],     full:"Waar komt Patrick vandaan?",                            hint:"asking about someone's origin",                 topic:"Vraagwoorden — Waar vandaan" },
+      { s:"___ dag is het?",                                   a:["Welke"],    full:"Welke dag is het?",                                     hint:"asking which specific one (de-word)",           topic:"Vraagwoorden — Welke" },
+      { s:"Over ___ vakantie vertelt Jeroen?",                 a:["welke"],    full:"Over welke vakantie vertelt Jeroen?",                   hint:"which (de-word) after a preposition",           topic:"Vraagwoorden — Welke" },
+      { s:"Met ___ zit je in de kantine?",                     a:["wie"],      full:"Met wie zit je in de kantine?",                         hint:"asking a person, after a preposition",          topic:"Vraagwoorden — Wie" },
+      { s:"___ is je broer in China?",                         a:["Waarom"],   full:"Waarom is je broer in China?",                          hint:"asking for a reason",                           topic:"Vraagwoorden — Waarom" },
+      { s:"___ zussen heb je?",                                a:["Hoeveel"],  full:"Hoeveel zussen heb je?",                                hint:"asking about a number or quantity",             topic:"Vraagwoorden — Hoeveel" },
+      { s:"___ ben jij?",                                      a:["Wie"],      full:"Wie ben jij?",                                          hint:"asking someone's identity",                     topic:"Vraagwoorden — Wie" },
+      { s:"___ heet jij?",                                     a:["Hoe"],      full:"Hoe heet jij?",                                         hint:"asking someone's name",                         topic:"Vraagwoorden — Hoe" },
+      { s:"___ is je adres?",                                  a:["Wat"],      full:"Wat is je adres?",                                      hint:"asking for a piece of information",             topic:"Vraagwoorden — Wat" },
+      { s:"___ woon je?",                                      a:["Waar"],     full:"Waar woon je?",                                         hint:"asking about a location",                       topic:"Vraagwoorden — Waar" },
+      { s:"___ kom je vandaan?",                               a:["Waar"],     full:"Waar kom je vandaan?",                                  hint:"asking about someone's origin",                 topic:"Vraagwoorden — Waar vandaan" },
+      { s:"Uit ___ land kom je?",                              a:["welk"],     full:"Uit welk land kom je?",                                 hint:"which before a het-word (het land) → welk",    topic:"Vraagwoorden — Welk (het-woord)" },
+      { s:"___ is het in jouw land zomer?",                    a:["Wanneer"],  full:"Wanneer is het in jouw land zomer?",                    hint:"asking about a time or moment",                 topic:"Vraagwoorden — Wanneer" },
+      { s:"___ zijn je ouders in Indonesië?",                  a:["Waarom"],   full:"Waarom zijn je ouders in Indonesië?",                   hint:"asking for a reason",                           topic:"Vraagwoorden — Waarom" },
+      { s:"___ broers heb je?",                                a:["Hoeveel"],  full:"Hoeveel broers heb je?",                                hint:"asking about a number or quantity",             topic:"Vraagwoorden — Hoeveel" },
+      { s:"___ doen je ouders daar?",                          a:["Wat"],      full:"Wat doen je ouders daar?",                              hint:"asking what someone does",                      topic:"Vraagwoorden — Wat" }
     ]
   },
 
   { id:"gram014", type:"grammar-rule", dutch:"Possessief pronomen", english:"Possessive pronouns (mijn, jouw, zijn…)", tag:"Ch 2",
     grammarSentences:[
-      { s:"Wij wonen in Zwolle. ___ adres is Rozenstraat 8.",         a:["Ons","ons"],       full:"Wij wonen in Zwolle. Ons adres is Rozenstraat 8.",           hint:"wij/we + het-woord → ons",             topic:"Possessief — ons (het-woord)" },
-      { s:"Ik woon in Amersfoort en ___ zus woont in Rotterdam.",     a:["mijn"],            full:"Ik woon in Amersfoort en mijn zus woont in Rotterdam.",       hint:"ik → mijn",                            topic:"Possessief — mijn (ik)" },
-      { s:"Mevrouw Jansen, gaat u met ___ broer op vakantie?",        a:["uw"],              full:"Mevrouw Jansen, gaat u met uw broer op vakantie?",            hint:"u → uw (formeel)",                     topic:"Possessief — uw (u)" },
-      { s:"Vera en Hilda, vertellen jullie eens over ___ vakantie.",  a:["jullie"],          full:"Vera en Hilda, vertellen jullie eens over jullie vakantie.",  hint:"jullie → jullie",                      topic:"Possessief — jullie" },
-      { s:"Dit is Farah en ___ achternaam is Ahmany.",                a:["haar"],            full:"Dit is Farah en haar achternaam is Ahmany.",                  hint:"zij/ze → haar",                        topic:"Possessief — haar (zij/ze)" },
-      { s:"Herman spreekt met ___ buurman over de cursus.",           a:["zijn"],            full:"Herman spreekt met zijn buurman over de cursus.",             hint:"hij → zijn",                           topic:"Possessief — zijn (hij)" },
-      { s:"Wij komen uit Polen en ___ cursus begint maandag.",        a:["onze"],            full:"Wij komen uit Polen en onze cursus begint maandag.",          hint:"wij/we + de-woord → onze",             topic:"Possessief — onze (de-woord)" },
-      { s:"Edit en Ning zitten met ___ docent in de kantine.",        a:["hun"],             full:"Edit en Ning zitten met hun docent in de kantine.",           hint:"zij/ze (plural) → hun",                topic:"Possessief — hun (zij/ze pl)" },
-      { s:"Theresa, woont ___ familie ook in Nederland?",             a:["jouw","je"],       full:"Theresa, woont jouw familie ook in Nederland?",               hint:"jij/je → jouw / je",                   topic:"Possessief — jouw/je (jij)" },
-      { s:"Peter moet voor ___ werk naar Indonesië.",                 a:["zijn"],            full:"Peter moet voor zijn werk naar Indonesië.",                   hint:"hij → zijn",                           topic:"Possessief — zijn (hij)" },
-      { s:"___ broer komt morgen op bezoek.",                         a:["Mijn","mijn"],     full:"Mijn broer komt morgen op bezoek.",                           hint:"ik → mijn",                            topic:"Possessief — mijn (ik)" },
-      { s:"Wat is ___ adres?",                                        a:["jouw","je"],       full:"Wat is jouw adres?",                                          hint:"jij/je → jouw / je",                   topic:"Possessief — jouw/je (jij)" },
-      { s:"Wij sturen ___ ouders een kaart.",                         a:["onze"],            full:"Wij sturen onze ouders een kaart.",                           hint:"wij/we + de-woord (plural) → onze",    topic:"Possessief — onze (de-woord)" },
-      { s:"Hij werkt met ___ vader in de winkel.",                    a:["zijn"],            full:"Hij werkt met zijn vader in de winkel.",                      hint:"hij → zijn",                           topic:"Possessief — zijn (hij)" },
-      { s:"Zij laat ___ foto zien.",                                  a:["haar"],            full:"Zij laat haar foto zien.",                                    hint:"zij/ze → haar",                        topic:"Possessief — haar (zij/ze)" }
+      { s:"Wij wonen in Zwolle. ___ adres is Rozenstraat 8.",         a:["Ons","ons"],       full:"Wij wonen in Zwolle. Ons adres is Rozenstraat 8.",           hint:"wij/we + het-woord noun (adres)",                    topic:"Possessief — ons (het-woord)" },
+      { s:"Ik woon in Amersfoort en ___ zus woont in Rotterdam.",     a:["mijn"],            full:"Ik woon in Amersfoort en mijn zus woont in Rotterdam.",       hint:"first person singular (speaker)",                    topic:"Possessief — mijn (ik)" },
+      { s:"Mevrouw Jansen, gaat u met ___ broer op vakantie?",        a:["uw"],              full:"Mevrouw Jansen, gaat u met uw broer op vakantie?",            hint:"formal/polite second person",                        topic:"Possessief — uw (u)" },
+      { s:"Vera en Hilda, vertellen jullie eens over ___ vakantie.",  a:["jullie"],          full:"Vera en Hilda, vertellen jullie eens over jullie vakantie.",  hint:"second person plural (same form as subject)",        topic:"Possessief — jullie" },
+      { s:"Dit is Farah en ___ achternaam is Ahmany.",                a:["haar"],            full:"Dit is Farah en haar achternaam is Ahmany.",                  hint:"third person singular feminine (Farah = zij)",       topic:"Possessief — haar (zij/ze)" },
+      { s:"Herman spreekt met ___ buurman over de cursus.",           a:["zijn"],            full:"Herman spreekt met zijn buurman over de cursus.",             hint:"third person singular masculine (Herman = hij)",     topic:"Possessief — zijn (hij)" },
+      { s:"Wij komen uit Polen en ___ cursus begint maandag.",        a:["onze"],            full:"Wij komen uit Polen en onze cursus begint maandag.",          hint:"wij/we + de-woord noun (cursus)",                    topic:"Possessief — onze (de-woord)" },
+      { s:"Edit en Ning zitten met ___ docent in de kantine.",        a:["hun"],             full:"Edit en Ning zitten met hun docent in de kantine.",           hint:"third person plural (Edit en Ning = zij/ze)",        topic:"Possessief — hun (zij/ze pl)" },
+      { s:"Theresa, woont ___ familie ook in Nederland?",             a:["jouw","je"],       full:"Theresa, woont jouw familie ook in Nederland?",               hint:"second person singular informal (two forms accepted)", topic:"Possessief — jouw/je (jij)" },
+      { s:"Peter moet voor ___ werk naar Indonesië.",                 a:["zijn"],            full:"Peter moet voor zijn werk naar Indonesië.",                   hint:"third person singular masculine (Peter = hij)",      topic:"Possessief — zijn (hij)" },
+      { s:"___ broer komt morgen op bezoek.",                         a:["Mijn","mijn"],     full:"Mijn broer komt morgen op bezoek.",                           hint:"first person singular (speaker)",                    topic:"Possessief — mijn (ik)" },
+      { s:"Wat is ___ adres?",                                        a:["jouw","je"],       full:"Wat is jouw adres?",                                          hint:"second person singular informal (two forms accepted)", topic:"Possessief — jouw/je (jij)" },
+      { s:"Wij sturen ___ ouders een kaart.",                         a:["onze"],            full:"Wij sturen onze ouders een kaart.",                           hint:"wij/we + de-woord noun (ouders = plural = de)",      topic:"Possessief — onze (de-woord)" },
+      { s:"Hij werkt met ___ vader in de winkel.",                    a:["zijn"],            full:"Hij werkt met zijn vader in de winkel.",                      hint:"third person singular masculine",                    topic:"Possessief — zijn (hij)" },
+      { s:"Zij laat ___ foto zien.",                                  a:["haar"],            full:"Zij laat haar foto zien.",                                    hint:"third person singular feminine",                     topic:"Possessief — haar (zij/ze)" }
+    ]
+  },
+
+  { id:"gram015", type:"grammar-rule", dutch:"De klok", english:"Telling the time", tag:"Ch 2",
+    grammarSentences:[
+      { s:"Hoe ___ is het?",                              a:["laat"],   full:"Hoe laat is het?",                            hint:"the question word for time of day (2 words combined)", topic:"De klok — Hoe laat?" },
+      { s:"Het is vijf ___ elf. (11.05)",                 a:["over"],   full:"Het is vijf over elf.",                        hint:"between :00 and :25 — count from the full hour",       topic:"De klok — over" },
+      { s:"Het is tien ___ elf. (11.10)",                 a:["over"],   full:"Het is tien over elf.",                        hint:"between :00 and :25 — count from the full hour",       topic:"De klok — over" },
+      { s:"Het is ___ over elf. (11.15)",                 a:["kwart"],  full:"Het is kwart over elf.",                       hint:"15 minutes = one quarter of an hour",                  topic:"De klok — kwart" },
+      { s:"Het is twintig ___ elf. (11.20)",              a:["over"],   full:"Het is twintig over elf.",                     hint:"between :00 and :25 — count from the full hour",       topic:"De klok — over" },
+      { s:"Het is vijf ___ half twaalf. (11.25)",         a:["voor"],   full:"Het is vijf voor half twaalf.",                hint:"between :20 and :30 — counting toward the half-hour",  topic:"De klok — voor half" },
+      { s:"Het is ___ twaalf. (11.30)",                   a:["half"],   full:"Het is half twaalf.",                          hint:"30 minutes — names the NEXT hour, not the current one",topic:"De klok — half" },
+      { s:"Het is vijf ___ half twaalf. (11.35)",         a:["over"],   full:"Het is vijf over half twaalf.",                hint:"between :30 and :40 — count from the half-hour",       topic:"De klok — over half" },
+      { s:"Het is tien ___ half twaalf. (11.40)",         a:["over"],   full:"Het is tien over half twaalf.",                hint:"between :30 and :40 — count from the half-hour",       topic:"De klok — over half" },
+      { s:"Het is ___ voor twaalf. (11.45)",              a:["kwart"],  full:"Het is kwart voor twaalf.",                    hint:"15 minutes = one quarter of an hour",                  topic:"De klok — kwart voor" },
+      { s:"Het is tien ___ twaalf. (11.50)",              a:["voor"],   full:"Het is tien voor twaalf.",                     hint:"between :35 and :59 — counting toward the full hour",  topic:"De klok — voor" },
+      { s:"Het is vijf ___ twaalf. (11.55)",              a:["voor"],   full:"Het is vijf voor twaalf.",                     hint:"between :35 and :59 — counting toward the full hour",  topic:"De klok — voor" },
+      { s:"___ laat begint de les?",                      a:["Hoe"],    full:"Hoe laat begint de les?",                      hint:"the question word for time of day (2 words combined)",  topic:"De klok — Hoe laat?" },
+      { s:"___ laat stopt de les?",                       a:["Hoe"],    full:"Hoe laat stopt de les?",                       hint:"the question word for time of day (2 words combined)",  topic:"De klok — Hoe laat?" },
+      { s:"___ laat hebben we pauze?",                    a:["Hoe"],    full:"Hoe laat hebben we pauze?",                    hint:"the question word for time of day (2 words combined)",  topic:"De klok — Hoe laat?" },
+      { s:"De cursus begint ___ negen uur.",              a:["om"],     full:"De cursus begint om negen uur.",               hint:"Dutch preposition used before a specific clock time",   topic:"De klok — om" },
+      { s:"Ik ga ___ halfnegen naar de les.",             a:["om"],     full:"Ik ga om halfnegen naar de les.",              hint:"Dutch preposition used before a specific clock time",   topic:"De klok — om" },
+      { s:"Hoe laat ga je ___ de cursus?",                a:["naar"],   full:"Hoe laat ga je naar de cursus?",               hint:"Dutch preposition for direction / destination",         topic:"De klok — naar" },
+    ]
+  },
+
+  { id:"gram016", type:"grammar-rule", dutch:"Dagen van de week", english:"Days of the week", tag:"Ch 2",
+    grammarSentences:[
+      { s:"___ was het dinsdag. (vandaag = donderdag)",       a:["Eergisteren"],  full:"Eergisteren was het dinsdag.",           hint:"two days before today",                             topic:"Dagen — eergisteren" },
+      { s:"___ was het woensdag. (vandaag = donderdag)",      a:["Gisteren"],     full:"Gisteren was het woensdag.",             hint:"the day before today",                              topic:"Dagen — gisteren" },
+      { s:"___ is het vrijdag. (vandaag = donderdag)",        a:["Morgen"],       full:"Morgen is het vrijdag.",                 hint:"the day after today",                               topic:"Dagen — morgen" },
+      { s:"___ is het zaterdag. (vandaag = donderdag)",       a:["Overmorgen"],   full:"Overmorgen is het zaterdag.",            hint:"two days after today",                              topic:"Dagen — overmorgen" },
+      { s:"Welke ___ is het vandaag?",                        a:["dag"],          full:"Welke dag is het vandaag?",              hint:"the Dutch word for 'day' (singular)",               topic:"Dagen — welke dag?" },
+      { s:"Welke dag ___ het gisteren?",                      a:["was"],          full:"Welke dag was het gisteren?",            hint:"past tense of 'zijn' (het/singular)",               topic:"Dagen — was" },
+      { s:"Welke dag is het ___?",                            a:["morgen"],       full:"Welke dag is het morgen?",               hint:"asking about the next day",                         topic:"Dagen — morgen" },
+      { s:"Welke dag was het ___?",                           a:["gisteren"],     full:"Welke dag was het gisteren?",            hint:"asking about the previous day",                     topic:"Dagen — gisteren" },
+    ]
+  },
+
+  { id:"gram017", type:"grammar-rule", dutch:"Tijdspreposities", english:"Prepositions: op, om, in", tag:"Ch 2",
+    grammarSentences:[
+      { s:"De cursus begint ___ maandag 8 april.",            a:["op"],   full:"De cursus begint op maandag 8 april.",         hint:"specific day or date",                              topic:"Prepositie — op (dag/datum)" },
+      { s:"De cursus begint om 9.00 uur ___ maandag.",        a:["op"],   full:"De cursus begint om 9.00 uur op maandag.",     hint:"specific day of the week",                          topic:"Prepositie — op (dag)" },
+      { s:"Heb jij ook les ___ dinsdag?",                     a:["op"],   full:"Heb jij ook les op dinsdag?",                  hint:"specific day of the week",                          topic:"Prepositie — op (dag)" },
+      { s:"De tweede cursus begint ___ januari.",             a:["in"],   full:"De tweede cursus begint in januari.",          hint:"month (no specific date)",                          topic:"Prepositie — in (maand)" },
+      { s:"We zijn ___ 9.45 uur in Amsterdam.",               a:["om"],   full:"We zijn om 9.45 uur in Amsterdam.",            hint:"a specific clock time",                             topic:"Prepositie — om (tijdstip)" },
+      { s:"Fred is ___ 12 augustus jarig.",                   a:["op"],   full:"Fred is op 12 augustus jarig.",                hint:"specific date",                                     topic:"Prepositie — op (datum)" },
+      { s:"Ben jij ook ___ de zomer jarig?",                  a:["in"],   full:"Ben jij ook in de zomer jarig?",               hint:"a season (no specific date)",                       topic:"Prepositie — in (seizoen)" },
+      { s:"Bart en Eva zijn ___ 2017 getrouwd.",              a:["in"],   full:"Bart en Eva zijn in 2017 getrouwd.",           hint:"a year (no specific date)",                         topic:"Prepositie — in (jaar)" },
+      { s:"___ welke datum zijn ze getrouwd?",                a:["Op"],   full:"Op welke datum zijn ze getrouwd?",             hint:"asking about a specific date",                      topic:"Prepositie — op (datum)" },
+      { s:"Ze zijn ___ 7 juli getrouwd.",                     a:["op"],   full:"Ze zijn op 7 juli getrouwd.",                  hint:"specific date",                                     topic:"Prepositie — op (datum)" },
+      { s:"We gaan ___ 10.30 uur naar de kantine.",           a:["om"],   full:"We gaan om 10.30 uur naar de kantine.",        hint:"a specific clock time",                             topic:"Prepositie — om (tijdstip)" },
+      { s:"Gerard en Senna gaan ___ oktober op vakantie.",    a:["in"],   full:"Gerard en Senna gaan in oktober op vakantie.", hint:"month (no specific date)",                          topic:"Prepositie — in (maand)" },
+      { s:"Hij is ___ 23 mei 1991 geboren.",                  a:["op"],   full:"Hij is op 23 mei 1991 geboren.",               hint:"specific date",                                     topic:"Prepositie — op (datum)" },
     ]
   },
 
   // ── Ch 3 Grammar Rules ──
   { id:"gram010", type:"grammar-rule", dutch:"Artikel", english:"Articles (de / het / een)", tag:"Ch 3",
     grammarSentences:[
-      { s:"Ik roep ___ ober.",                                 a:["de"],       full:"Ik roep de ober.",                                      hint:"de-woord (definite)",                           topic:"Artikel — de / het" },
-      { s:"Edit viert haar verjaardag in ___ café.",           a:["het"],      full:"Edit viert haar verjaardag in het café.",                hint:"het-woord (definite)",                           topic:"Artikel — de / het" },
-      { s:"Doe mij maar ___ biertje.",                         a:["een"],      full:"Doe mij maar een biertje.",                             hint:"indefinite: een (for both de and het words)",    topic:"Artikel — een (indefiniet)" },
-      { s:"Zullen we nog ___ keer bestellen?",                 a:["een"],      full:"Zullen we nog een keer bestellen?",                     hint:"een keer = once (indefinite)",                   topic:"Artikel — een (indefiniet)" },
-      { s:"Welkom in ___ cursus Nederlands.",                  a:["de"],       full:"Welkom in de cursus Nederlands.",                       hint:"de-woord (definite)",                            topic:"Artikel — de / het" },
-      { s:"___ rondje is van mij.",                            a:["Het"],      full:"Het rondje is van mij.",                                hint:"diminutief (-je) → always het",                  topic:"Artikel — diminutief = het" },
-      { s:"Nee, ik betaal ___ eerste rondje.",                 a:["het"],      full:"Nee, ik betaal het eerste rondje.",                     hint:"diminutief (-je) → always het",                  topic:"Artikel — diminutief = het" },
-      { s:"___ adres is correct.",                             a:["Het"],      full:"Het adres is correct.",                                 hint:"het adres (het-woord)",                          topic:"Artikel — de / het" },
-      { s:"___ broer werkt in de stad.",                       a:["De"],       full:"De broer werkt in de stad.",                            hint:"de broer (de-woord)",                            topic:"Artikel — de / het" },
-      { s:"___ biertje is koud.",                              a:["Het"],      full:"Het biertje is koud.",                                  hint:"diminutief (-je) → always het",                  topic:"Artikel — diminutief = het" },
-      { s:"___ cursus begint om negen uur.",                   a:["De"],       full:"De cursus begint om negen uur.",                        hint:"de cursus (de-woord)",                           topic:"Artikel — de / het" },
-      { s:"___ foto is mooi.",                                 a:["De"],       full:"De foto is mooi.",                                      hint:"de foto (de-woord)",                             topic:"Artikel — de / het" },
-      { s:"___ koffie is lekker.",                             a:["De"],       full:"De koffie is lekker.",                                  hint:"de koffie (de-woord)",                           topic:"Artikel — de / het" },
-      { s:"___ seizoen begint in september.",                  a:["Het"],      full:"Het seizoen begint in september.",                      hint:"het seizoen (het-woord)",                        topic:"Artikel — de / het" },
-      { s:"___ maand is bijna voorbij.",                       a:["De"],       full:"De maand is bijna voorbij.",                            hint:"de maand (de-woord)",                            topic:"Artikel — de / het" },
-      { s:"___ land is groot.",                                a:["Het"],      full:"Het land is groot.",                                    hint:"het land (het-woord)",                           topic:"Artikel — de / het" },
-      { s:"___ kantine is open.",                              a:["De"],       full:"De kantine is open.",                                   hint:"de kantine (de-woord)",                          topic:"Artikel — de / het" },
-      { s:"___ pauze duurt tien minuten.",                     a:["De"],       full:"De pauze duurt tien minuten.",                          hint:"de pauze (de-woord)",                            topic:"Artikel — de / het" },
-      { s:"In ___ pluralis gebruik je altijd de.",             a:["de","het"], full:"In de pluralis gebruik je altijd de.",                  hint:"plurals always use 'de'",                        topic:"Artikel — pluralis = de" },
-      { s:"Ik wil ___ kopje koffie.",                          a:["een"],      full:"Ik wil een kopje koffie.",                              hint:"indefinite: een kopje (diminutief, indefinite)",  topic:"Artikel — een (indefiniet)" }
+      { s:"Ik roep ___ ober.",                                 a:["de"],       full:"Ik roep de ober.",                            hint:"I'm calling the waiter. (specific waiter = definite)",          topic:"Artikel — de / het" },
+      { s:"Edit viert haar verjaardag in ___ café.",           a:["het"],      full:"Edit viert haar verjaardag in het café.",      hint:"Edit celebrates her birthday in the café. (specific café)",      topic:"Artikel — de / het" },
+      { s:"Doe mij maar ___ biertje.",                         a:["een"],      full:"Doe mij maar een biertje.",                    hint:"Just give me a beer. (any beer, not specific)",                  topic:"Artikel — een (indefiniet)" },
+      { s:"Zullen we nog ___ keer bestellen?",                 a:["een"],      full:"Zullen we nog een keer bestellen?",            hint:"Shall we order one more time? (een keer = once)",                topic:"Artikel — een (indefiniet)" },
+      { s:"Welkom in ___ cursus Nederlands.",                  a:["de"],       full:"Welkom in de cursus Nederlands.",              hint:"Welcome to the Dutch course. (specific known course)",            topic:"Artikel — de / het" },
+      { s:"___ rondje is van mij.",                            a:["Het"],      full:"Het rondje is van mij.",                       hint:"The round is on me. (diminutief -je = always het)",              topic:"Artikel — diminutief = het" },
+      { s:"Nee, ik betaal ___ eerste rondje.",                 a:["het"],      full:"Nee, ik betaal het eerste rondje.",            hint:"No, I'll pay for the first round. (diminutief -je = always het)",topic:"Artikel — diminutief = het" },
+      { s:"___ adres is correct.",                             a:["Het"],      full:"Het adres is correct.",                        hint:"The address is correct. (het adres = het-word)",                 topic:"Artikel — de / het" },
+      { s:"___ broer werkt in de stad.",                       a:["De"],       full:"De broer werkt in de stad.",                   hint:"The brother works in the city. (de broer = de-word)",            topic:"Artikel — de / het" },
+      { s:"___ biertje is koud.",                              a:["Het"],      full:"Het biertje is koud.",                         hint:"The beer is cold. (diminutief -je = always het)",                topic:"Artikel — diminutief = het" },
+      { s:"___ cursus begint om negen uur.",                   a:["De"],       full:"De cursus begint om negen uur.",               hint:"The course starts at nine. (de cursus = de-word)",               topic:"Artikel — de / het" },
+      { s:"___ foto is mooi.",                                 a:["De"],       full:"De foto is mooi.",                             hint:"The photo is beautiful. (de foto = de-word)",                    topic:"Artikel — de / het" },
+      { s:"___ koffie is lekker.",                             a:["De"],       full:"De koffie is lekker.",                         hint:"The coffee is nice. (de koffie = de-word)",                      topic:"Artikel — de / het" },
+      { s:"___ seizoen begint in september.",                  a:["Het"],      full:"Het seizoen begint in september.",             hint:"The season starts in September. (het seizoen = het-word)",       topic:"Artikel — de / het" },
+      { s:"___ maand is bijna voorbij.",                       a:["De"],       full:"De maand is bijna voorbij.",                   hint:"The month is almost over. (de maand = de-word)",                 topic:"Artikel — de / het" },
+      { s:"___ land is groot.",                                a:["Het"],      full:"Het land is groot.",                           hint:"The country is large. (het land = het-word)",                    topic:"Artikel — de / het" },
+      { s:"___ kantine is open.",                              a:["De"],       full:"De kantine is open.",                          hint:"The canteen is open. (de kantine = de-word)",                    topic:"Artikel — de / het" },
+      { s:"___ pauze duurt tien minuten.",                     a:["De"],       full:"De pauze duurt tien minuten.",                 hint:"The break lasts ten minutes. (de pauze = de-word)",              topic:"Artikel — de / het" },
+      { s:"Ik wil ___ kopje koffie.",                          a:["een"],      full:"Ik wil een kopje koffie.",                     hint:"I want a cup of coffee. (indefinite — which cup? any cup)",      topic:"Artikel — een (indefiniet)" },
+      { s:"Ik zoek ___ appartement in de stad.",               a:["een"],      full:"Ik zoek een appartement in de stad.",          hint:"I'm looking for a flat in the city. (not yet known = indefinite)",topic:"Artikel — een (indefiniet)" },
+      { s:"___ appels kosten twee euro.",                      a:["De"],       full:"De appels kosten twee euro.",                  hint:"The apples cost two euros. (plural = always de)",                topic:"Artikel — pluralis = de" },
+      { s:"___ rondjes zijn van ons.",                         a:["De"],       full:"De rondjes zijn van ons.",                     hint:"The rounds are on us. (plural = always de, even diminutives)",   topic:"Artikel — pluralis = de" },
+      { s:"Hij is docent aan ___ universiteit.",               a:["een","de"], full:"Hij is docent aan een universiteit.",          hint:"He is a lecturer at a university. (no article after zijn for professions — but articles used elsewhere!)", topic:"Artikel — geen artikel" },
+      { s:"Ik ga naar ___huis.",                               a:["huis"],     full:"Ik ga naar huis.",                             hint:"I'm going home. (naar huis = fixed phrase, no article)",         topic:"Artikel — geen artikel" },
     ]
   },
 
@@ -1495,21 +1926,21 @@ const DECK = [
 
   { id:"gram012", type:"grammar-rule", dutch:"Rangtelwoorden", english:"Ordinal numbers (eerste, tweede…)", tag:"Ch 3",
     grammarSentences:[
-      { s:"Vandaag is de ___ dag van de cursus. (1)",          a:["eerste"],          full:"Vandaag is de eerste dag van de cursus.",               hint:"1e = eerste (irregular)",                   topic:"Rangtelwoorden" },
-      { s:"Dit is de ___ les. (2)",                            a:["tweede"],          full:"Dit is de tweede les.",                                 hint:"2e = tweede (irregular)",                   topic:"Rangtelwoorden" },
-      { s:"We beginnen met de ___ tekst. (3)",                 a:["derde"],           full:"We beginnen met de derde tekst.",                        hint:"3e = derde (irregular)",                    topic:"Rangtelwoorden" },
-      { s:"Eddy is op de ___ verdieping. (4)",                 a:["vierde"],          full:"Eddy is op de vierde verdieping.",                      hint:"4e = vierde",                               topic:"Rangtelwoorden" },
-      { s:"Het is de ___ keer. (5)",                           a:["vijfde"],          full:"Het is de vijfde keer.",                                hint:"5e = vijfde",                               topic:"Rangtelwoorden" },
-      { s:"De kantine is op de ___ etage. (6)",                a:["zesde"],           full:"De kantine is op de zesde etage.",                      hint:"6e = zesde",                                topic:"Rangtelwoorden" },
-      { s:"Zaterdag is de ___ dag van de week. (7)",           a:["zevende"],         full:"Zaterdag is de zevende dag van de week.",               hint:"7e = zevende",                              topic:"Rangtelwoorden" },
-      { s:"De ___ les is de moeilijkste. (8)",                 a:["achtste"],         full:"De achtste les is de moeilijkste.",                     hint:"8e = achtste (irregular -ste!)",             topic:"Rangtelwoorden" },
-      { s:"We zijn nu in de ___ week. (9)",                    a:["negende"],         full:"We zijn nu in de negende week.",                        hint:"9e = negende",                              topic:"Rangtelwoorden" },
-      { s:"Dit is de ___ bladzijde. (10)",                     a:["tiende"],          full:"Dit is de tiende bladzijde.",                           hint:"10e = tiende",                              topic:"Rangtelwoorden" },
-      { s:"Het is de ___ keer dat ik hier ben. (11)",          a:["elfde"],           full:"Het is de elfde keer dat ik hier ben.",                 hint:"11e = elfde (irregular)",                   topic:"Rangtelwoorden" },
-      { s:"De ___ maand is december. (12)",                    a:["twaalfde"],        full:"De twaalfde maand is december.",                        hint:"12e = twaalfde (irregular)",                topic:"Rangtelwoorden" },
-      { s:"Dit is de ___ les van de cursus. (20)",             a:["twintigste"],      full:"Dit is de twintigste les van de cursus.",               hint:"20e = twintigste (irregular -ste!)",         topic:"Rangtelwoorden" },
-      { s:"Het is de ___ bladzijde. (21)",                     a:["eenentwintigste"], full:"Het is de eenentwintigste bladzijde.",                  hint:"21e = eenentwintigste",                     topic:"Rangtelwoorden" },
-      { s:"Dit is de ___ les. (100)",                          a:["honderdste"],      full:"Dit is de honderdste les.",                             hint:"100e = honderdste (-ste ending)",            topic:"Rangtelwoorden" }
+      { s:"Vandaag is de ___ dag van de cursus. (1)",          a:["eerste"],          full:"Vandaag is de eerste dag van de cursus.",               hint:"irregular — does not follow the normal -de pattern",   topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ les. (2)",                            a:["tweede"],          full:"Dit is de tweede les.",                                 hint:"irregular — does not follow the normal -de pattern",   topic:"Rangtelwoorden" },
+      { s:"We beginnen met de ___ tekst. (3)",                 a:["derde"],           full:"We beginnen met de derde tekst.",                        hint:"irregular — does not follow the normal -de pattern",   topic:"Rangtelwoorden" },
+      { s:"Eddy is op de ___ verdieping. (4)",                 a:["vierde"],          full:"Eddy is op de vierde verdieping.",                      hint:"regular -de ending, short vowel stays short",          topic:"Rangtelwoorden" },
+      { s:"Het is de ___ keer. (5)",                           a:["vijfde"],          full:"Het is de vijfde keer.",                                hint:"regular -de ending",                                   topic:"Rangtelwoorden" },
+      { s:"De kantine is op de ___ etage. (6)",                a:["zesde"],           full:"De kantine is op de zesde etage.",                      hint:"regular -de ending",                                   topic:"Rangtelwoorden" },
+      { s:"Zaterdag is de ___ dag van de week. (7)",           a:["zevende"],         full:"Zaterdag is de zevende dag van de week.",               hint:"regular -de ending",                                   topic:"Rangtelwoorden" },
+      { s:"De ___ les is de moeilijkste. (8)",                 a:["achtste"],         full:"De achtste les is de moeilijkste.",                     hint:"ends in -t, so takes -ste instead of -de",             topic:"Rangtelwoorden" },
+      { s:"We zijn nu in de ___ week. (9)",                    a:["negende"],         full:"We zijn nu in de negende week.",                        hint:"regular -de ending",                                   topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ bladzijde. (10)",                     a:["tiende"],          full:"Dit is de tiende bladzijde.",                           hint:"regular -de ending",                                   topic:"Rangtelwoorden" },
+      { s:"Het is de ___ keer dat ik hier ben. (11)",          a:["elfde"],           full:"Het is de elfde keer dat ik hier ben.",                 hint:"irregular form — memorise it",                         topic:"Rangtelwoorden" },
+      { s:"De ___ maand is december. (12)",                    a:["twaalfde"],        full:"De twaalfde maand is december.",                        hint:"irregular spelling — double vowel changes",            topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ les van de cursus. (20)",             a:["twintigste"],      full:"Dit is de twintigste les van de cursus.",               hint:"tens take -ste instead of -de",                        topic:"Rangtelwoorden" },
+      { s:"Het is de ___ bladzijde. (21)",                     a:["eenentwintigste"], full:"Het is de eenentwintigste bladzijde.",                  hint:"compound: unit + -en- + ten, then apply the ordinal rule", topic:"Rangtelwoorden" },
+      { s:"Dit is de ___ les. (100)",                          a:["honderdste"],      full:"Dit is de honderdste les.",                             hint:"round numbers take -ste",                              topic:"Rangtelwoorden" }
     ]
   },
 
@@ -1618,22 +2049,129 @@ const DECK = [
     ]
   },
 
-  { id:"gram004", type:"grammar-rule", dutch:"Preposities van plaats", english:"Prepositions of place", tag:"Ch 8",
+  { id:"gram004", type:"grammar-rule", dutch:"Preposities", english:"Prepositions", tag:"Ch 8",
     grammarSentences:[
-      { s:"De fiets staat ___ de muur.",                           a:["tegen"],     full:"De fiets staat tegen de muur.",                     hint:"against the wall",           topic:"Preposities van plaats" },
-      { s:"De boom staat ___ het huis.",                           a:["achter"],    full:"De boom staat achter het huis.",                   hint:"behind the house",           topic:"Preposities van plaats" },
-      { s:"De auto staat ___ het huis.",                           a:["naast"],     full:"De auto staat naast het huis.",                    hint:"next to the house",          topic:"Preposities van plaats" },
-      { s:"De stoel staat ___ de lamp.",                           a:["voor"],      full:"De stoel staat voor de lamp.",                     hint:"in front of the lamp",       topic:"Preposities van plaats" },
-      { s:"De boompjes staan ___ het balkon.",                     a:["op"],        full:"De boompjes staan op het balkon.",                 hint:"on the balcony",             topic:"Preposities van plaats" },
-      { s:"De foto hangt ___ de muur.",                            a:["aan"],       full:"De foto hangt aan de muur.",                       hint:"on / at the wall",           topic:"Preposities van plaats" },
-      { s:"De stoelen staan ___ de tafel.",                        a:["om"],        full:"De stoelen staan om de tafel.",                    hint:"around the table",           topic:"Preposities van plaats" },
-      { s:"De slaapkamer is ___ de keuken.",                       a:["boven"],     full:"De slaapkamer is boven de keuken.",                hint:"above the kitchen",          topic:"Preposities van plaats" },
-      { s:"De woonkamer is ___ het balkon.",                       a:["onder"],     full:"De woonkamer is onder het balkon.",                hint:"under the balcony",          topic:"Preposities van plaats" },
-      { s:"De televisie staat ___ de tafel.",                      a:["bij"],       full:"De televisie staat bij de tafel.",                 hint:"near / at the table",        topic:"Preposities van plaats" },
-      { s:"Het bed staat ___ de slaapkamer.",                      a:["in"],        full:"Het bed staat in de slaapkamer.",                  hint:"in the bedroom",             topic:"Preposities van plaats" },
-      { s:"De slaapkamer is ___ de keuken en de zolder.",          a:["tussen"],    full:"De slaapkamer is tussen de keuken en de zolder.", hint:"between kitchen and attic",  topic:"Preposities van plaats" },
-      { s:"De wasmachine staat ___ de deur.",                      a:["tegenover"], full:"De wasmachine staat tegenover de deur.",           hint:"opposite the door",          topic:"Preposities van plaats" },
-      { s:"Dit is een huis ___ een balkon.",                       a:["met"],       full:"Dit is een huis met een balkon.",                  hint:"with a balcony",             topic:"Preposities van plaats" }
+      // ── Plaats ──
+      { s:"De fiets staat ___ de muur.",                            a:["tegen"],      full:"De fiets staat tegen de muur.",                      hint:"The bike is leaning against the wall.",              topic:"Preposities — Plaats" },
+      { s:"De boom staat ___ het huis.",                            a:["achter"],     full:"De boom staat achter het huis.",                     hint:"The tree is behind the house.",                      topic:"Preposities — Plaats" },
+      { s:"De auto staat ___ het huis.",                            a:["naast"],      full:"De auto staat naast het huis.",                      hint:"The car is next to the house.",                      topic:"Preposities — Plaats" },
+      { s:"De stoel staat ___ de lamp.",                            a:["voor"],       full:"De stoel staat voor de lamp.",                       hint:"The chair is in front of the lamp.",                 topic:"Preposities — Plaats" },
+      { s:"De boeken liggen ___ de tafel.",                         a:["op"],         full:"De boeken liggen op de tafel.",                      hint:"The books are on the table.",                        topic:"Preposities — Plaats" },
+      { s:"De foto hangt ___ de muur.",                             a:["aan"],        full:"De foto hangt aan de muur.",                         hint:"The photo is hanging on the wall.",                  topic:"Preposities — Plaats" },
+      { s:"De stoelen staan ___ de tafel.",                         a:["om"],         full:"De stoelen staan om de tafel.",                      hint:"The chairs are around the table.",                   topic:"Preposities — Plaats" },
+      { s:"De slaapkamer is ___ de keuken.",                        a:["boven"],      full:"De slaapkamer is boven de keuken.",                  hint:"The bedroom is above the kitchen.",                  topic:"Preposities — Plaats" },
+      { s:"De woonkamer is ___ het balkon.",                        a:["onder"],      full:"De woonkamer is onder het balkon.",                  hint:"The living room is below the balcony.",              topic:"Preposities — Plaats" },
+      { s:"De televisie staat ___ de tafel.",                       a:["bij"],        full:"De televisie staat bij de tafel.",                   hint:"The television is near the table.",                  topic:"Preposities — Plaats" },
+      { s:"Het bed staat ___ de slaapkamer.",                       a:["in"],         full:"Het bed staat in de slaapkamer.",                    hint:"The bed is in the bedroom.",                         topic:"Preposities — Plaats" },
+      { s:"De slaapkamer is ___ de keuken en de zolder.",           a:["tussen"],     full:"De slaapkamer is tussen de keuken en de zolder.",    hint:"The bedroom is between the kitchen and the attic.", topic:"Preposities — Plaats" },
+      { s:"De wasmachine staat ___ de deur.",                       a:["tegenover"],  full:"De wasmachine staat tegenover de deur.",             hint:"The washing machine is opposite the door.",          topic:"Preposities — Plaats" },
+      { s:"We lopen ___ het kanaal.",                               a:["langs"],      full:"We lopen langs het kanaal.",                         hint:"We walk along the canal.",                           topic:"Preposities — Plaats" },
+      // ── Tijd ──
+      { s:"De les begint ___ negen uur.",                           a:["om"],         full:"De les begint om negen uur.",                        hint:"The lesson starts at nine o'clock.",                 topic:"Preposities — Tijd" },
+      { s:"Ik ga ___ maandag naar de cursus.",                      a:["op"],         full:"Ik ga op maandag naar de cursus.",                   hint:"I go to the course on Monday.",                      topic:"Preposities — Tijd" },
+      { s:"De cursus begint ___ september.",                        a:["in"],         full:"De cursus begint in september.",                     hint:"The course starts in September.",                    topic:"Preposities — Tijd" },
+      { s:"Ik ben ___ het eten thuis.",                             a:["na"],         full:"Ik ben na het eten thuis.",                          hint:"I am at home after dinner.",                         topic:"Preposities — Tijd" },
+      { s:"Kom je ___ de les even langs?",                          a:["na"],         full:"Kom je na de les even langs?",                       hint:"Will you drop by after the lesson?",                 topic:"Preposities — Tijd" },
+      { s:"We eten ___ de les.",                                    a:["voor"],       full:"We eten voor de les.",                               hint:"We eat before the lesson.",                          topic:"Preposities — Tijd" },
+      { s:"___ de pauze drinken we koffie.",                        a:["Tijdens","tijdens"], full:"Tijdens de pauze drinken we koffie.",         hint:"During the break we drink coffee.",                  topic:"Preposities — Tijd" },
+      { s:"De winkel is open ___ 9 ___ 17 uur.",                    a:["van","tot"],  full:"De winkel is open van 9 tot 17 uur.",                hint:"The shop is open from 9 to 5.",                      topic:"Preposities — Tijd" },
+      { s:"Hij komt ___ twee weken terug.",                         a:["over"],       full:"Hij komt over twee weken terug.",                    hint:"He comes back in two weeks.",                        topic:"Preposities — Tijd" },
+      // ── Richting ──
+      { s:"Ik ga ___ de kantine.",                                  a:["naar"],       full:"Ik ga naar de kantine.",                             hint:"I'm going to the canteen.",                          topic:"Preposities — Richting" },
+      { s:"Ik kom ___ de kantine.",                                 a:["van","uit"],  full:"Ik kom van de kantine.",                             hint:"I'm coming from the canteen.",                       topic:"Preposities — Richting" },
+      { s:"Hij komt ___ Engeland.",                                 a:["uit"],        full:"Hij komt uit Engeland.",                             hint:"He comes from England.",                             topic:"Preposities — Richting" },
+      { s:"We lopen ___ het park.",                                 a:["door"],       full:"We lopen door het park.",                            hint:"We walk through the park.",                          topic:"Preposities — Richting" },
+      { s:"De trein rijdt ___ het station.",                        a:["voorbij"],    full:"De trein drives past the station.",                  hint:"The train drives past the station.",                 topic:"Preposities — Richting" },
+      // ── Overig ──
+      { s:"Ik ga ___ de fiets naar school.",                        a:["met"],        full:"Ik ga met de fiets naar school.",                    hint:"I go to school by bike.",                            topic:"Preposities — Overig" },
+      { s:"Ik drink koffie ___ suiker.",                            a:["zonder"],     full:"Ik drink koffie zonder suiker.",                     hint:"I drink coffee without sugar.",                      topic:"Preposities — Overig" },
+      { s:"Dit cadeau is ___ jou.",                                 a:["voor"],       full:"Dit cadeau is voor jou.",                            hint:"This present is for you.",                           topic:"Preposities — Overig" },
+      { s:"We praten ___ het werk.",                                a:["over"],       full:"We praten over het werk.",                           hint:"We are talking about work.",                         topic:"Preposities — Overig" },
+      { s:"Dit is het adres ___ mijn buurman.",                     a:["van"],        full:"Dit is het adres van mijn buurman.",                 hint:"This is my neighbour's address.",                    topic:"Preposities — Overig" },
+      { s:"Ik woon ___ een huis met een balkon.",                   a:["in"],         full:"Ik woon in een huis met een balkon.",                hint:"I live in a house with a balcony.",                  topic:"Preposities — Overig" },
+    ]
+  },
+
+  // ── Mijn grammatica ──
+  { id:"gram021", type:"grammar-rule", dutch:"Nevengeschikte voegwoorden", english:"Coordinating conjunctions", tag:"mijn-grammatica",
+    grammarSentences:[
+      { s:"Ik spreek Engels ___ Nederlands.",               a:["en"],    full:"Ik spreek Engels en Nederlands.",          hint:"I speak English and Dutch.",                                  topic:"Voegwoord — en" },
+      { s:"Hij is moe ___ gaat naar bed.",                  a:["en"],    full:"Hij is moe en gaat naar bed.",             hint:"He is tired and goes to bed.",                               topic:"Voegwoord — en" },
+      { s:"Het is duur, ___ het is mooi.",                  a:["maar"],  full:"Het is duur, maar het is mooi.",           hint:"It is expensive, but it is beautiful.",                      topic:"Voegwoord — maar" },
+      { s:"Ik ben moe, ___ ik ga toch.",                    a:["maar"],  full:"Ik ben moe, maar ik ga toch.",             hint:"I am tired, but I'll go anyway.",                            topic:"Voegwoord — maar" },
+      { s:"Doe een jas aan, ___ het is koud.",              a:["want"],  full:"Doe een jas aan, want het is koud.",       hint:"Put on a coat, because it is cold. (word order stays normal after want)", topic:"Voegwoord — want" },
+      { s:"Ik ga vroeg naar bed, ___ ik ben moe.",         a:["want"],  full:"Ik ga vroeg naar bed, want ik ben moe.",   hint:"I'm going to bed early, because I am tired.",                topic:"Voegwoord — want" },
+      { s:"Wil je koffie ___ thee?",                        a:["of"],    full:"Wil je koffie of thee?",                   hint:"Do you want coffee or tea?",                                 topic:"Voegwoord — of" },
+      { s:"Kom je vrijdag ___ zaterdag?",                   a:["of"],    full:"Kom je vrijdag of zaterdag?",              hint:"Are you coming on Friday or Saturday?",                      topic:"Voegwoord — of" },
+      { s:"Het regent, ___ ik neem een paraplu.",           a:["dus"],   full:"Het regent, dus ik neem een paraplu.",     hint:"It is raining, so I'll take an umbrella.",                   topic:"Voegwoord — dus" },
+      { s:"Je bent ziek, ___ je moet rusten.",              a:["dus"],   full:"Je bent ziek, dus je moet rusten.",        hint:"You are sick, so you need to rest.",                         topic:"Voegwoord — dus" },
+      { s:"Het is duur, ___ koop ik het.",                  a:["toch"],  full:"Het is duur, toch koop ik het.",           hint:"It is expensive, yet I'll buy it.",                          topic:"Voegwoord — toch" },
+      { s:"Hij is moe, ___ werkt hij door.",                a:["toch"],  full:"Hij is moe, toch werkt hij door.",         hint:"He is tired, yet he keeps working.",                         topic:"Voegwoord — toch" },
+    ]
+  },
+
+  { id:"gram022", type:"grammar-rule", dutch:"Onderschikkende voegwoorden", english:"Subordinating conjunctions", tag:"mijn-grammatica",
+    grammarSentences:[
+      { s:"Ik kom niet ___ ik ziek ben.",                   a:["omdat"],   full:"Ik kom niet omdat ik ziek ben.",         hint:"I'm not coming because I am sick. (verb at end: 'ben')",      topic:"Voegwoord — omdat" },
+      { s:"Ze is blij ___ ze geslaagd is.",                 a:["omdat"],   full:"Ze is blij omdat ze geslaagd is.",       hint:"She is happy because she passed. (verb at end: 'is')",        topic:"Voegwoord — omdat" },
+      { s:"Ik denk ___ het morgen regent.",                 a:["dat"],     full:"Ik denk dat het morgen regent.",         hint:"I think that it will rain tomorrow. (verb at end: 'regent')", topic:"Voegwoord — dat" },
+      { s:"Hij zegt ___ hij morgen komt.",                  a:["dat"],     full:"Hij zegt dat hij morgen komt.",          hint:"He says that he is coming tomorrow. (verb at end: 'komt')",   topic:"Voegwoord — dat" },
+      { s:"___ je tijd hebt, bel me even.",                 a:["Als","als"], full:"Als je tijd hebt, bel me even.",       hint:"If you have time, give me a call. (inversion in main clause)", topic:"Voegwoord — als" },
+      { s:"Ik ga wandelen ___ het mooi weer is.",           a:["als","wanneer"], full:"Ik ga wandelen als het mooi weer is.", hint:"I go for a walk when the weather is nice.",              topic:"Voegwoord — als" },
+      { s:"Bel me ___ je er bent.",                         a:["wanneer","als"], full:"Bel me wanneer je er bent.",        hint:"Call me when you are there. (verb at end: 'bent')",          topic:"Voegwoord — wanneer" },
+      { s:"___ vertrek je morgen?",                         a:["Wanneer","wanneer"], full:"Wanneer vertrek je morgen?",    hint:"When are you leaving tomorrow? (question word)",             topic:"Voegwoord — wanneer" },
+      { s:"Ik lees ___ hij kookt.",                         a:["terwijl"], full:"Ik lees terwijl hij kookt.",             hint:"I read while he cooks. (verb at end: 'kookt')",              topic:"Voegwoord — terwijl" },
+      { s:"Ze zingt ___ ze doucht.",                        a:["terwijl"], full:"Ze zingt terwijl ze doucht.",            hint:"She sings while she showers. (verb at end: 'doucht')",        topic:"Voegwoord — terwijl" },
+      { s:"___ het regent, ga ik toch.",                    a:["Hoewel","hoewel"], full:"Hoewel het regent, ga ik toch.", hint:"Although it is raining, I'll go anyway.",                    topic:"Voegwoord — hoewel" },
+      { s:"Hij is blij, ___ hij heeft verloren.",           a:["hoewel"], full:"Hij is blij, hoewel hij heeft verloren.", hint:"He is happy, although he lost.",                             topic:"Voegwoord — hoewel" },
+      { s:"___ ik gegeten heb, ga ik slapen.",              a:["Nadat","nadat"], full:"Nadat ik gegeten heb, ga ik slapen.", hint:"After I have eaten, I'll go to sleep.",                  topic:"Voegwoord — nadat" },
+      { s:"Ze belde me ___ ze thuis was.",                  a:["nadat"],  full:"Ze belde me nadat ze thuis was.",         hint:"She called me after she got home. (verb at end: 'was')",     topic:"Voegwoord — nadat" },
+      { s:"Lees de instructies ___ je begint.",             a:["voordat"], full:"Lees de instructies voordat je begint.", hint:"Read the instructions before you start. (verb at end: 'begint')", topic:"Voegwoord — voordat" },
+      { s:"___ je weggaat, zeg gedag.",                     a:["Voordat","voordat"], full:"Voordat je weggaat, zeg gedag.", hint:"Before you leave, say goodbye.",                          topic:"Voegwoord — voordat" },
+      { s:"Ik spreek langzaam, ___ je me begrijpt.",        a:["zodat"],  full:"Ik spreek langzaam, zodat je me begrijpt.", hint:"I speak slowly so that you understand me.",               topic:"Voegwoord — zodat" },
+      { s:"Ze werkt hard ___ ze kan reizen.",               a:["zodat"],  full:"Ze werkt hard zodat ze kan reizen.",      hint:"She works hard so that she can travel.",                     topic:"Voegwoord — zodat" },
+    ]
+  },
+
+  { id:"gram023", type:"grammar-rule", dutch:"Bijwoordelijke verbindingswoorden", english:"Adverbial connectors", tag:"mijn-grammatica",
+    grammarSentences:[
+      { s:"Hij is ziek. ___ komt hij niet.",                a:["Daarom","daarom"],    full:"Daarom komt hij niet.",           hint:"He is sick. That's why he's not coming. (inversion: verb before subject)",  topic:"Verbindingswoord — daarom" },
+      { s:"Het regent. ___ neem ik een paraplu.",           a:["Daarom","daarom"],    full:"Daarom neem ik een paraplu.",     hint:"It is raining. Therefore I'm taking an umbrella.",                          topic:"Verbindingswoord — daarom" },
+      { s:"Ik spreek Engels. ___ spreek ik ook Duits.",     a:["Ook","ook"],           full:"Ook spreek ik Duits.",            hint:"I speak English. I also speak German. (inversion: verb before subject)",    topic:"Verbindingswoord — ook" },
+      { s:"Hij is slim. Hij is ___ aardig.",                a:["ook"],                full:"Hij is ook aardig.",              hint:"He is smart. He is also kind. (ook mid-sentence: no inversion needed)",     topic:"Verbindingswoord — ook" },
+      { s:"Eerst eten, ___ werken.",                        a:["dan"],                full:"Eerst eten, dan werken.",          hint:"First eat, then work.",                                                     topic:"Verbindingswoord — dan" },
+      { s:"Wat doe je ___ als je klaar bent?",              a:["dan"],                full:"Wat doe je dan als je klaar bent?", hint:"What do you do then when you are done?",                                  topic:"Verbindingswoord — dan" },
+      { s:"We eten eerst. ___ gaan we naar de film.",       a:["Daarna","daarna"],    full:"Daarna gaan we naar de film.",     hint:"We eat first. After that we go to the cinema. (inversion)",               topic:"Verbindingswoord — daarna" },
+      { s:"Eerst werk ik. ___ ga ik naar huis.",            a:["Daarna","daarna"],    full:"Daarna ga ik naar huis.",          hint:"First I work. After that I go home. (inversion)",                          topic:"Verbindingswoord — daarna" },
+      { s:"___ was ik bang, maar nu gaat het.",             a:["Eerst","eerst"],      full:"Eerst was ik bang, maar nu gaat het.", hint:"At first I was scared, but now it's fine. (inversion)",              topic:"Verbindingswoord — eerst" },
+      { s:"___ betaal je, dan krijg je de sleutel.",        a:["Eerst","eerst"],      full:"Eerst betaal je, dan krijg je de sleutel.", hint:"First you pay, then you get the key. (inversion)",              topic:"Verbindingswoord — eerst" },
+      { s:"___ wil ik iedereen bedanken.",                  a:["Tenslotte","tenslotte"], full:"Tenslotte wil ik iedereen bedanken.", hint:"Finally, I want to thank everyone. (inversion)",                  topic:"Verbindingswoord — tenslotte" },
+      { s:"___ is het jouw beslissing.",                    a:["Tenslotte","tenslotte"], full:"Tenslotte is het jouw beslissing.", hint:"After all, it is your decision. (inversion)",                       topic:"Verbindingswoord — tenslotte" },
+      { s:"Het is duur. ___ is het lelijk.",                a:["Bovendien","bovendien"], full:"Bovendien is het lelijk.",       hint:"It is expensive. Moreover, it is ugly. (inversion)",                     topic:"Verbindingswoord — bovendien" },
+      { s:"Hij is slim. ___ is hij aardig.",                a:["Bovendien","bovendien"], full:"Bovendien is hij aardig.",       hint:"He is smart. Furthermore, he is kind. (inversion)",                      topic:"Verbindingswoord — bovendien" },
+      { s:"Het plan is goed. ___ kost het veel.",           a:["Echter","echter"],    full:"Echter kost het veel.",            hint:"The plan is good. However, it costs a lot. (inversion)",                   topic:"Verbindingswoord — echter" },
+      { s:"Ze wil helpen. Ze heeft ___ geen tijd.",         a:["echter"],             full:"Ze heeft echter geen tijd.",       hint:"She wants to help. She has, however, no time. (mid-sentence position)",     topic:"Verbindingswoord — echter" },
+      { s:"___ de docent wist het niet.",                   a:["Zelfs","zelfs"],      full:"Zelfs de docent wist het niet.",   hint:"Even the teacher didn't know.",                                            topic:"Verbindingswoord — zelfs" },
+      { s:"Hij eet alles, ___ groenten.",                   a:["zelfs"],              full:"Hij eet alles, zelfs groenten.",   hint:"He eats everything, even vegetables.",                                     topic:"Verbindingswoord — zelfs" },
+      { s:"Ben je ___ klaar?",                              a:["al"],                 full:"Ben je al klaar?",                 hint:"Are you already done?",                                                    topic:"Verbindingswoord — al" },
+      { s:"Ik heb hem ___ gezien.",                         a:["al"],                 full:"Ik heb hem al gezien.",            hint:"I have already seen him.",                                                 topic:"Verbindingswoord — al" },
+    ]
+  },
+
+  { id:"gram024", type:"grammar-rule", dutch:"Leuk vinden / houden van", english:"Likes & Dislikes", tag:"mijn-grammatica",
+    grammarSentences:[
+      { s:"Ik ___ van blauw.",                              a:["hou","houd"],    full:"Ik hou van blauw.",                       hint:"I like blue. (hou van = like/love)",                          topic:"Leuk vinden — hou van" },
+      { s:"Zij ___ niet van schreeuwerige kleuren.",        a:["houdt","houd"],  full:"Zij houdt niet van schreeuwerige kleuren.", hint:"She doesn't like loud colours. (houdt van = 3rd person sing)", topic:"Leuk vinden — hou van" },
+      { s:"Ik ___ rood mooi.",                              a:["vind"],          full:"Ik vind rood mooi.",                      hint:"I like red. (vind … mooi = find … beautiful)",               topic:"Leuk vinden — vind mooi" },
+      { s:"Vind jij felle kleuren ___?",                    a:["mooi","leuk"],   full:"Vind jij felle kleuren mooi?",            hint:"Do you like bright colours? (vind … mooi/leuk)",             topic:"Leuk vinden — vind mooi" },
+      { s:"Ik ___ graag pizza.",                            a:["eet"],           full:"Ik eet graag pizza.",                     hint:"I like eating pizza. (graag comes after the verb)",           topic:"Leuk vinden — graag" },
+      { s:"Hij ___ niet graag groenten.",                   a:["eet"],           full:"Hij eet niet graag groenten.",            hint:"He doesn't like eating vegetables. (niet graag)",             topic:"Leuk vinden — graag" },
+      { s:"Wij ___ dol op kaas.",                          a:["zijn"],          full:"Wij zijn dol op kaas.",                   hint:"We love cheese. (zijn dol op = are crazy about)",            topic:"Leuk vinden — dol op" },
+      { s:"Zij ___ dol op muziek.",                        a:["is"],            full:"Zij is dol op muziek.",                   hint:"She loves music. (is dol op = 3rd person sing)",             topic:"Leuk vinden — dol op" },
+      { s:"Ik ___ geel.",                                  a:["haat"],          full:"Ik haat geel.",                           hint:"I hate yellow. (haat = hate)",                               topic:"Leuk vinden — haten" },
+      { s:"Wat ___ jij het liefst?",                       a:["vind"],          full:"Wat vind jij het liefst?",                hint:"What do you like most? (het liefst = superlative of graag)",  topic:"Leuk vinden — liefst" },
+      { s:"Ik ___ liever thuis.",                          a:["blijf"],         full:"Ik blijf liever thuis.",                  hint:"I'd rather stay home. (liever = comparative of graag)",      topic:"Leuk vinden — liever" },
+      { s:"Wij ___ niet van koude koffie.",                a:["houden"],        full:"Wij houden niet van koude koffie.",       hint:"We don't like cold coffee. (houden van = plural/infinitive form)", topic:"Leuk vinden — hou van" },
     ]
   },
 
@@ -1672,17 +2210,166 @@ const GRAMMAR_TOPICS = [
     title: "Object pronouns",      subtitle: "mij, hem, haar, het, ze…",
     chapters: ["Ch 7", "all"],
     match: c => c.id === "gram002",
-    practiceMode: null },
+    practiceMode: "possessive",
+    tableLabel: "Fill in the object form",
+    tableHeaders: ["subject", "objectvorm", "example"],
+    possessiveRows: [
+      { subject: "ik",                     answers: ["mij","me"],      example: "Kunt u ___ helpen?" },
+      { subject: "jij / je",               answers: ["jou","je"],      example: "Ik zie ___ morgen." },
+      { subject: "u",                      answers: ["u"],             example: "Ik help ___." },
+      { subject: "hij / de-woord (sing.)", answers: ["hem"],           example: "Hebt u ___ in maat 38?" },
+      { subject: "zij / ze",               answers: ["haar"],          example: "Ik bel ___ terug." },
+      { subject: "het / het-woord (sing.)",answers: ["het"],           example: "Ik koop ___ voor haar." },
+      { subject: "wij / we",               answers: ["ons"],           example: "Wachten zij op ___?" },
+      { subject: "jullie",                 answers: ["jullie"],        example: "Ik zie ___ elke dag." },
+      { subject: "zij / ze (plural)",      answers: ["ze","hen","hun"],example: "Mag ik ___ passen?" },
+    ]
+  },
   { id: "zijn-hebben",
     title: "zijn & hebben",        subtitle: "to be, to have",
     chapters: ["Ch 7", "grammar-topics", "all"],
     match: c => c.type === "verb" && c.tag === "verbs",
     practiceMode: "verb" },
+  { id: "nevenschik",
+    title: "Coordinating conjunctions", subtitle: "en, maar, want, of, dus, toch",
+    chapters: ["mijn-grammatica", "all"],
+    match: c => c.id === "gram021",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "en",   english: "and" },
+      { dutch: "maar", english: "but" },
+      { dutch: "want", english: "because (clause keeps normal word order)" },
+      { dutch: "of",   english: "or" },
+      { dutch: "dus",  english: "so / therefore" },
+      { dutch: "toch", english: "yet / still / anyway" },
+    ]
+  },
+  { id: "onderschik",
+    title: "Subordinating conjunctions", subtitle: "omdat, dat, als, terwijl, hoewel…",
+    chapters: ["mijn-grammatica", "all"],
+    match: c => c.id === "gram022",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "omdat",   english: "because (verb moves to end)" },
+      { dutch: "dat",     english: "that (verb moves to end)" },
+      { dutch: "als",     english: "if / when (verb moves to end)" },
+      { dutch: "wanneer", english: "when (verb moves to end)" },
+      { dutch: "terwijl", english: "while (verb moves to end)" },
+      { dutch: "hoewel",  english: "although (verb moves to end)" },
+      { dutch: "nadat",   english: "after (verb moves to end)" },
+      { dutch: "voordat", english: "before (verb moves to end)" },
+      { dutch: "zodat",   english: "so that (verb moves to end)" },
+    ]
+  },
+  { id: "verbindingswoorden",
+    title: "Adverbial connectors", subtitle: "daarom, ook, dan, bovendien, echter…",
+    chapters: ["mijn-grammatica", "all"],
+    match: c => c.id === "gram023",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "daarom",    english: "therefore / that's why" },
+      { dutch: "ook",       english: "also / too" },
+      { dutch: "dan",       english: "then" },
+      { dutch: "daarna",    english: "after that / next" },
+      { dutch: "eerst",     english: "first / at first" },
+      { dutch: "tenslotte", english: "finally / after all" },
+      { dutch: "bovendien", english: "moreover / furthermore" },
+      { dutch: "echter",    english: "however (formal)" },
+      { dutch: "zelfs",     english: "even" },
+      { dutch: "al",        english: "already" },
+    ]
+  },
+  { id: "begroeten-ch1",
+    title: "Greetings & farewells", subtitle: "goedemorgen, dag, tot ziens…",
+    chapters: ["Ch 1", "all"],
+    match: c => c.id === "gram020",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "goedemorgen",  english: "good morning / goodbye (morning)" },
+      { dutch: "goedemiddag",  english: "good afternoon / goodbye" },
+      { dutch: "goedenavond",  english: "good evening / goodnight" },
+      { dutch: "goedendag",    english: "good day / goodbye" },
+      { dutch: "dag",          english: "hello / bye" },
+      { dutch: "hoi",          english: "hi / hello" },
+      { dutch: "hallo",        english: "hello" },
+      { dutch: "daag",         english: "bye" },
+      { dutch: "doeg",         english: "bye" },
+      { dutch: "doei",         english: "bye" },
+      { dutch: "tot zo",       english: "see you soon" },
+      { dutch: "tot straks",   english: "see you later" },
+      { dutch: "tot morgen",   english: "see you tomorrow" },
+      { dutch: "tot ziens",    english: "goodbye / so long" },
+    ]
+  },
+  { id: "personaal-pronomen-ch1",
+    title: "Personal pronouns",    subtitle: "ik, jij, u, hij, zij, wij, jullie…",
+    chapters: ["Ch 1", "all"],
+    match: c => c.id === "gram018",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "ik",          english: "I" },
+      { dutch: "jij / je",    english: "you (singular, informal)" },
+      { dutch: "u",           english: "you (formal/polite)" },
+      { dutch: "hij",         english: "he" },
+      { dutch: "zij / ze",    english: "she / they" },
+      { dutch: "het",         english: "it" },
+      { dutch: "wij / we",    english: "we" },
+      { dutch: "jullie",      english: "you (plural)" },
+    ]
+  },
+  { id: "telwoorden-ch1",
+    title: "Numbers",              subtitle: "0–100 · eerste, tweede, derde…",
+    chapters: ["Ch 1", "all"],
+    match: c => c.id === "gram019",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "nul",                  english: "0" },
+      { dutch: "één",                  english: "1" },
+      { dutch: "twee",                 english: "2" },
+      { dutch: "drie",                 english: "3" },
+      { dutch: "vier",                 english: "4" },
+      { dutch: "vijf",                 english: "5" },
+      { dutch: "zes",                  english: "6" },
+      { dutch: "zeven",                english: "7" },
+      { dutch: "acht",                 english: "8" },
+      { dutch: "negen",                english: "9" },
+      { dutch: "tien",                 english: "10" },
+      { dutch: "elf",                  english: "11" },
+      { dutch: "twaalf",               english: "12" },
+      { dutch: "twintig",              english: "20" },
+      { dutch: "dertig",               english: "30" },
+      { dutch: "veertig",              english: "40" },
+      { dutch: "vijftig",              english: "50" },
+      { dutch: "zestig",               english: "60" },
+      { dutch: "zeventig",             english: "70" },
+      { dutch: "tachtig",              english: "80" },
+      { dutch: "negentig",             english: "90" },
+      { dutch: "honderd",              english: "100" },
+      { dutch: "duizend",              english: "1000" },
+      { dutch: "eerste",               english: "1st — first" },
+      { dutch: "tweede",               english: "2nd — second" },
+      { dutch: "derde",                english: "3rd — third" },
+      { dutch: "vierde",               english: "4th — fourth" },
+      { dutch: "vijfde",               english: "5th — fifth" },
+      { dutch: "zesde",                english: "6th — sixth" },
+      { dutch: "zevende",              english: "7th — seventh" },
+      { dutch: "achtste",              english: "8th — eighth" },
+      { dutch: "negende",              english: "9th — ninth" },
+      { dutch: "tiende",               english: "10th — tenth" },
+      { dutch: "elfde",                english: "11th — eleventh" },
+      { dutch: "twaalfde",             english: "12th — twelfth" },
+      { dutch: "twintigste",           english: "20th — twentieth" },
+      { dutch: "dertigste",            english: "30th — thirtieth" },
+      { dutch: "honderdste",           english: "100th — hundredth" },
+    ]
+  },
   { id: "possessief",
     title: "Possessive pronouns",  subtitle: "mijn, jouw, zijn, haar…",
     chapters: ["Ch 2", "all"],
     match: c => c.id === "gram014",
     practiceMode: "possessive",
+    tableLabel: "Fill in the possessive pronoun",
+    tableHeaders: ["subject", "possessief pronomen", "example"],
     possessiveRows: [
       { subject: "ik",            answers: ["mijn"],          example: "my brother / my work" },
       { subject: "jij / je",      answers: ["jouw","je"],     example: "your address / your sister" },
@@ -1692,6 +2379,93 @@ const GRAMMAR_TOPICS = [
       { subject: "wij / we",      answers: ["onze","ons"],    example: "our course (de) / our address (het)" },
       { subject: "jullie",        answers: ["jullie"],        example: "your teacher (plural)" },
       { subject: "zij / ze (pl)", answers: ["hun"],           example: "their family" },
+    ]
+  },
+  { id: "de-klok",
+    title: "Telling the time",     subtitle: "Hoe laat is het?",
+    chapters: ["Ch 2", "all"],
+    match: c => c.id === "gram015",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "Hoe laat is het?",    english: "What time is it?" },
+      { dutch: "Het is … uur.",       english: "It is … o'clock." },
+      { dutch: "om",                  english: "at (before a specific time)" },
+      { dutch: "over",                english: "past (after the hour or half)" },
+      { dutch: "voor",                english: "to / before (before the hour or half)" },
+      { dutch: "half",                english: "half past (the PREVIOUS hour!)" },
+      { dutch: "kwart",               english: "quarter (15 minutes)" },
+      { dutch: "kwart over",          english: "quarter past" },
+      { dutch: "kwart voor",          english: "quarter to" },
+      { dutch: "het uur",             english: "the hour" },
+      { dutch: "het halfuur",         english: "the half hour (30 min)" },
+      { dutch: "het kwartier",        english: "the quarter hour (15 min)" },
+      { dutch: "de minuut",           english: "the minute" },
+    ]
+  },
+  { id: "dagen-van-de-week",
+    title: "Days of the week",     subtitle: "maandag, dinsdag… gisteren, morgen",
+    chapters: ["Ch 2", "all"],
+    match: c => c.id === "gram016",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "maandag",       english: "Monday" },
+      { dutch: "dinsdag",       english: "Tuesday" },
+      { dutch: "woensdag",      english: "Wednesday" },
+      { dutch: "donderdag",     english: "Thursday" },
+      { dutch: "vrijdag",       english: "Friday" },
+      { dutch: "zaterdag",      english: "Saturday" },
+      { dutch: "zondag",        english: "Sunday" },
+      { dutch: "eergisteren",   english: "the day before yesterday" },
+      { dutch: "gisteren",      english: "yesterday" },
+      { dutch: "vandaag",       english: "today" },
+      { dutch: "morgen",        english: "tomorrow" },
+      { dutch: "overmorgen",    english: "the day after tomorrow" },
+      { dutch: "de dag",        english: "the day" },
+      { dutch: "de week",       english: "the week" },
+      { dutch: "het weekend",   english: "the weekend" },
+    ]
+  },
+  { id: "maanden-seizoenen",
+    title: "Months & seasons",    subtitle: "januari … december · lente, zomer…",
+    chapters: ["Ch 2", "all"],
+    match: c => false,
+    practiceMode: null,
+    wordRows: [
+      { dutch: "januari",                   english: "January" },
+      { dutch: "februari",                  english: "February" },
+      { dutch: "maart",                     english: "March" },
+      { dutch: "april",                     english: "April" },
+      { dutch: "mei",                       english: "May" },
+      { dutch: "juni",                      english: "June" },
+      { dutch: "juli",                      english: "July" },
+      { dutch: "augustus",                  english: "August" },
+      { dutch: "september",                 english: "September" },
+      { dutch: "oktober",                   english: "October" },
+      { dutch: "november",                  english: "November" },
+      { dutch: "december",                  english: "December" },
+      { dutch: "de lente / het voorjaar",   english: "spring" },
+      { dutch: "de zomer",                  english: "summer" },
+      { dutch: "de herfst / het najaar",    english: "autumn / fall" },
+      { dutch: "de winter",                 english: "winter" },
+      { dutch: "het seizoen",               english: "the season" },
+    ]
+  },
+  { id: "tijdspreposities",
+    title: "Time prepositions",   subtitle: "op, om, in",
+    chapters: ["Ch 2", "all"],
+    match: c => c.id === "gram017",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "op maandag",       english: "on Monday (specific day)" },
+      { dutch: "op 12 augustus",   english: "on 12 August (specific date)" },
+      { dutch: "om 9.00 uur",      english: "at 9 o'clock (specific time)" },
+      { dutch: "om half tien",     english: "at half past nine (specific time)" },
+      { dutch: "in januari",       english: "in January (month)" },
+      { dutch: "in de zomer",      english: "in summer (season)" },
+      { dutch: "in 2017",          english: "in 2017 (year)" },
+      { dutch: "op",               english: "on — day or date" },
+      { dutch: "om",               english: "at — clock time" },
+      { dutch: "in",               english: "in — month, season, year" },
     ]
   },
   { id: "vraagwoorden",
@@ -1719,7 +2493,7 @@ const GRAMMAR_TOPICS = [
     practiceMode: null },
   { id: "rangtelwoorden",
     title: "Ordinal numbers",      subtitle: "eerste, tweede, derde…",
-    chapters: ["Ch 3", "all"],
+    chapters: ["Ch 1", "Ch 3", "all"],
     match: c => c.id === "gram012",
     practiceMode: null },
   { id: "artikel",
@@ -1758,10 +2532,41 @@ const GRAMMAR_TOPICS = [
     match: c => c.id === "gram003",
     practiceMode: null },
   { id: "preposities",
-    title: "Prepositions",         subtitle: "tegen, achter, naast, op…",
+    title: "Prepositions",         subtitle: "Plaats · Tijd · Richting · Overig",
     chapters: ["Ch 8", "all"],
     match: c => c.id === "gram004",
-    practiceMode: null },
+    practiceMode: null,
+    wordRows: [
+      { dutch: "in",          english: "in (enclosed space / month / year)" },
+      { dutch: "op",          english: "on (surface / day / date)" },
+      { dutch: "aan",         english: "on / at (hanging, attached)" },
+      { dutch: "bij",         english: "near / at (close to)" },
+      { dutch: "naast",       english: "next to" },
+      { dutch: "voor",        english: "in front of / before / for" },
+      { dutch: "achter",      english: "behind" },
+      { dutch: "boven",       english: "above" },
+      { dutch: "onder",       english: "under / below" },
+      { dutch: "tussen",      english: "between" },
+      { dutch: "tegenover",   english: "opposite" },
+      { dutch: "om",          english: "around / at (clock time)" },
+      { dutch: "tegen",       english: "against" },
+      { dutch: "langs",       english: "along / past" },
+      { dutch: "om",          english: "at (specific clock time)" },
+      { dutch: "na",          english: "after" },
+      { dutch: "voor",        english: "before (time)" },
+      { dutch: "tijdens",     english: "during" },
+      { dutch: "van … tot",   english: "from … to (time span)" },
+      { dutch: "over",        english: "in (future time: over twee weken)" },
+      { dutch: "naar",        english: "to (direction/destination)" },
+      { dutch: "van",         english: "from / of (origin / possession)" },
+      { dutch: "uit",         english: "from / out of (origin, country)" },
+      { dutch: "door",        english: "through" },
+      { dutch: "voorbij",     english: "past (moving past something)" },
+      { dutch: "met",         english: "with / by (transport)" },
+      { dutch: "zonder",      english: "without" },
+      { dutch: "over",        english: "about (topic of conversation)" },
+    ]
+  },
 ];
 
 function getTopicOverviewHtml(topicId) {
@@ -1890,18 +2695,34 @@ function getTopicOverviewHtml(topicId) {
              ["10","tiende","20","twintigste ⚠️","",""]],
     },
     "artikel": {
-      desc: `Every Dutch noun is either a <strong>de</strong>-word or a <strong>het</strong>-word — you must learn this per word. ` +
-            `Key shortcuts: <strong>all diminutives (-je)</strong> are always <em>het</em>-words (het rondje, het biertje, het kopje). ` +
-            `<strong>All plurals</strong> always use <em>de</em> (de cafés, de cursussen, de rondjes). ` +
-            `The indefinite article is <strong>een</strong> for both de- and het-words. ` +
-            `<em>Ik roep <strong>de</strong> ober. Edit viert in <strong>het</strong> café. Doe mij maar <strong>een</strong> biertje.</em>`,
-      rows: [["","definitief","indefinitief"],
-             ["de-woord","<strong>de</strong> cursus","<strong>een</strong> cursus"],
-             ["het-woord","<strong>het</strong> café","<strong>een</strong> café"],
-             ["diminutief (-je) → always het","<strong>het</strong> rondje","<strong>een</strong> rondje"],
-             ["pluralis → always de","<strong>de</strong> cafés / rondjes","cafés / rondjes (no article)"],
-             ["Opdracht 5 — de","broer · café · cursus · foto · koffie · kantine · maand · pauze · zus · haar",""],
-             ["Opdracht 5 — het","adres · biertje · café · gezin · land · rondje · seizoen · tekst · zusje",""]],
+      desc: `Every Dutch noun is either a <strong>de</strong>-word or a <strong>het</strong>-word — you must memorise this per word. ` +
+            `Two shortcuts: all <strong>diminutives (-je)</strong> are always <em>het</em>; all <strong>plurals</strong> are always <em>de</em>. ` +
+            `Use <strong>een</strong> (indefinite) when something is not yet known or not specific. ` +
+            `Use <strong>de / het</strong> (definite) when both speaker and listener know which one is meant.`,
+      sections: [
+        { title: "De / het / een — choosing the article",
+          rows: [["","definitief (specific)","indefinitief (any)"],
+                 ["de-woord (singular)","<strong>de</strong> cursus — the course","<strong>een</strong> cursus — a course"],
+                 ["het-woord (singular)","<strong>het</strong> café — the café","<strong>een</strong> café — a café"],
+                 ["diminutief -je → always het","<strong>het</strong> rondje","<strong>een</strong> rondje"],
+                 ["pluralis → always de","<strong>de</strong> cursussen / rondjes","cursussen / rondjes (no article!)"],
+                 ["","",""],
+                 ["Common de-words (Ch 2–3)","broer · cursus · foto · kantine · koffie · maand · pauze · zus",""],
+                 ["Common het-words (Ch 2–3)","adres · biertje · café · gezin · land · rondje · seizoen · zusje",""]]
+        },
+        { title: "Geen artikel — when to use NO article",
+          rows: [["situation","rule","example"],
+                 ["Profession after zijn / worden","no article","Ik ben leraar. · Hij wordt dokter."],
+                 ["General / uncountable nouns","no article for general statements","Ik drink koffie. · Hij eet brood."],
+                 ["Indefinite plural","no article","Ik koop appels. · We hebben studenten."],
+                 ["After a number","no article","twee kamers · drie dagen · één jaar"],
+                 ["Fixed place phrases","no article","naar huis · op school · naar bed · naar werk · naar kerk"],
+                 ["Languages & nationalities","no article","Ik spreek Nederlands. · Ze is Nederlander."],
+                 ["","",""],
+                 ["Compare: specific vs general","de koffie is lekker (this coffee) vs ik drink koffie (coffee in general)",""],
+                 ["Compare: definite vs indefinite","de cursus begint (the specific course) vs een cursus volgen (take a course)",""]],
+        },
+      ],
     },
     "afspraak-maken": {
       desc: `Use <strong>Zullen we …?</strong> (shall we …?) to invite or suggest: ` +
@@ -1984,34 +2805,255 @@ function getTopicOverviewHtml(topicId) {
              ["niet te + infinitive","—","Ik hoef niet te pinnen"],
              ["geen … te + infinitive","Geen bad te hebben","—"]],
     },
+    "de-klok": {
+      desc: `Dutch tells time <strong>relative to the half-hour</strong>.
+             Count <strong>over</strong> (past) going up to :30, then count <strong>over</strong> or <strong>voor</strong> relative to the half.
+             ⚠️ <strong>half X</strong> = 30 min past the <em>previous</em> hour — <em>half twaalf</em> = 11:30, not 12:30!
+             Time prepositions: <strong>om</strong> = at a clock time (<em>om 9 uur</em>) ·
+             <strong>op</strong> = on a day/date (<em>op maandag · op 8 april</em>) ·
+             <strong>in</strong> = in a month/season/year (<em>in januari · in de zomer · in 2017</em>).`,
+      rows: [["tijd","Nederlands","English"],
+             ["11.00","Het is elf uur.","It is eleven o'clock."],
+             ["11.05","Het is vijf over elf.","It is five past eleven."],
+             ["11.10","Het is tien over elf.","It is ten past eleven."],
+             ["11.15","Het is kwart over elf.","It is quarter past eleven."],
+             ["11.20","Het is twintig over elf.","It is twenty past eleven."],
+             ["11.25","Het is vijf voor half twaalf.","It is twenty-five past eleven."],
+             ["11.30","Het is half twaalf. ⚠️","It is half past eleven."],
+             ["11.35","Het is vijf over half twaalf.","It is twenty-five to twelve."],
+             ["11.40","Het is tien over half twaalf.","It is twenty to twelve."],
+             ["11.45","Het is kwart voor twaalf.","It is quarter to twelve."],
+             ["11.50","Het is tien voor twaalf.","It is ten to twelve."],
+             ["11.55","Het is vijf voor twaalf.","It is five to twelve."]],
+    },
+    "nevenschik": {
+      desc: `<strong>Coordinating conjunctions</strong> join two main clauses of equal importance. ` +
+            `Word order in the second clause stays <strong>normal</strong> (subject before verb). ` +
+            `Exception: <strong>toch</strong> and <strong>dus</strong> can also start a sentence, which causes inversion.`,
+      sections: [
+        { title: "De zes nevengeschikte voegwoorden",
+          rows: [["woord","betekenis","woordvolgorde","voorbeeld"],
+                 ["en","and","normal","Ik ben moe en ik ga naar bed."],
+                 ["maar","but","normal","Het is duur, maar het is mooi."],
+                 ["want","because","normal — NOT like omdat!","Ik ga naar bed, want ik ben moe."],
+                 ["of","or","normal","Wil je koffie of thee?"],
+                 ["dus","so / therefore","normal (or start → inversion)","Het regent, dus ik neem een paraplu."],
+                 ["toch","yet / still","normal (or start → inversion)","Hij is moe, toch werkt hij door."]]
+        },
+        { title: "want vs omdat — the key difference",
+          rows: [["","woordvolgorde","voorbeeld"],
+                 ["want (coordinating)","verb in position 2","Ik ga naar bed, want ik ben moe."],
+                 ["omdat (subordinating)","verb at the END","Ik ga naar bed omdat ik moe ben."]]
+        },
+      ],
+    },
+    "onderschik": {
+      desc: `<strong>Subordinating conjunctions</strong> introduce a subclause. ` +
+            `The key rule: the conjugated verb moves to the <strong>end</strong> of the subclause. ` +
+            `If the subclause comes <strong>first</strong>, the main clause starts with the verb (inversion).`,
+      sections: [
+        { title: "De negen onderschikkende voegwoorden",
+          rows: [["woord","betekenis","voorbeeld (verb at end)"],
+                 ["omdat","because","Ik kom niet omdat ik ziek <strong>ben</strong>."],
+                 ["dat","that","Ik denk dat het morgen <strong>regent</strong>."],
+                 ["als","if / when","Bel me als je klaar <strong>bent</strong>."],
+                 ["wanneer","when","Bel me wanneer je er <strong>bent</strong>."],
+                 ["terwijl","while","Ik lees terwijl hij <strong>kookt</strong>."],
+                 ["hoewel","although","Hij is blij, hoewel hij <strong>verloren heeft</strong>."],
+                 ["nadat","after","Ze belde me nadat ze thuis <strong>was</strong>."],
+                 ["voordat","before","Lees dit voordat je <strong>begint</strong>."],
+                 ["zodat","so that","Ik spreek langzaam zodat je me <strong>begrijpt</strong>."]]
+        },
+        { title: "Subclause first → inversion in main clause",
+          rows: [["woordvolgorde","voorbeeld"],
+                 ["normal order","Ik ga slapen nadat ik gegeten heb."],
+                 ["subclause first","Nadat ik gegeten heb, ga ik slapen. ← verb + subject"],
+                 ["normal order","Ik ga toch als het regent."],
+                 ["subclause first","Als het regent, ga ik toch. ← verb + subject"]]
+        },
+      ],
+    },
+    "verbindingswoorden": {
+      desc: `<strong>Adverbial connectors</strong> can stand at the <strong>start of a sentence</strong>. ` +
+            `When they do, the verb moves to position 2 (inversion) — just like any other sentence-starting adverb. ` +
+            `They can also appear <strong>mid-sentence</strong> without causing inversion.`,
+      sections: [
+        { title: "De belangrijkste bijwoordelijke verbindingswoorden",
+          rows: [["woord","betekenis","voorbeeld (inversion at start)"],
+                 ["daarom","therefore / that's why","Hij is ziek. Daarom <strong>komt</strong> hij niet."],
+                 ["ook","also / too","Ik spreek Engels. Ook <strong>spreek</strong> ik Duits."],
+                 ["dan","then","Eerst eten, dan werken."],
+                 ["daarna","after that","We eten. Daarna <strong>gaan</strong> we naar de film."],
+                 ["eerst","first / at first","Eerst <strong>betaal</strong> je, dan krijg je de sleutel."],
+                 ["tenslotte","finally / after all","Tenslotte <strong>wil</strong> ik iedereen bedanken."],
+                 ["bovendien","moreover","Het is duur. Bovendien <strong>is</strong> het lelijk."],
+                 ["echter","however (formal)","Het plan is goed. Echter <strong>kost</strong> het veel."],
+                 ["zelfs","even","Zelfs de docent wist het niet."],
+                 ["al","already","Ben je al klaar?"]]
+        },
+        { title: "Mid-sentence — no inversion needed",
+          rows: [["position","voorbeeld"],
+                 ["mid-sentence","Ze heeft echter geen tijd. (no inversion)"],
+                 ["mid-sentence","Hij is ook aardig. (no inversion)"],
+                 ["start of sentence → inversion","Echter heeft ze geen tijd. / Ook is hij aardig."]]
+        },
+      ],
+    },
+    "begroeten-ch1": {
+      desc: `Many greetings double as farewells: <strong>goedemorgen / goedemiddag / goedenavond / goedendag / dag</strong> all work both ways. ` +
+            `<strong>hoi / hallo</strong> = greeting only. ` +
+            `<strong>tot + time word</strong> = see you: <em>tot zo</em> (very soon) · <em>tot straks</em> (later today) · <em>tot morgen</em> (tomorrow) · <em>tot ziens</em> (formal farewell). ` +
+            `Casual farewells: <strong>dag · daag · doeg · doei</strong>.`,
+      rows: [["begroeten","afscheid nemen"],
+             ["goedemorgen — good morning","goedemorgen — goodbye (morning)"],
+             ["goedemiddag — good afternoon","goedemiddag — goodbye"],
+             ["goedenavond — good evening","goedenavond — goodnight"],
+             ["goedendag — good day","goedendag — goodbye"],
+             ["dag — hello","dag / daag / doeg / doei — bye"],
+             ["hoi — hi","tot zo — see you soon"],
+             ["hallo — hello","tot straks — see you later"],
+             ["","tot morgen — see you tomorrow"],
+             ["","tot ziens — goodbye / so long"]],
+    },
+    "personaal-pronomen-ch1": {
+      desc: `Dutch has two forms for many pronouns: a <strong>stressed</strong> form (jij, wij, zij) and an <strong>unstressed</strong> form (je, we, ze). ` +
+            `Use <strong>u</strong> for formal/polite address. ` +
+            `Verb ending: <strong>ik</strong> = stem · <strong>jij/u/hij/zij/het</strong> = stem + <em>-t</em> · <strong>wij/jullie/zij</strong> = infinitive. ` +
+            `Special: <em>jij</em> after inversion loses its <em>-t</em>: <em>luister jij</em> (not luistert).`,
+      rows: [["pronomen","luisteren","hebben","zijn"],
+             ["ik","luister","heb","ben"],
+             ["jij / je","luistert","hebt","bent"],
+             ["u","luistert","hebt / heeft","bent"],
+             ["hij / zij / het","luistert","heeft","is"],
+             ["wij / we","luisteren","hebben","zijn"],
+             ["jullie","luisteren","hebben","zijn"],
+             ["zij / ze","luisteren","hebben","zijn"]],
+    },
+    "telwoorden-ch1": {
+      desc: `Cardinal → Ordinal: add <strong>-de</strong> to most numbers (<em>twee → tweede</em>); ` +
+            `add <strong>-ste</strong> after numbers ending in <em>-t</em> or multiples of ten (<em>twintig → twintigste</em>). ` +
+            `Irregulars: <strong>één → eerste · twee → tweede · drie → derde · acht → achtste</strong>. ` +
+            `From 21, compounds use the same pattern: <em>eenentwintig → eenentwintigste</em>.`,
+      rows: [["#","kardinaal","rangtelwoord","#","kardinaal","rangtelwoord"],
+             ["1","één","eerste","11","elf","elfde"],
+             ["2","twee","tweede","12","twaalf","twaalfde"],
+             ["3","drie","derde","13","dertien","dertiende"],
+             ["4","vier","vierde","14","veertien","veertiende"],
+             ["5","vijf","vijfde","15","vijftien","vijftiende"],
+             ["6","zes","zesde","20","twintig","twintigste ⚠️"],
+             ["7","zeven","zevende","30","dertig","dertigste"],
+             ["8","acht ⚠️","achtste","100","honderd","honderdste"],
+             ["9","negen","negende","","",""],
+             ["10","tien","tiende","","",""]],
+    },
+    "dagen-van-de-week": {
+      desc: `The seven days run <strong>maandag → zondag</strong> (Monday first). ` +
+            `Time adverbs: <strong>eergisteren</strong> (day before yesterday) · <strong>gisteren</strong> (yesterday) · ` +
+            `<strong>vandaag</strong> (today) · <strong>morgen</strong> (tomorrow) · <strong>overmorgen</strong> (day after tomorrow). ` +
+            `Ask with: <em>Welke dag is het vandaag? — Welke dag was het gisteren?</em>`,
+      rows: [["dag","Engels","adverb (from Thursday)"],
+             ["maandag","Monday",""],
+             ["dinsdag","Tuesday","eergisteren"],
+             ["woensdag","Wednesday","gisteren"],
+             ["donderdag","Thursday","vandaag →"],
+             ["vrijdag","Friday","morgen"],
+             ["zaterdag","Saturday","overmorgen"],
+             ["zondag","Sunday",""]],
+    },
+    "maanden-seizoenen": {
+      desc: `Months are <strong>not capitalised</strong> in Dutch. ` +
+            `Two words for spring and autumn: <strong>de lente / het voorjaar</strong> · <strong>de herfst / het najaar</strong>. ` +
+            `Use preposition <strong>in</strong> with months and seasons: <em>in januari · in de zomer · in het najaar.</em>`,
+      rows: [["maand","Engels","maand","Engels"],
+             ["januari","January","juli","July"],
+             ["februari","February","augustus","August"],
+             ["maart","March","september","September"],
+             ["april","April","oktober","October"],
+             ["mei","May","november","November"],
+             ["juni","June","december","December"],
+             ["","","",""],
+             ["de lente / het voorjaar","spring","de herfst / het najaar","autumn / fall"],
+             ["de zomer","summer","de winter","winter"]],
+    },
+    "tijdspreposities": {
+      desc: `Three prepositions cover all time expressions in Dutch. ` +
+            `<strong>op</strong> = on a specific <em>day</em> or <em>date</em>: <em>op maandag · op 8 april · op welke datum?</em> ` +
+            `<strong>om</strong> = at a specific <em>clock time</em>: <em>om 9.00 uur · om half tien · om kwart voor twee.</em> ` +
+            `<strong>in</strong> = in a <em>month</em>, <em>season</em>, or <em>year</em>: <em>in januari · in de zomer · in 2017.</em>`,
+      rows: [["prepositie","gebruik","voorbeelden"],
+             ["op","specific day or date","op maandag · op dinsdag · op 12 augustus · op welke datum?"],
+             ["om","specific clock time","om 9.00 uur · om half tien · om kwart voor twee"],
+             ["in","month / season / year","in januari · in de zomer · in het najaar · in 2017"]],
+    },
     "preposities": {
-      desc: `Dutch prepositions of place describe position and direction. ` +
-            `Use <strong>staan</strong> for upright objects, <strong>liggen</strong> for flat/horizontal objects, ` +
-            `<strong>hangen</strong> for objects on walls. ` +
-            `<em>De fiets staat <strong>tegen</strong> de muur. De foto hangt <strong>aan</strong> de muur. Het bed ligt <strong>in</strong> de slaapkamer.</em>`,
-      rows: [["preposition","meaning","example"],
-             ["tegen","against","De fiets staat tegen de muur."],
-             ["achter","behind","De boom staat achter het huis."],
-             ["naast","next to","De auto staat naast het huis."],
-             ["voor","in front of","De stoel staat voor de lamp."],
-             ["op","on","De boompjes staan op het balkon."],
-             ["aan","on / at (hanging)","De foto hangt aan de muur."],
-             ["om","around","De stoelen staan om de tafel."],
-             ["boven","above","De slaapkamer is boven de keuken."],
-             ["onder","under","De woonkamer is onder het balkon."],
-             ["bij","near / at","De televisie staat bij de tafel."],
-             ["in","in","Het bed staat in de slaapkamer."],
-             ["tussen","between","De slaapkamer is tussen de keuken en de zolder."],
-             ["tegenover","opposite","De wasmachine staat tegenover de deur."],
-             ["met","with","Dit is een huis met een balkon."]],
+      desc: `Dutch prepositions fall into four groups. Verb choice for position: ` +
+            `<strong>staan</strong> (upright) · <strong>liggen</strong> (flat) · <strong>hangen</strong> (hanging) · <strong>zitten</strong> (seated/fitted). ` +
+            `Several prepositions do double duty: <em>voor</em> = in front of / before / for; <em>van</em> = of / from; <em>over</em> = about / over / in (future); <em>op</em> = on / on (day/date).`,
+      sections: [
+        { title: "Plaats — Position",
+          rows: [["prepositie","betekenis","voorbeeld"],
+                 ["in","in","Het bed staat in de slaapkamer."],
+                 ["op","on (horizontal surface)","De boeken liggen op de tafel."],
+                 ["aan","on / at (hanging/attached)","De foto hangt aan de muur."],
+                 ["bij","near / at (close to)","De televisie staat bij de tafel."],
+                 ["naast","next to","De auto staat naast het huis."],
+                 ["voor","in front of","De stoel staat voor de lamp."],
+                 ["achter","behind","De boom staat achter het huis."],
+                 ["boven","above","De slaapkamer is boven de keuken."],
+                 ["onder","under / below","De woonkamer is onder het balkon."],
+                 ["tussen","between","De slaapkamer is tussen de keuken en de zolder."],
+                 ["tegenover","opposite","De wasmachine staat tegenover de deur."],
+                 ["om","around","De stoelen staan om de tafel."],
+                 ["tegen","against","De fiets staat tegen de muur."],
+                 ["langs","along / beside","We lopen langs het kanaal."]]
+        },
+        { title: "Tijd — Time",
+          rows: [["prepositie","gebruik","voorbeeld"],
+                 ["om","specific clock time","om 9 uur · om half tien"],
+                 ["op","specific day or date","op maandag · op 8 april"],
+                 ["in","month / season / year","in september · in de zomer · in 2024"],
+                 ["voor","before (time)","voor de les · voor acht uur"],
+                 ["na","after (time)","na het eten · na de les"],
+                 ["tijdens","during","tijdens de pauze · tijdens het werk"],
+                 ["van … tot","from … to (time span)","van 9 tot 17 uur"],
+                 ["over","in (future duration)","over twee weken · over een jaar"]]
+        },
+        { title: "Richting — Movement / Direction",
+          rows: [["prepositie","betekenis","voorbeeld"],
+                 ["naar","to (destination)","Ik ga naar de kantine."],
+                 ["van","from (origin)","Ik kom van school."],
+                 ["uit","from / out of (country/city)","Hij komt uit Engeland."],
+                 ["door","through","We lopen door het park."],
+                 ["langs","past / along","We rijden langs het huis."],
+                 ["voorbij","past (without stopping)","De trein rijdt voorbij het station."]]
+        },
+        { title: "Overig — Other relations",
+          rows: [["prepositie","betekenis","voorbeeld"],
+                 ["met","with / by (transport)","Ik ga met de fiets. · Ik ga met Jan."],
+                 ["zonder","without","Ik drink koffie zonder suiker."],
+                 ["voor","for (recipient / purpose)","Dit cadeau is voor jou."],
+                 ["van","of (possession / belonging)","Het adres van mijn buurman."],
+                 ["over","about (topic)","We praten over het werk."],
+                 ["over","over / across","We gaan over de brug."]]
+        },
+      ],
     },
   };
   const t = tables[topicId];
   if (!t) return "<p>No overview available.</p>";
   let html = `<p>${t.desc}</p>`;
-  html += `<table class="overview-table"><thead><tr>${t.rows[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>`;
-  t.rows.slice(1).forEach(row => { html += `<tr>${row.map(c=>`<td>${c}</td>`).join("")}</tr>`; });
-  html += `</tbody></table>`;
+  if (t.sections) {
+    t.sections.forEach(sec => {
+      html += `<p style="margin-top:10px;font-weight:700;color:#a0c4ff;font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;">${sec.title}</p>`;
+      html += `<table class="overview-table"><thead><tr>${sec.rows[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>`;
+      sec.rows.slice(1).forEach(row => { html += `<tr>${row.map(c=>`<td>${c}</td>`).join("")}</tr>`; });
+      html += `</tbody></table>`;
+    });
+  } else {
+    html += `<table class="overview-table"><thead><tr>${t.rows[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>`;
+    t.rows.slice(1).forEach(row => { html += `<tr>${row.map(c=>`<td>${c}</td>`).join("")}</tr>`; });
+    html += `</tbody></table>`;
+  }
   return html;
 }
 
@@ -2046,9 +3088,17 @@ function getMastery(id) {
   return { rate, attempts: s.history.length, color };
 }
 
-function isWeak(id) {
-  const m = getMastery(id);
-  return m.attempts === 0 || m.rate < 0.5;
+const WEAK_KEY = "nl_learner_weak";
+function loadWeakSet() {
+  try { return new Set(JSON.parse(localStorage.getItem(WEAK_KEY)) || []); }
+  catch { return new Set(); }
+}
+function saveWeakSet(s) { localStorage.setItem(WEAK_KEY, JSON.stringify([...s])); }
+function isWeak(id) { return loadWeakSet().has(id); }
+function toggleWeakCard(id) {
+  const s = loadWeakSet();
+  if (s.has(id)) s.delete(id); else s.add(id);
+  saveWeakSet(s);
 }
 
 // ── CORE ENGINE ──
@@ -2057,6 +3107,7 @@ let contentMode    = "words";
 let currentSubcat  = null;
 let weakMode    = false;
 let currentMode = "flip";
+let mainLang    = "nl"; // "nl" = Dutch front, "en" = English front
 let activeDeck  = [];
 let idx         = 0;
 let answered    = false;
@@ -2079,7 +3130,7 @@ let currentGrammarTopic = null;
 let currentTopicTab     = "overview";
 
 function isChapterEntry(ch) {
-  return ch !== "grammar-practice" && ch !== "grammar-topics";
+  return ch !== "grammar-practice" && ch !== "grammar-topics" && ch !== "mijn-grammatica";
 }
 
 function getChapterVerbTags(ch) {
@@ -2101,6 +3152,8 @@ function buildActiveDeck() {
   let cards;
   if (currentChapter === "grammar-practice") {
     cards = DECK.filter(c => c.type === "word" || c.type === "grammar-rule");
+  } else if (currentChapter === "mijn-grammatica") {
+    cards = DECK.filter(c => c.type === "grammar-rule" && c.tag === "mijn-grammatica");
   } else if (currentChapter === "grammar-topics") {
     const tag = currentSubcat || "Modal verbs";
     cards = DECK.filter(c => (c.type === "verb" || c.type === "adjective") && c.tag === tag);
@@ -2321,27 +3374,45 @@ function showFlip() {
   if (!activeDeck.length) return;
   const card = activeDeck[idx];
   const { word, note } = parse(card.dutch);
-  document.getElementById("flip-dutch").textContent   = word;
-  document.getElementById("flip-note").textContent    = note;
-  document.getElementById("flip-english").textContent = card.english;
+  const nlFirst = mainLang === "nl";
+  document.getElementById("flip-front-label").textContent = nlFirst ? "Dutch"   : "English";
+  document.getElementById("flip-back-label").textContent  = nlFirst ? "English" : "Dutch";
+  document.getElementById("flip-dutch").textContent       = nlFirst ? word          : card.english;
+  document.getElementById("flip-note").textContent        = nlFirst ? note          : "";
+  document.getElementById("flip-english").textContent     = nlFirst ? card.english  : word;
   document.getElementById("card").classList.remove("flipped");
   const dot = document.getElementById("mastery-dot");
   const m = getMastery(card.id);
   dot.className = "mastery-dot " + m.color;
   updateProgress();
+  updateWeakBtn();
 }
 
-// ── TYPE DUTCH MODE ──
+function updateWeakBtn() {
+  const card = activeDeck[idx];
+  const btn = document.getElementById("btn-mark-weak");
+  if (!card || !btn) return;
+  const marked = isWeak(card.id);
+  btn.textContent = marked ? "★" : "☆";
+  btn.title = marked ? "Remove from weak list" : "Add to weak list";
+  btn.classList.toggle("marked", marked);
+}
+
+// ── TYPE MODE ──
 function showTyping() {
   if (!activeDeck.length) return;
   const card = activeDeck[idx];
-  document.getElementById("type-question").textContent = card.english;
+  const nlFirst = mainLang === "nl";
+  document.getElementById("type-label").textContent    = nlFirst ? "English → type Dutch" : "Dutch → type English";
+  document.getElementById("type-question").textContent = nlFirst ? card.english : card.dutch;
   const inp = document.getElementById("type-input");
   inp.value = ""; inp.className = "ex-input";
+  inp.placeholder = nlFirst ? "Type the Dutch word…" : "Type the English word…";
   document.getElementById("type-feedback").textContent = "";
   document.getElementById("type-feedback").className = "ex-feedback";
   answered = false;
   updateProgress();
+  updateWeakBtn();
   setTimeout(() => inp.focus(), 50);
 }
 
@@ -2352,7 +3423,11 @@ function checkTyping() {
   const fb   = document.getElementById("type-feedback");
   const val  = inp.value.trim().toLowerCase();
   if (!val) return;
-  const correct = acceptedForms(card.dutch).includes(val);
+  const nlFirst = mainLang === "nl";
+  const accepted = nlFirst
+    ? acceptedForms(card.dutch)
+    : card.english.toLowerCase().split(" / ").map(s => s.trim());
+  const correct = accepted.includes(val);
   answered = true;
   recordResult(card.id, correct);
   if (correct) {
@@ -2362,7 +3437,7 @@ function checkTyping() {
   } else {
     sessionW++;
     inp.classList.add("wrong");
-    fb.textContent = `✗ Answer: ${card.dutch}`; fb.className = "ex-feedback wrong";
+    fb.textContent = `✗ Answer: ${nlFirst ? card.dutch : card.english}`; fb.className = "ex-feedback wrong";
   }
   speakDutch(card.dutch);
   updateScoreBar();
@@ -2398,6 +3473,7 @@ function showMC() {
   });
   answered = false;
   updateProgress();
+  updateWeakBtn();
 }
 
 function checkMC(btn, card, chosen) {
@@ -2648,6 +3724,13 @@ function checkAdjForm() {
 document.querySelectorAll(".mode-btn").forEach(btn =>
   btn.addEventListener("click", () => setMode(btn.dataset.mode)));
 
+document.getElementById("main-lang-toggle").addEventListener("click", () => {
+  mainLang = mainLang === "nl" ? "en" : "nl";
+  document.getElementById("main-lang-toggle").textContent = mainLang === "nl" ? "NL → EN" : "EN → NL";
+  if (currentMode === "flip") showFlip();
+  else if (currentMode === "type") showTyping();
+});
+
 // ── CHAPTER SELECTOR + WEAK TOGGLE ──
 document.getElementById("chapter-select").addEventListener("change", function () {
   currentChapter      = this.value;
@@ -2658,6 +3741,7 @@ document.getElementById("chapter-select").addEventListener("change", function ()
   updateSubcatRow();
   updateModeTabs();
   rebuildDecks();
+  updateWeakToggleLabel();
   if (!isChapterEntry(currentChapter)) {
     contentMode = "grammar";
     setMode("grammar");
@@ -2693,6 +3777,37 @@ document.getElementById("weak-toggle").addEventListener("click", function () {
   rebuildDecks();
   setMode(currentMode);
 });
+
+document.getElementById("btn-mark-weak").addEventListener("click", () => {
+  const card = activeDeck[idx];
+  if (!card) return;
+  const wasMarked = isWeak(card.id);
+  toggleWeakCard(card.id);
+  updateWeakBtn();
+  // Update the weak-toggle count indicator
+  updateWeakToggleLabel();
+  // If in weak mode and just unmarked, remove card from deck and continue
+  if (weakMode && wasMarked) {
+    rebuildDecks();
+    if (activeDeck.length === 0) {
+      weakMode = false;
+      document.getElementById("weak-toggle").classList.remove("active");
+      updateWeakToggleLabel();
+      rebuildDecks();
+    } else {
+      if (idx >= activeDeck.length) idx = 0;
+    }
+    setMode(currentMode);
+  }
+});
+
+function updateWeakToggleLabel() {
+  const allCards = currentChapter === "all"
+    ? DECK.filter(c => c.type === "word")
+    : DECK.filter(c => c.type === "word" && c.tag === currentChapter);
+  const count = allCards.filter(c => isWeak(c.id)).length;
+  document.getElementById("weak-toggle").textContent = count > 0 ? `⚡ Weak words (${count})` : "⚡ Weak words";
+}
 
 // ── SHUFFLE + RESET ──
 document.getElementById("btn-shuffle").addEventListener("click", () => {
@@ -2747,7 +3862,13 @@ document.addEventListener("keydown", e => {
 // ── FLIP CARD LISTENERS ──
 document.getElementById("scene").addEventListener("click", e => {
   if (e.target.id === "btn-speak-flip") return;
-  if (currentMode === "flip") document.getElementById("card").classList.toggle("flipped");
+  if (currentMode === "flip") {
+    const card = document.getElementById("card");
+    card.classList.toggle("flipped");
+    const isFlipped = card.classList.contains("flipped");
+    const dutchVisible = mainLang === "nl" ? isFlipped : !isFlipped;
+    if (dutchVisible && activeDeck[idx]) speakDutch(activeDeck[idx].dutch);
+  }
 });
 document.getElementById("btn-speak-flip").addEventListener("click", e => {
   e.stopPropagation();
@@ -2759,8 +3880,9 @@ document.getElementById("btn-check").addEventListener("click", checkTyping);
 document.getElementById("btn-skip").addEventListener("click", () => {
   if (!answered) {
     const card = activeDeck[idx];
+    const answer = mainLang === "nl" ? card.dutch : card.english;
     const fb = document.getElementById("type-feedback");
-    fb.textContent = `Answer: ${card.dutch}`; fb.className = "ex-feedback wrong";
+    fb.textContent = `Answer: ${answer}`; fb.className = "ex-feedback wrong";
     document.getElementById("type-input").classList.add("wrong");
     answered = true; sessionW++; updateScoreBar();
     speakDutch(card.dutch);
@@ -2812,6 +3934,7 @@ let topicWordDeck     = [];
 let topicWordIdx      = 0;
 let topicWordMode     = "flip";
 let topicWordAnswered = false;
+let topicWordLang     = "en"; // "en" = English front, "nl" = Dutch front
 
 function showTopicWords() {
   const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
@@ -2831,10 +3954,12 @@ function renderTopicWordCard() {
   if (topicWordMode === "flip") {
     document.getElementById("twb-flip-area").style.display = "";
     document.getElementById("twb-type-area").style.display = "none";
-    document.getElementById("twb-card-front").textContent = w.english;
-    const back = document.getElementById("twb-card-back");
-    back.textContent = w.dutch; back.style.display = "none";
-    document.getElementById("twb-reveal").textContent = "Reveal →";
+    const enFirst = topicWordLang === "en";
+    document.getElementById("twb-front-label").textContent = enFirst ? "English" : "Dutch";
+    document.getElementById("twb-back-label").textContent  = enFirst ? "Dutch"   : "English";
+    document.getElementById("twb-card-front").textContent  = enFirst ? w.english : w.dutch;
+    document.getElementById("twb-card-back").textContent   = enFirst ? w.dutch   : w.english;
+    document.getElementById("twb-card").classList.remove("flipped");
   } else {
     document.getElementById("twb-flip-area").style.display = "none";
     document.getElementById("twb-type-area").style.display = "";
@@ -2865,9 +3990,17 @@ function checkTopicWordType() {
   fb.className = "ex-feedback " + (correct ? "correct" : "wrong");
 }
 
-document.getElementById("twb-reveal").addEventListener("click", () => {
-  document.getElementById("twb-card-back").style.display = "";
-  document.getElementById("twb-reveal").textContent = "✓ Got it — click Next";
+document.getElementById("twb-scene").addEventListener("click", e => {
+  if (e.target.id === "btn-speak-twb") return;
+  const card = document.getElementById("twb-card");
+  card.classList.toggle("flipped");
+  const isFlipped = card.classList.contains("flipped");
+  const dutchVisible = topicWordLang === "nl" ? !isFlipped : isFlipped;
+  if (dutchVisible) speakDutch(topicWordDeck[topicWordIdx]?.dutch);
+});
+document.getElementById("btn-speak-twb").addEventListener("click", e => {
+  e.stopPropagation();
+  speakDutch(topicWordDeck[topicWordIdx]?.dutch);
 });
 document.getElementById("twb-prev").addEventListener("click", () => {
   topicWordIdx = (topicWordIdx - 1 + topicWordDeck.length) % topicWordDeck.length;
@@ -2892,11 +4025,20 @@ document.querySelectorAll(".twm-btn").forEach(btn =>
     renderTopicWordCard();
   })
 );
+document.getElementById("twb-lang-toggle").addEventListener("click", () => {
+  topicWordLang = topicWordLang === "en" ? "nl" : "en";
+  document.getElementById("twb-lang-toggle").textContent = topicWordLang === "en" ? "EN → NL" : "NL → EN";
+  topicWordIdx = 0;
+  renderTopicWordCard();
+});
 
 // ── POSSESSIVE TABLE ──
 function showPossessiveTable() {
   const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
   if (!topic || !topic.possessiveRows) return;
+  document.getElementById("possessive-box-label").textContent = topic.tableLabel || "Fill in the pronoun";
+  const headers = topic.tableHeaders || ["subject", "pronomen", "example"];
+  document.getElementById("possessive-table-head").innerHTML = headers.map(h => `<th>${h}</th>`).join("");
   const tbody = document.getElementById("possessive-table-body");
   tbody.innerHTML = "";
   topic.possessiveRows.forEach(row => {
@@ -3085,7 +4227,8 @@ function showTopicGrid() {
   grid.innerHTML = "";
   detail.classList.remove("visible");
   const topics = getAvailableTopics();
-  const chNum = t => parseInt((t.chapters.find(c => c !== "all" && c !== "grammar-topics") || "Ch 999").replace("Ch ", ""));
+  const nonMeta = c => c !== "all" && c !== "grammar-topics" && c !== "mijn-grammatica";
+  const chNum = t => parseInt((t.chapters.find(nonMeta) || "Ch 999").replace("Ch ", ""));
   topics.sort((a, b) => chNum(a) - chNum(b));
   if (!topics.length) {
     grid.innerHTML = "<p style='color:#888;font-size:0.85rem;'>No grammar topics for this selection.</p>";
@@ -3095,7 +4238,7 @@ function showTopicGrid() {
   topics.forEach(t => {
     const btn = document.createElement("button");
     btn.className = "topic-tile";
-    const ch = t.chapters.find(c => c !== "all" && c !== "grammar-topics") || "";
+    const ch = t.chapters.find(nonMeta) || "";
     const prefix = ch ? `<span class="tile-chapter">${ch}:</span> ` : "";
     btn.innerHTML = `<div class="topic-tile-title">${prefix}${t.title}</div><div class="topic-tile-sub">${t.subtitle}</div>`;
     btn.addEventListener("click", () => selectGrammarTopic(t.id));
@@ -3286,6 +4429,12 @@ updateSubcatRow();
 updateModeTabs();
 rebuildDecks();
 setMode("flip");
+updateWeakToggleLabel();
+
+// ── THEME TOGGLE ──
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  document.body.classList.toggle("light");
+});
 </script>
 </body>
 </html>
