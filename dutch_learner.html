@@ -3244,6 +3244,7 @@ let adjIdx      = 0;
 let adjAnswered = false;
 let currentGrammarTopic = null;
 let currentTopicTab     = "overview";
+let currentPassageIdx = 0;
 
 function isChapterEntry(ch) {
   return ch !== "grammar-practice" && ch !== "grammar-topics" && ch !== "mijn-grammatica";
@@ -4013,6 +4014,8 @@ document.getElementById("btn-speak-type").addEventListener("click", () => {
 
 // ── GRAMMAR MODE LISTENERS ──
 document.getElementById("btn-grammar-check").addEventListener("click", checkGrammar);
+document.getElementById("btn-passage-check").addEventListener("click", checkPassage);
+document.getElementById("btn-passage-next").addEventListener("click", nextPassage);
 document.getElementById("btn-grammar-skip").addEventListener("click", () => {
   if (!grammarAnswered) {
     const ex = grammarQueue[grammarIdx];
@@ -4378,6 +4381,57 @@ function selectGrammarTopic(topicId) {
   document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === "overview"));
   document.getElementById("grammar-topic-detail").classList.add("visible");
   setTopicTab("overview");
+}
+
+function renderPassageTab(topic) {
+  const passages = topic.passages;
+  const p = passages[currentPassageIdx];
+  document.getElementById("passage-progress").textContent =
+    `Text ${currentPassageIdx + 1} of ${passages.length}`;
+  document.getElementById("passage-title").textContent = p.title;
+  document.getElementById("btn-passage-next").style.display = "none";
+
+  const parts = p.text.split(/(\[[^\]]+\])/);
+  let html = "";
+  parts.forEach(part => {
+    const m = part.match(/^\[([^\]]+)\]$/);
+    if (m) {
+      html += `<input class="gap-input" data-answer="${m[1].toLowerCase()}" type="text" autocomplete="off" spellcheck="false">`;
+    } else {
+      html += part;
+    }
+  });
+  document.getElementById("passage-text").innerHTML = html;
+}
+
+function checkPassage() {
+  const inputs = document.querySelectorAll("#passage-text .gap-input");
+  inputs.forEach(inp => {
+    const val = inp.value.trim().toLowerCase();
+    const ans = inp.dataset.answer;
+    const accepted = ans === "-" ? (val === "-" || val === "") : val === ans;
+    inp.classList.toggle("correct", accepted);
+    inp.classList.toggle("wrong", !accepted);
+    const existing = inp.nextSibling;
+    if (existing && existing.classList && existing.classList.contains("gap-hint")) existing.remove();
+    if (!accepted) {
+      const hint = document.createElement("span");
+      hint.className = "gap-hint";
+      hint.textContent = ans === "-" ? "(–)" : `(${ans})`;
+      inp.after(hint);
+    }
+  });
+  const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+  document.getElementById("btn-passage-next").style.display =
+    currentPassageIdx < topic.passages.length - 1 ? "" : "none";
+}
+
+function nextPassage() {
+  const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
+  if (currentPassageIdx < topic.passages.length - 1) {
+    currentPassageIdx++;
+    renderPassageTab(topic);
+  }
 }
 
 function setTopicTab(tab) {
