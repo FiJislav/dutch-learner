@@ -215,7 +215,7 @@ button:hover { opacity: 0.85; }
 .ex-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 #btn-check        { background: #6c63ff; color: #fff; }
 #btn-skip         { background: #333; color: #aaa; font-size: 0.82rem; }
-.tts-notice { font-size: 0.72rem; color: #555; }
+.tts-notice { font-size: 0.75rem; color: #f0a060; display:none; margin: 4px 8px; line-height: 1.4; }
 
 /* ── TYPE BOX ── */
 #type-box { background: linear-gradient(135deg, #16213e, #0f3460); border: 2px solid #6c63ff; position: relative; }
@@ -5243,21 +5243,41 @@ function acceptedForms(dutch) {
 let dutchVoice = null;
 function loadDutchVoice() {
   const voices = speechSynthesis.getVoices();
-  dutchVoice = voices.find(v => v.lang.startsWith("nl")) || null;
+  if (!voices.length) return;
+  const nl = voices.filter(v => v.lang.startsWith("nl"));
+  // Prefer nl-NL over nl-BE; prefer non-local (neural/cloud) voices first
+  dutchVoice = nl.find(v => v.lang === "nl-NL" && !v.localService)
+            || nl.find(v => v.lang === "nl-NL")
+            || nl[0]
+            || null;
   const el = document.getElementById("tts-notice");
-  if (el && !dutchVoice && voices.length > 0)
-    el.textContent = "No Dutch voice found — using default";
+  if (!el) return;
+  if (!dutchVoice) {
+    el.innerHTML = "⚠️ No Dutch voice found. "
+      + "<strong>iPhone/iPad:</strong> Settings → General → Language &amp; Region → Add Language → Dutch, then restart Safari. "
+      + "<strong>Mac/PC:</strong> should work automatically.";
+    el.style.display = "";
+  } else {
+    el.style.display = "none";
+  }
 }
 if ("speechSynthesis" in window) {
   speechSynthesis.onvoiceschanged = loadDutchVoice;
   loadDutchVoice();
+  // iOS loads voices late — retry a few times
+  setTimeout(loadDutchVoice, 200);
+  setTimeout(loadDutchVoice, 1000);
+  setTimeout(loadDutchVoice, 3000);
 }
 function speakDutch(text) {
   if (!("speechSynthesis" in window)) return;
+  // iOS requires a user-gesture re-check on first call
+  if (!dutchVoice) loadDutchVoice();
   speechSynthesis.cancel();
   const readable = text.replace(/\s*\(([^)]+)\)/g, ", $1").trim();
   const utt = new SpeechSynthesisUtterance(readable);
-  utt.lang = "nl-NL"; utt.rate = 0.9;
+  utt.lang = "nl-NL";
+  utt.rate = 0.85;
   if (dutchVoice) utt.voice = dutchVoice;
   speechSynthesis.speak(utt);
 }
