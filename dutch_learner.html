@@ -5378,31 +5378,30 @@ function updateWordTable() {
 
   if (currentChapter === "irr-table") {
     thead.innerHTML = "<tr><th>Infinitief</th><th>Imperfectum</th><th>Voltooid deelwoord</th><th>Engels</th></tr>";
-    const tag = vtScope === "all" ? null
-              : vtScope === "all-batches" ? "all-batches"
-              : vtScope;
-    const cards = DECK.filter(c =>
-      c.type === "word" && (
-        tag === null ? false :
-        tag === "all-batches" ? /^batch-\d+$/.test(c.tag) :
-        c.tag === tag
-      )
-    );
-    if (cards.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="4" style="color:#888;text-align:center;">Selecteer een batch hierboven om de lijst te zien.</td>`;
-      tbody.appendChild(tr);
+
+    let rows = [];
+    if (vtScope === "all") {
+      // Use the irr-table data directly — it already has all three forms
+      rows = DECK.filter(c => c.type === "irr-table")
+                 .map(c => ({ inf: c.inf, imp: c.imp, pp: c.pp, en: c.english }));
     } else {
-      cards.forEach(c => {
+      const batchCards = DECK.filter(c =>
+        c.type === "word" && (
+          vtScope === "all-batches" ? /^batch-\d+$/.test(c.tag) : c.tag === vtScope
+        )
+      );
+      rows = batchCards.map(c => {
         const parts = c.english.split(" — ");
-        const inf     = parts[0] ? parts[0].trim() : c.dutch;
-        const meaning = parts[1] ? parts[1].trim() : "";
-        const imp     = IMP_MAP[inf] || "—";
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${inf}</td><td>${imp}</td><td>${c.dutch}</td><td>${meaning}</td>`;
-        tbody.appendChild(tr);
+        const inf = parts[0] ? parts[0].trim() : c.dutch;
+        return { inf, imp: IMP_MAP[inf] || "—", pp: c.dutch, en: parts[1] ? parts[1].trim() : "" };
       });
     }
+
+    rows.forEach(r => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${r.inf}</td><td>${r.imp}</td><td>${r.pp}</td><td>${r.en}</td>`;
+      tbody.appendChild(tr);
+    });
   } else {
     thead.innerHTML = "<tr><th>Dutch</th><th>English</th></tr>";
     activeDeck.filter(c => c.type === "word").forEach(c => {
@@ -6321,6 +6320,7 @@ document.getElementById("chapter-select").addEventListener("change", function ()
     vtQueue = buildVerbTableQueue();
     vtIdx = 0;
     setMode("verbtable");
+    updateWordTable();
   } else if (currentChapter === "translation") {
     translationQueue = buildTranslationQueue();
     translationIdx = 0;
