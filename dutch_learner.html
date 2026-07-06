@@ -756,6 +756,7 @@ body.light .footer button:hover { color: #1a1a2e; border-color: #888; }
     <button class="topic-tab-btn" data-tab="practice" id="topic-tab-practice">Practice</button>
     <button class="topic-tab-btn" data-tab="sentences">Sentences</button>
     <button class="topic-tab-btn" data-tab="passage" id="topic-tab-passage">Passage</button>
+    <button class="topic-tab-btn" data-tab="families" id="topic-tab-families" style="display:none">Werkwoorden</button>
   </div>
   <div id="topic-overview-content"></div>
 </div>
@@ -2752,6 +2753,20 @@ const DECK = [
     ]
   },
 
+  // ── Ch 12 grammar cards ──
+  { id:"gram028", type:"grammar-rule", dutch:"Scheidbare werkwoorden", english:"Separable verbs (prefix to end)", tag:"Ch 12",
+    grammarSentences:[
+      { s:"De bus ___ om tien uur aan op het station.",               a:["komt"],             full:"De bus komt om tien uur aan op het station.",         hint:"aankomen → hij/zij: <strong>komt … aan</strong>. Prefix (aan) jumps to end of main clause.",               topic:"Scheidbaar — heden" },
+      { s:"Ik ___ elke ochtend om zeven uur op.",                    a:["sta"],              full:"Ik sta elke ochtend om zeven uur op.",                hint:"opstaan → ik: <strong>sta … op</strong>. Prefix (op) jumps to end of main clause.",                          topic:"Scheidbaar — heden" },
+      { s:"Neem je de plattegrond ___?",                             a:["mee"],              full:"Neem je de plattegrond mee?",                         hint:"meenemen → jij: neemt/neem + <strong>mee</strong>. Prefix (mee) goes to end.",                               topic:"Scheidbaar — heden" },
+      { s:"___ bij de volgende halte uit!",                          a:["Stap"],             full:"Stap bij de volgende halte uit!",                     hint:"Imperatief: stem = <strong>Stap</strong>. Prefix (uit) stays at end: <em>Stap … uit!</em>",                   topic:"Scheidbaar — imperatief" },
+      { s:"Ze moeten hier ___.",                                     a:["uitstappen"],       full:"Ze moeten hier uitstappen.",                          hint:"Modaal + infinitief: separable verb stays <strong>together</strong> at end of clause.",                        topic:"Scheidbaar — modaal + infinitief" },
+      { s:"We hebben de plattegrond ___.",                           a:["meegenomen"],       full:"We hebben de plattegrond meegenomen.",                hint:"Perfectum: ge- goes <strong>between</strong> prefix and stem: mee + ge + nomen = <strong>meegenomen</strong>.", topic:"Scheidbaar — perfectum" },
+      { s:"Ik weet niet wanneer hij ___.",                           a:["aankomt"],          full:"Ik weet niet wanneer hij aankomt.",                   hint:"Bijzin: prefix and stem stay <strong>together</strong>, verb goes to end: … <strong>aankomt</strong>.",        topic:"Scheidbaar — bijzin" },
+      { s:"Het is fijn om vroeg ___.",                               a:["op te staan"],      full:"Het is fijn om vroeg op te staan.",                   hint:"te-infinitief: <strong>te</strong> goes between prefix and infinitive: op <strong>te</strong> staan.",         topic:"Scheidbaar — te-infinitief" },
+    ]
+  },
+
   // ── Zinnen oefenen (sentence building) ──
   { id:"sb001", type:"grammar-rule", dutch:"Basisvolgorde", english:"Basic word order (SVO)", tag:"sentence-building",
     grammarSentences:[
@@ -3840,6 +3855,32 @@ const GRAMMAR_TOPICS = [
       { dutch: "hoefde niet / hoefden niet", english: "didn't need to" },
     ]
   },
+  { id: "separable-verbs",
+    title: "Scheidbare werkwoorden",   subtitle: "opstaan · aankomen · meenemen…",
+    chapters: ["Ch 12", "grammar-topics", "all"],
+    match: c => c.id === "gram028",
+    practiceMode: null,
+    wordRows: [
+      { dutch: "opstaan",      english: "get up" },
+      { dutch: "uitstappen",   english: "get out (transport)" },
+      { dutch: "instappen",    english: "board / get in (transport)" },
+      { dutch: "aankomen",     english: "arrive" },
+      { dutch: "meenemen",     english: "take along" },
+      { dutch: "oversteken",   english: "cross (a street)" },
+      { dutch: "opbellen",     english: "call (by phone)" },
+      { dutch: "afmaken",      english: "finish / complete" },
+      { dutch: "ophalen",      english: "pick up / collect" },
+      { dutch: "terugbrengen", english: "bring back / return" },
+      { dutch: "uitgaan",      english: "go out / turn off" },
+      { dutch: "meegaan",      english: "go along / agree" },
+      { dutch: "wegrijden",    english: "drive away" },
+      { dutch: "aannemen",     english: "accept / hire / assume" },
+      { dutch: "opnemen",      english: "record / pick up (phone)" },
+      { dutch: "uitgeven",     english: "spend (money) / publish" },
+      { dutch: "afzetten",     english: "drop off / switch off" },
+      { dutch: "weggaan",      english: "go away / leave" },
+    ]
+  },
 ];
 
 function renderVerbPatternOverview() {
@@ -3859,8 +3900,400 @@ function renderVerbPatternOverview() {
   return html;
 }
 
+// ── SEPARABLE VERB PRACTICE STATE ──
+const SEP_VERBS   = ["komen","gaan","lopen","rijden","brengen","halen","zetten","stappen","nemen","geven"];
+const SEP_PFXS    = ["aan-","af-","in-","mee-","op-","over-","terug-","uit-","weg-"];
+const SEP_ROOT_PP = { komen:"gekomen", gaan:"gegaan", lopen:"gelopen", rijden:"gereden",
+                      brengen:"gebracht", halen:"gehaald", zetten:"gezet",
+                      stappen:"gestapt", nemen:"genomen", geven:"gegeven" };
+function computeSepPP(pfx, vIdx) {
+  const rootPP = SEP_ROOT_PP[SEP_VERBS[vIdx]];        // e.g. "gelopen"
+  const stem   = rootPP.replace(/^ge/, "");            // "lopen"
+  return pfx.replace(/-$/, "") + "ge" + stem;         // "afgelopen"
+}
+const SEP_D = {
+  "aan-":  [["aankomen","arrive"],["aangaan","turn on / go to"],["aanlopen","walk to / drop by"],["aanrijden","drive up"],["aanbrengen","apply / install"],["aanhalen","quote / tighten"],["aanzetten","turn on"],["aanstappen","start walking"],["aannemen","accept / hire"],["aangeven","hand to / indicate"]],
+  "af-":   [["afkomen","come off/down"],["afgaan","go down / fail"],["aflopen","expire / walk down"],["afrijden","drive off"],["afbrengen","drop off"],["afhalen","pick up / collect"],["afzetten","drop off / switch off"],["afstappen","get off / step down"],["afnemen","decrease / take away"],["afgeven","hand over"]],
+  "in-":   [["inkomen","come in / earn"],["ingaan","enter / start"],["inlopen","walk in / catch up"],["inrijden","drive in"],["inbrengen","contribute"],["inhalen","overtake / make up"],["inzetten","deploy / use"],["instappen","board / get in"],["innemen","take / occupy"],null],
+  "mee-":  [["meekomen","come along"],["meegaan","go along / agree"],["meelopen","walk along"],["meerijden","ride along"],["meebrengen","bring along"],null,null,["meestappen","step along"],["meenemen","take along"],["meegeven","give along"]],
+  "op-":   [["opkomen","come up / occur"],["opgaan","go up / be absorbed"],["oplopen","walk up / increase"],["oprijden","drive up"],["opbrengen","yield / bring up"],["ophalen","pick up / recall"],["opzetten","set up / launch"],["opstappen","get on / leave"],["opnemen","record / pick up"],["opgeven","give up / assign"]],
+  "over-": [["overkomen","come over / happen to"],["overgaan","transfer / ring"],["overlopen","overflow / desert"],["overrijden","run over"],["overbrengen","convey / transmit"],["overhalen","persuade"],["overzetten","ferry across"],["overstappen","transfer / switch"],["overnemen","take over"],["overgeven","vomit / hand over"]],
+  "terug-":[["terugkomen","come back"],["teruggaan","go back"],["teruglopen","walk back"],["terugrijden","drive back"],["terugbrengen","bring back"],["terughalen","fetch back"],["terugzetten","put back"],["terugstappen","step back"],["terugnemen","take back"],["teruggeven","give back"]],
+  "uit-":  [["uitkomen","come out / work out"],["uitgaan","go out / turn off"],["uitlopen","walk out / run late"],["uitrijden","drive out"],["uitbrengen","publish / release"],["uithalen","fetch out / pull out"],["uitzetten","turn off / expand"],["uitstappen","get out"],["uitnemen","take out"],["uitgeven","spend / publish"]],
+  "weg-":  [["wegkomen","get away"],["weggaan","go away / leave"],["weglopen","walk away"],["wegrijden","drive away"],["wegbrengen","drop off / take away"],["weghalen","remove"],["wegzetten","put away"],["wegstappen","step away"],["wegnemen","take away / remove"],["weggeven","give away"]],
+};
+const SEP_EXTRA = [
+  // 🏠 Thuis
+  {cat:"🏠 Thuis",          pfx:"schoon-",  inf:"schoonmaken",   pp:"schoongemaakt",    en:"clean"},
+  {cat:"🏠 Thuis",          pfx:"op-",      inf:"opruimen",       pp:"opgeruimd",        en:"tidy up"},
+  {cat:"🏠 Thuis",          pfx:"af-",      inf:"afwassen",       pp:"afgewassen",       en:"do the dishes"},
+  {cat:"🏠 Thuis",          pfx:"klaar-",   inf:"klaarmaken",     pp:"klaargemaakt",     en:"prepare / make ready"},
+  {cat:"🏠 Thuis",          pfx:"neer-",    inf:"neerzetten",     pp:"neergezet",        en:"put down"},
+  {cat:"🏠 Thuis",          pfx:"op-",      inf:"ophangen",       pp:"opgehangen",       en:"hang up"},
+  {cat:"🏠 Thuis",          pfx:"aan-",     inf:"aantrekken",     pp:"aangetrokken",     en:"put on (clothes)"},
+  {cat:"🏠 Thuis",          pfx:"uit-",     inf:"uittrekken",     pp:"uitgetrokken",     en:"take off (clothes)"},
+  {cat:"🏠 Thuis",          pfx:"aan-",     inf:"aandoen",        pp:"aangedaan",        en:"turn on / put on"},
+  {cat:"🏠 Thuis",          pfx:"uit-",     inf:"uitdoen",        pp:"uitgedaan",        en:"turn off / take off"},
+  {cat:"🏠 Thuis",          pfx:"kapot-",   inf:"kapotmaken",     pp:"kapotgemaakt",     en:"break / damage"},
+  {cat:"🏠 Thuis",          pfx:"klaar-",   inf:"klaarzetten",    pp:"klaargezet",       en:"set out / prepare"},
+  {cat:"🏠 Thuis",          pfx:"open-",    inf:"openmaken",      pp:"opengemaakt",      en:"open / unlock"},
+  {cat:"🏠 Thuis",          pfx:"dicht-",   inf:"dichtdoen",      pp:"dichtgedaan",      en:"close / shut"},
+  {cat:"🏠 Thuis",          pfx:"vast-",    inf:"vastzetten",     pp:"vastgezet",        en:"fix / secure"},
+  {cat:"🏠 Thuis",          pfx:"los-",     inf:"loslaten",       pp:"losgelaten",       en:"let go / release"},
+  // 📞 Communicatie
+  {cat:"📞 Communicatie",   pfx:"op-",      inf:"opbellen",       pp:"opgebeld",         en:"call (phone)"},
+  {cat:"📞 Communicatie",   pfx:"terug-",   inf:"terugbellen",    pp:"teruggebeld",      en:"call back"},
+  {cat:"📞 Communicatie",   pfx:"af-",      inf:"afbellen",       pp:"afgebeld",         en:"call off / cancel"},
+  {cat:"📞 Communicatie",   pfx:"aan-",     inf:"aanmelden",      pp:"aangemeld",        en:"register / sign in"},
+  {cat:"📞 Communicatie",   pfx:"af-",      inf:"afmelden",       pp:"afgemeld",         en:"deregister / sign out"},
+  {cat:"📞 Communicatie",   pfx:"in-",      inf:"inschrijven",    pp:"ingeschreven",     en:"enroll / register"},
+  {cat:"📞 Communicatie",   pfx:"uit-",     inf:"uitschrijven",   pp:"uitgeschreven",    en:"unsubscribe / deregister"},
+  {cat:"📞 Communicatie",   pfx:"door-",    inf:"doorsturen",     pp:"doorgestuurd",     en:"forward (message)"},
+  {cat:"📞 Communicatie",   pfx:"op-",      inf:"opsturen",       pp:"opgestuurd",       en:"send out"},
+  {cat:"📞 Communicatie",   pfx:"in-",      inf:"inloggen",       pp:"ingelogd",         en:"log in"},
+  {cat:"📞 Communicatie",   pfx:"uit-",     inf:"uitloggen",      pp:"uitgelogd",        en:"log out"},
+  {cat:"📞 Communicatie",   pfx:"uit-",     inf:"uitnodigen",     pp:"uitgenodigd",      en:"invite"},
+  // 🚶 Beweging
+  {cat:"🚶 Beweging",       pfx:"thuis-",   inf:"thuiskomen",     pp:"thuisgekomen",     en:"come home"},
+  {cat:"🚶 Beweging",       pfx:"voorbij-", inf:"voorbijgaan",    pp:"voorbijgegaan",    en:"pass by"},
+  {cat:"🚶 Beweging",       pfx:"langs-",   inf:"langskomen",     pp:"langsgekomen",     en:"come by / visit"},
+  {cat:"🚶 Beweging",       pfx:"binnen-",  inf:"binnenkomen",    pp:"binnengekomen",    en:"come in"},
+  {cat:"🚶 Beweging",       pfx:"binnen-",  inf:"binnenlopen",    pp:"binnengelopen",    en:"walk in"},
+  {cat:"🚶 Beweging",       pfx:"door-",    inf:"doorgaan",       pp:"doorgegaan",       en:"continue / go through"},
+  {cat:"🚶 Beweging",       pfx:"tegen-",   inf:"tegenkomen",     pp:"tegengekomen",     en:"encounter / run into"},
+  {cat:"🚶 Beweging",       pfx:"bij-",     inf:"bijkomen",       pp:"bijgekomen",       en:"come around / recover"},
+  {cat:"🚶 Beweging",       pfx:"op-",      inf:"opvallen",       pp:"opgevallen",       en:"stand out / catch the eye"},
+  {cat:"🚶 Beweging",       pfx:"uit-",     inf:"uitvallen",      pp:"uitgevallen",      en:"drop out / fail"},
+  {cat:"🚶 Beweging",       pfx:"op-",      inf:"opschieten",     pp:"opgeschoten",      en:"hurry up / make progress"},
+  {cat:"🚶 Beweging",       pfx:"voort-",   inf:"voortgaan",      pp:"voortgegaan",      en:"proceed / go on"},
+  // 💬 Gevoel & mening
+  {cat:"💬 Gevoel & mening",pfx:"mee-",     inf:"meevallen",      pp:"meegevallen",      en:"turn out better than expected"},
+  {cat:"💬 Gevoel & mening",pfx:"tegen-",   inf:"tegenvallen",    pp:"tegengevallen",    en:"be disappointing"},
+  {cat:"💬 Gevoel & mening",pfx:"aan-",     inf:"aanraden",       pp:"aangeraden",       en:"recommend"},
+  {cat:"💬 Gevoel & mening",pfx:"af-",      inf:"afvragen",       pp:"afgevraagd",       en:"wonder (zich ~)"},
+  {cat:"💬 Gevoel & mening",pfx:"af-",      inf:"afspreken",      pp:"afgesproken",      en:"arrange / agree to meet"},
+  {cat:"💬 Gevoel & mening",pfx:"mee-",     inf:"meedoen",        pp:"meegedaan",        en:"participate / join in"},
+  {cat:"💬 Gevoel & mening",pfx:"door-",    inf:"doorzetten",     pp:"doorgezet",        en:"persevere / push through"},
+  {cat:"💬 Gevoel & mening",pfx:"voor-",    inf:"voorstellen",    pp:"voorgesteld",      en:"introduce / suggest"},
+  // 🎓 Werk & school
+  {cat:"🎓 Werk & school",  pfx:"in-",      inf:"invullen",       pp:"ingevuld",         en:"fill in (form)"},
+  {cat:"🎓 Werk & school",  pfx:"uit-",     inf:"uitleggen",      pp:"uitgelegd",        en:"explain"},
+  {cat:"🎓 Werk & school",  pfx:"op-",      inf:"opschrijven",    pp:"opgeschreven",     en:"write down / note"},
+  {cat:"🎓 Werk & school",  pfx:"op-",      inf:"opzoeken",       pp:"opgezocht",        en:"look up / search for"},
+  {cat:"🎓 Werk & school",  pfx:"na-",      inf:"nadenken",       pp:"nagedacht",        en:"think about / reflect"},
+  {cat:"🎓 Werk & school",  pfx:"door-",    inf:"doornemen",      pp:"doorgenomen",      en:"go through / review"},
+  {cat:"🎓 Werk & school",  pfx:"samen-",   inf:"samenwerken",    pp:"samengewerkt",     en:"cooperate / work together"},
+  {cat:"🎓 Werk & school",  pfx:"bij-",     inf:"bijdragen",      pp:"bijgedragen",      en:"contribute"},
+  {cat:"🎓 Werk & school",  pfx:"bij-",     inf:"bijhouden",      pp:"bijgehouden",      en:"keep up with / maintain"},
+  {cat:"🎓 Werk & school",  pfx:"in-",      inf:"inleveren",      pp:"ingeleverd",       en:"hand in / submit"},
+  {cat:"🎓 Werk & school",  pfx:"af-",      inf:"afronden",       pp:"afgerond",         en:"round off / complete"},
+  {cat:"🎓 Werk & school",  pfx:"af-",      inf:"afleiden",       pp:"afgeleid",         en:"distract / derive"},
+  {cat:"🎓 Werk & school",  pfx:"uit-",     inf:"uitwerken",      pp:"uitgewerkt",       en:"elaborate / work out"},
+  {cat:"🎓 Werk & school",  pfx:"door-",    inf:"doorwerken",     pp:"doorgewerkt",      en:"continue working"},
+  {cat:"🎓 Werk & school",  pfx:"mee-",     inf:"meewerken",      pp:"meegewerkt",       en:"cooperate / go along"},
+  {cat:"🎓 Werk & school",  pfx:"mee-",     inf:"meemaken",       pp:"meegemaakt",       en:"experience / go through"},
+  // 🛒 Winkelen & geld
+  {cat:"🛒 Winkelen & geld",pfx:"in-",      inf:"inpakken",       pp:"ingepakt",         en:"pack / wrap"},
+  {cat:"🛒 Winkelen & geld",pfx:"uit-",     inf:"uitpakken",      pp:"uitgepakt",        en:"unpack"},
+  {cat:"🛒 Winkelen & geld",pfx:"op-",      inf:"opeten",         pp:"opgegeten",        en:"eat up"},
+  {cat:"🛒 Winkelen & geld",pfx:"op-",      inf:"opdrinken",      pp:"opgedronken",      en:"drink up"},
+  {cat:"🛒 Winkelen & geld",pfx:"weg-",     inf:"weggooien",      pp:"weggegooid",       en:"throw away"},
+  {cat:"🛒 Winkelen & geld",pfx:"terug-",   inf:"terugbetalen",   pp:"terugbetaald",     en:"pay back / reimburse"},
+  {cat:"🛒 Winkelen & geld",pfx:"af-",      inf:"afrekenen",      pp:"afgerekend",       en:"settle the bill"},
+  {cat:"🛒 Winkelen & geld",pfx:"af-",      inf:"aftrekken",      pp:"afgetrokken",      en:"deduct / subtract"},
+  {cat:"🛒 Winkelen & geld",pfx:"op-",      inf:"opslaan",        pp:"opgeslagen",       en:"save / store"},
+  {cat:"🛒 Winkelen & geld",pfx:"af-",      inf:"afleveren",      pp:"afgeleverd",       en:"deliver"},
+  {cat:"🛒 Winkelen & geld",pfx:"in-",      inf:"inslaan",        pp:"ingeslagen",       en:"stock up"},
+  {cat:"🛒 Winkelen & geld",pfx:"uit-",     inf:"uitbetalen",     pp:"uitbetaald",       en:"pay out"},
+  // ⚙️ Praktisch
+  {cat:"⚙️ Praktisch",      pfx:"in-",      inf:"inschakelen",    pp:"ingeschakeld",     en:"switch on / involve"},
+  {cat:"⚙️ Praktisch",      pfx:"uit-",     inf:"uitschakelen",   pp:"uitgeschakeld",    en:"switch off / eliminate"},
+  {cat:"⚙️ Praktisch",      pfx:"aan-",     inf:"aanpassen",      pp:"aangepast",        en:"adjust / adapt"},
+  {cat:"⚙️ Praktisch",      pfx:"vast-",    inf:"vasthouden",     pp:"vastgehouden",     en:"hold on to / maintain"},
+  {cat:"⚙️ Praktisch",      pfx:"tegen-",   inf:"tegenhouden",    pp:"tegengehouden",    en:"stop / hold back"},
+  {cat:"⚙️ Praktisch",      pfx:"voor-",    inf:"voorkomen",      pp:"voorgekomen",      en:"prevent / occur"},
+  {cat:"⚙️ Praktisch",      pfx:"voor-",    inf:"voorbereiden",   pp:"voorbereid",       en:"prepare"},
+  {cat:"⚙️ Praktisch",      pfx:"door-",    inf:"doorgeven",      pp:"doorgegeven",      en:"pass on / relay"},
+  {cat:"⚙️ Praktisch",      pfx:"uit-",     inf:"uitvoeren",      pp:"uitgevoerd",       en:"carry out / execute"},
+  {cat:"⚙️ Praktisch",      pfx:"in-",      inf:"invoeren",       pp:"ingevoerd",        en:"introduce / enter / import"},
+  {cat:"⚙️ Praktisch",      pfx:"op-",      inf:"opbouwen",       pp:"opgebouwd",        en:"build up / establish"},
+  {cat:"⚙️ Praktisch",      pfx:"af-",      inf:"afbreken",       pp:"afgebroken",       en:"break off / demolish"},
+  {cat:"⚙️ Praktisch",      pfx:"aan-",     inf:"aanbieden",      pp:"aangeboden",       en:"offer"},
+  {cat:"⚙️ Praktisch",      pfx:"uit-",     inf:"uitbreiden",     pp:"uitgebreid",       en:"expand / extend"},
+  {cat:"⚙️ Praktisch",      pfx:"op-",      inf:"oplossen",       pp:"opgelost",         en:"solve / dissolve"},
+  {cat:"⚙️ Praktisch",      pfx:"op-",      inf:"opstarten",      pp:"opgestart",        en:"start up (computer / project)"},
+  {cat:"⚙️ Praktisch",      pfx:"af-",      inf:"afmaken",        pp:"afgemaakt",        en:"finish / complete"},
+  {cat:"⚙️ Praktisch",      pfx:"vrij-",    inf:"vrijmaken",      pp:"vrijgemaakt",      en:"free up / clear"},
+  {cat:"⚙️ Praktisch",      pfx:"op-",      inf:"opmaken",        pp:"opgemaakt",        en:"use up / make up"},
+  {cat:"⚙️ Praktisch",      pfx:"op-",      inf:"opgroeien",      pp:"opgegroeid",       en:"grow up"},
+];
+let sepVerbIdx  = 0;
+let sepLevel    = "review";
+let sepCardIdx  = 0;
+let sepQueue    = [];
+
+function getSepCells(vIdx) {
+  return SEP_PFXS.map((p, pi) => {
+    const cell = SEP_D[p][vIdx];
+    return cell ? { prefix: p, compound: cell[0], english: cell[1], pp: computeSepPP(p, vIdx) } : null;
+  }).filter(Boolean);
+}
+
+function setSepVerb(idx) {
+  sepVerbIdx = ((idx % SEP_VERBS.length) + SEP_VERBS.length) % SEP_VERBS.length;
+  const sel = document.getElementById("sep-verb-sel");
+  if (sel) sel.value = sepVerbIdx;
+  const lbl = document.getElementById("sep-verb-title");
+  if (lbl) lbl.textContent = SEP_VERBS[sepVerbIdx].toUpperCase();
+  const ctr = document.getElementById("sep-verb-counter");
+  if (ctr) ctr.textContent = `${sepVerbIdx + 1} / ${SEP_VERBS.length}`;
+  sepCardIdx = 0;
+  sepQueue = getSepCells(sepVerbIdx);
+  shuffle(sepQueue);
+  renderSepContent();
+}
+
+function setSepLevel(level) {
+  sepLevel = level;
+  ["review","word","sentence","lijst"].forEach(l => {
+    const btn = document.getElementById(`sep-btn-${l}`);
+    if (btn) btn.style.background = l === level ? "#6c63ff" : "transparent";
+    if (btn) btn.style.color      = l === level ? "#fff"    : "#888";
+    if (btn) btn.style.border     = l === level ? "none"    : "1px solid #555";
+  });
+  sepCardIdx = 0;
+  sepQueue = getSepCells(sepVerbIdx);
+  shuffle(sepQueue);
+  renderSepContent();
+}
+
+function renderSepContent() {
+  const el = document.getElementById("sep-content");
+  if (!el) return;
+
+  if (sepLevel === "lijst") {
+    const cats = [...new Set(SEP_EXTRA.map(e => e.cat))];
+    let html = `<div style="overflow-x:auto"><table class="overview-table" style="width:100%;">`;
+    html += `<thead><tr><th>voorvoegsel</th><th>infinitief</th><th>voltooid deelwoord</th><th>Engels</th><th>schrijf infinitief</th></tr></thead><tbody>`;
+    cats.forEach(cat => {
+      html += `<tr><td colspan="5" style="background:#0a0a1e;color:#a0c4ff;font-weight:700;font-size:0.75rem;letter-spacing:1px;padding:8px 10px;border-top:2px solid #2a2a5a;">${cat}</td></tr>`;
+      SEP_EXTRA.filter(e => e.cat === cat).forEach(e => {
+        html += `<tr>` +
+          `<td style="color:#a0c4ff;font-weight:700;white-space:nowrap;">${e.pfx}</td>` +
+          `<td><strong>${e.inf}</strong></td>` +
+          `<td style="color:#7ec8c8;">${e.pp}</td>` +
+          `<td style="color:#888;font-size:0.8rem;">${e.en}</td>` +
+          `<td><input class="sep-lst-inp" data-ans="${e.inf}" style="width:120px;padding:3px 6px;background:#0e0e28;border:1px solid #333;border-radius:4px;color:#eee;font-size:0.78rem;" placeholder="${e.inf.slice(0,3)}…" autocomplete="off" spellcheck="false"></td>` +
+          `</tr>`;
+      });
+    });
+    html += `</tbody></table></div>`;
+    html += `<div style="margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">`;
+    html += `<button onclick="checkSepLijst()" style="padding:5px 16px;background:#6c63ff;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:0.8rem;font-weight:600;">✓ Check</button>`;
+    html += `<button onclick="document.querySelectorAll('.sep-lst-inp').forEach(i=>{i.value='';i.style.borderColor='#333';i.title=''});document.getElementById('sep-lst-score').textContent='';" style="padding:5px 12px;background:transparent;border:1px solid #555;border-radius:20px;color:#888;cursor:pointer;font-size:0.78rem;">↺ Reset</button>`;
+    html += `<span id="sep-lst-score" style="font-size:0.8rem;color:#a0c4ff;"></span>`;
+    html += `</div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  const verb  = SEP_VERBS[sepVerbIdx];
+  const cells = getSepCells(sepVerbIdx);
+
+  if (sepLevel === "review") {
+    let html = `<div style="overflow-x:auto"><table class="overview-table" style="width:100%;">`;
+    html += `<thead><tr><th>prefix</th><th>infinitief</th><th>voltooid deelwoord</th><th>Engels</th><th>schrijf infinitief</th></tr></thead><tbody>`;
+    cells.forEach(c => {
+      html += `<tr>` +
+        `<td style="color:#a0c4ff;font-weight:700;white-space:nowrap;">${c.prefix}</td>` +
+        `<td><strong>${c.compound}</strong></td>` +
+        `<td style="color:#7ec8c8;">${c.pp}</td>` +
+        `<td style="color:#888;font-size:0.8rem;">${c.english}</td>` +
+        `<td><input class="sep-rev-inp" data-ans="${c.compound}" style="width:120px;padding:3px 6px;background:#0e0e28;border:1px solid #333;border-radius:4px;color:#eee;font-size:0.78rem;" placeholder="${verb}…" autocomplete="off" spellcheck="false"></td>` +
+        `</tr>`;
+    });
+    html += `</tbody></table></div>`;
+    html += `<div style="margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">`;
+    html += `<button onclick="checkSepReview()" style="padding:5px 16px;background:#6c63ff;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:0.8rem;font-weight:600;">✓ Check</button>`;
+    html += `<button onclick="document.querySelectorAll('.sep-rev-inp').forEach(i=>{i.value='';i.style.borderColor='#333';i.title=''});document.getElementById('sep-rev-score').textContent='';" style="padding:5px 12px;background:transparent;border:1px solid #555;border-radius:20px;color:#888;cursor:pointer;font-size:0.78rem;">↺ Reset</button>`;
+    html += `<span id="sep-rev-score" style="font-size:0.8rem;color:#a0c4ff;"></span>`;
+    html += `</div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  if (!sepQueue.length) { sepQueue = [...cells]; shuffle(sepQueue); }
+  const pos  = sepCardIdx % sepQueue.length;
+  const card = sepQueue[pos];
+  const prog = `${pos + 1} / ${sepQueue.length}`;
+
+  let prompt, hint;
+  if (sepLevel === "word") {
+    prompt = `<span style="font-size:1.15rem;font-weight:600;">${card.english}</span>`;
+    hint   = `${card.prefix} + ${verb}`;
+  } else {
+    const tmpl = ["Ik wil morgen ___.", "Kun jij ook ___?", "Ze moeten soms ___.", "Hij kan niet ___."][pos % 4];
+    prompt = `<span style="font-size:1rem;font-style:italic;">"${tmpl}"</span>`;
+    hint   = `${card.english}  ·  ${card.prefix} + ${verb}`;
+  }
+
+  let html = `<div style="font-size:0.72rem;color:#555;margin-bottom:8px;">${prog}</div>`;
+  html += `<div style="background:#0e0e28;border:1px solid #2a2a5a;border-radius:10px;padding:16px 18px;margin-bottom:12px;">`;
+  html += `<p style="margin:0 0 8px 0;">${prompt}</p>`;
+  html += `<p style="margin:0;font-size:0.74rem;color:#6c63ff;">${hint}</p>`;
+  html += `</div>`;
+  html += `<input id="sep-card-inp" class="ex-input" type="text" autocomplete="off" spellcheck="false" placeholder="type Dutch compound verb…" style="max-width:260px;width:100%;margin-bottom:6px;" onkeydown="if(event.key==='Enter')checkSepCard()">`;
+  html += `<div id="sep-card-fb" class="ex-feedback" style="min-height:20px;margin-bottom:8px;"></div>`;
+  html += `<div id="sep-btn-row" style="display:flex;gap:8px;flex-wrap:wrap;">`;
+  html += `<button onclick="checkSepCard()" style="padding:6px 16px;background:#6c63ff;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:0.82rem;font-weight:600;">✓ Check</button>`;
+  html += `<button onclick="skipSepCard()" style="padding:6px 14px;background:transparent;border:1px solid #555;border-radius:20px;color:#888;cursor:pointer;font-size:0.78rem;">⏭ Skip</button>`;
+  html += `</div>`;
+  el.innerHTML = html;
+  setTimeout(() => document.getElementById("sep-card-inp")?.focus(), 40);
+}
+
+function checkSepCard() {
+  const card = sepQueue[sepCardIdx % sepQueue.length];
+  const inp  = document.getElementById("sep-card-inp");
+  const fb   = document.getElementById("sep-card-fb");
+  const row  = document.getElementById("sep-btn-row");
+  if (!inp || inp.disabled) { nextSepCard(); return; }
+  const val = inp.value.trim().toLowerCase();
+  if (!val) return;
+  const ok = val === card.compound;
+  inp.classList.add(ok ? "correct" : "wrong");
+  inp.disabled = true;
+  fb.textContent = ok ? "✓ Correct!" : `✗ → ${card.compound}`;
+  fb.className   = "ex-feedback " + (ok ? "correct" : "wrong");
+  if (row) row.innerHTML = `<button onclick="nextSepCard()" style="padding:6px 16px;background:#6c63ff;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:0.82rem;font-weight:600;">Next →</button>`;
+}
+
+function skipSepCard() {
+  const card = sepQueue[sepCardIdx % sepQueue.length];
+  const inp  = document.getElementById("sep-card-inp");
+  const fb   = document.getElementById("sep-card-fb");
+  const row  = document.getElementById("sep-btn-row");
+  if (inp) { inp.disabled = true; inp.classList.add("wrong"); }
+  if (fb)  { fb.textContent = `→ ${card.compound}`; fb.className = "ex-feedback wrong"; }
+  if (row) row.innerHTML = `<button onclick="nextSepCard()" style="padding:6px 16px;background:#6c63ff;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:0.82rem;font-weight:600;">Next →</button>`;
+}
+
+function nextSepCard() {
+  sepCardIdx++;
+  if ((sepCardIdx % sepQueue.length) === 0) shuffle(sepQueue);
+  renderSepContent();
+}
+
+function checkSepReview() {
+  let c = 0, t = 0;
+  document.querySelectorAll(".sep-rev-inp").forEach(inp => {
+    const val = inp.value.trim().toLowerCase();
+    const ans = inp.dataset.ans;
+    if (val) {
+      t++;
+      if (val === ans) { c++; inp.style.borderColor = "#4caf50"; inp.title = ""; }
+      else             { inp.style.borderColor = "#e07070"; inp.title = "✓ " + ans; }
+    }
+  });
+  const el = document.getElementById("sep-rev-score");
+  if (el && t) el.textContent = `${c} / ${t} correct`;
+}
+
+function checkSepLijst() {
+  let c = 0, t = 0;
+  document.querySelectorAll(".sep-lst-inp").forEach(inp => {
+    const val = inp.value.trim().toLowerCase();
+    const ans = inp.dataset.ans;
+    if (val) {
+      t++;
+      if (val === ans) { c++; inp.style.borderColor = "#4caf50"; inp.title = ""; }
+      else             { inp.style.borderColor = "#e07070"; inp.title = "✓ " + ans; }
+    }
+  });
+  const el = document.getElementById("sep-lst-score");
+  if (el && t) el.textContent = `${c} / ${t} correct`;
+}
+
+function renderSepFamiliesTab() {
+  const V = SEP_VERBS;
+  const btnStyle = "padding:5px 10px;border:1px solid #555;border-radius:6px;background:transparent;color:#aaa;cursor:pointer;font-size:0.88rem;";
+  const lvlActive= "padding:6px 14px;background:#6c63ff;border:none;border-radius:20px;color:#fff;cursor:pointer;font-size:0.8rem;font-weight:600;";
+  const lvlInact = "padding:6px 14px;background:transparent;border:1px solid #555;border-radius:20px;color:#888;cursor:pointer;font-size:0.8rem;";
+  let html = `<p style="font-weight:700;color:#a0c4ff;font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Werkwoordsfamilies — oefening</p>`;
+  html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">`;
+  html += `<button onclick="setSepVerb(sepVerbIdx-1)" style="${btnStyle}">◀</button>`;
+  html += `<strong id="sep-verb-title" style="font-size:1.1rem;color:#a0c4ff;min-width:90px;text-align:center;">KOMEN</strong>`;
+  html += `<button onclick="setSepVerb(sepVerbIdx+1)" style="${btnStyle}">▶</button>`;
+  html += `<span id="sep-verb-counter" style="font-size:0.75rem;color:#555;">1 / ${V.length}</span>`;
+  html += `<select id="sep-verb-sel" onchange="setSepVerb(parseInt(this.value))" style="padding:4px 8px;border-radius:6px;border:1px solid #444;background:#1a1a2e;color:#a0c4ff;font-size:0.8rem;margin-left:4px;">`;
+  V.forEach((v, i) => { html += `<option value="${i}">${v}</option>`; });
+  html += `</select></div>`;
+  html += `<div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">`;
+  html += `<button id="sep-btn-review"   onclick="setSepLevel('review')"   style="${lvlActive}">📋 Review</button>`;
+  html += `<button id="sep-btn-word"     onclick="setSepLevel('word')"     style="${lvlInact}">🃏 Word</button>`;
+  html += `<button id="sep-btn-sentence" onclick="setSepLevel('sentence')" style="${lvlInact}">✏️ Sentence</button>`;
+  html += `<button id="sep-btn-lijst"    onclick="setSepLevel('lijst')"    style="${lvlInact}">📚 Top 100</button>`;
+  html += `</div>`;
+  html += `<div id="sep-content"></div>`;
+  return html;
+}
+
+function renderSeparableOverview() {
+  const V = SEP_VERBS;
+  const P = SEP_PFXS;
+  const D = {
+    "aan-":  [["aankomen","arrive"],["aangaan","turn on / go to"],["aanlopen","walk to / drop by"],["aanrijden","drive up"],["aanbrengen","apply / install"],["aanhalen","quote / tighten"],["aanzetten","turn on / set off"],["aanstappen","start walking"],["aannemen","accept / hire"],["aangeven","hand to / indicate"]],
+    "af-":   [["afkomen","come off/down"],["afgaan","go down / fail"],["aflopen","expire / walk down"],["afrijden","drive off"],["afbrengen","drop off"],["afhalen","pick up / collect"],["afzetten","drop off / switch off"],["afstappen","get off / step down"],["afnemen","decrease / take away"],["afgeven","hand over"]],
+    "in-":   [["inkomen","come in / earn"],["ingaan","enter / start"],["inlopen","walk in / catch up"],["inrijden","drive in"],["inbrengen","contribute"],["inhalen","overtake / make up"],["inzetten","deploy / use"],["instappen","board / get in"],["innemen","take / occupy"],null],
+    "mee-":  [["meekomen","come along"],["meegaan","go along / agree"],["meelopen","walk along"],["meerijden","ride along"],["meebrengen","bring along"],null,null,["meestappen","step along"],["meenemen","take along"],["meegeven","give along"]],
+    "op-":   [["opkomen","come up / occur"],["opgaan","go up / be absorbed"],["oplopen","walk up / increase"],["oprijden","drive up"],["opbrengen","yield / bring up"],["ophalen","pick up / recall"],["opzetten","set up / launch"],["opstappen","get on / leave"],["opnemen","record / pick up"],["opgeven","give up / assign"]],
+    "over-": [["overkomen","come over / happen to"],["overgaan","transfer / ring"],["overlopen","overflow / desert"],["overrijden","run over"],["overbrengen","convey / transmit"],["overhalen","persuade"],["overzetten","ferry across"],["overstappen","transfer / switch"],["overnemen","take over"],["overgeven","vomit / hand over"]],
+    "terug-":[["terugkomen","come back"],["teruggaan","go back"],["teruglopen","walk back"],["terugrijden","drive back"],["terugbrengen","bring back"],["terughalen","fetch back"],["terugzetten","put back"],["terugstappen","step back"],["terugnemen","take back"],["teruggeven","give back"]],
+    "uit-":  [["uitkomen","come out / work out"],["uitgaan","go out / turn off"],["uitlopen","walk out / run late"],["uitrijden","drive out"],["uitbrengen","publish / release"],["uithalen","fetch out / pull out"],["uitzetten","turn off / expand"],["uitstappen","get out"],["uitnemen","take out"],["uitgeven","spend / publish"]],
+    "weg-":  [["wegkomen","get away"],["weggaan","go away / leave"],["weglopen","walk away"],["wegrijden","drive away"],["wegbrengen","drop off / take away"],["weghalen","remove"],["wegzetten","put away"],["wegstappen","step away"],["wegnemen","take away / remove"],["weggeven","give away"]],
+  };
+
+  const sec = (title) => `<p style="margin-top:14px;font-weight:700;color:#a0c4ff;font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;">${title}</p>`;
+  const th  = (cols)  => `<thead><tr>${cols.map(c=>`<th>${c}</th>`).join("")}</tr></thead>`;
+  const row = (cells) => `<tr>${cells.map(c=>`<td>${c}</td>`).join("")}</tr>`;
+
+  let html = `<p><strong>Scheidbare werkwoorden</strong> (separable verbs) split in main clauses — the prefix jumps to the <strong>end</strong>. In subclauses, with modals, or in te-infinitives, prefix and stem stay <strong>together</strong>. Perfectum: <em>ge-</em> goes between prefix and stem.</p>`;
+
+  // Word order table
+  html += sec("Woordvolgorde — vijf situaties");
+  html += `<table class="overview-table"><tbody>`;
+  html += row(["<strong>Hoofdzin</strong>", "verb pos.&nbsp;2, prefix to <strong>END</strong>", "Ik <strong>sta</strong> om 7 uur <strong>op</strong>."]);
+  html += row(["<strong>Modaal</strong>",   "modal pos.&nbsp;2, infinitive stays together",     "Ik moet om 7 uur <strong>opstaan</strong>."]);
+  html += row(["<strong>Perfectum</strong>","hulpww + prefix·<em>ge</em>·stam",                 "Ik ben vroeg <strong>op·ge·staan</strong>."]);
+  html += row(["<strong>Bijzin</strong>",   "prefix+stam together, verb to end",                "…omdat ik vroeg <strong>opsta</strong>."]);
+  html += row(["<strong>te-inf.</strong>",  "<em>te</em> between prefix and infinitive",        "om vroeg <strong>op te staan</strong>."]);
+  html += `</tbody></table>`;
+
+  // Prefix meanings
+  html += sec("Voorvoegsels — betekenis en trend");
+  html += `<table class="overview-table">${th(["prefix","trend","voorbeelden"])}`;
+  html += `<tbody>`;
+  [["aan-","arrival / contact","aankomen · aanbellen · aanzetten"],
+   ["af-", "completion / descent / off","afmaken · afhalen · afzetten"],
+   ["in-", "entry / inward","instappen · inhalen · inzetten"],
+   ["mee-","along / together","meenemen · meegaan · meebrengen"],
+   ["neer-","down / deposit","neerzetten · neerleggen · neerkomen"],
+   ["om-", "around / via","omlopen · omrijden · omgaan"],
+   ["op-", "up / starting / recording","opstaan · opbellen · opnemen"],
+   ["over-","across / over / taking","oversteken · overnemen · overgaan"],
+   ["terug-","back / return","terugkomen · terugbrengen · teruggeven"],
+   ["uit-","out / off / completing","uitstappen · uitgeven · uitlopen"],
+   ["voor-","ahead / presenting","voorlezen · voorstellen · voortgaan"],
+   ["weg-","away","weggaan · weghalen · wegrijden"],
+  ].forEach(r => { html += row(r); });
+  html += `</tbody></table>`;
+
+  return html;
+}
+
 function getTopicOverviewHtml(topicId) {
-  if (topicId === "verbpatronen") return renderVerbPatternOverview();
+  if (topicId === "verbpatronen")    return renderVerbPatternOverview();
+  if (topicId === "separable-verbs") return renderSeparableOverview();
   const tables = {
     "verb-Ch7": {
       desc: `The stem = infinitive minus <strong>-en</strong> (werken → werk). ` +
@@ -4474,6 +4907,57 @@ function getTopicOverviewHtml(topicId) {
              ["kunnen","kon","konden","could"],
              ["zullen","zou","zouden","would"],
              ["hoeven (niet)","hoefde (niet)","hoefden (niet)","didn't need to"]],
+    },
+    "separable-verbs": {
+      desc: `<strong>Scheidbare werkwoorden</strong> (separable verbs) have a prefix (e.g. <em>op-</em>, <em>mee-</em>, <em>aan-</em>) that splits off in main clauses. ` +
+            `<strong>Main clause:</strong> the conjugated verb stays in position 2; the prefix jumps to the <strong>end</strong>: ` +
+            `<em>Ik <strong>sta</strong> om 7 uur <strong>op</strong>.</em> ` +
+            `<strong>Perfectum:</strong> <em>ge-</em> goes <em>between</em> prefix and stem: ` +
+            `<em>mee + ge + nomen = <strong>meegenomen</strong></em>. ` +
+            `<strong>Subclause / modal / te-infinitive:</strong> prefix and stem stay <strong>together</strong>.`,
+      sections: [
+        { title: "Woordvolgorde — vijf situaties",
+          rows: [
+            ["positie",            "regel",                                              "voorbeeld"],
+            ["Hoofdzin — heden",   "verb pos. 2 · prefix to <strong>END</strong>",       "Ik <strong>sta</strong> om 7 uur <strong>op</strong>."],
+            ["Hoofdzin — modaal",  "modal pos. 2 · infinitive stays together at end",    "Ik moet om 7 uur <strong>opstaan</strong>."],
+            ["Perfectum",          "hulpww + prefix + <em>ge</em> + stem",               "Ik ben vroeg <strong>op·ge·staan</strong>."],
+            ["Bijzin",             "prefix+stam together · verb to end",                 "…omdat ik vroeg <strong>opsta</strong>."],
+            ["te-infinitief",      "<em>te</em> between prefix and infinitive",          "om vroeg <strong>op te staan</strong>."],
+          ]
+        },
+        { title: "Voorvoegsels — betekenis en trend",
+          rows: [
+            ["voorvoegsel",  "hoofdbetekenis",             "voorbeelden"],
+            ["aan-",         "arrival / contact",           "aankomen · aanbellen · aantrekken"],
+            ["af-",          "completion / descent / turn", "afmaken · afgaan · afslaan"],
+            ["in-",          "entry / inward",              "instappen · invullen · inrijden"],
+            ["mee-",         "together / along",            "meenemen · meegaan · meekomen"],
+            ["neer-",        "down / depositing",           "neerzetten · neerleggen · neerkomen"],
+            ["om-",          "around / turning",            "omgaan · omrijden · omlopen"],
+            ["op-",          "upward / starting",           "opstaan · opbellen · opgaan"],
+            ["over-",        "across / crossing",           "oversteken · overstappen · overlopen"],
+            ["terug-",       "back (return)",               "terugkomen · terugbrengen · terugrijden"],
+            ["uit-",         "outward / off / out of",      "uitstappen · uitlopen · uitrijden"],
+            ["voor-",        "ahead / presenting",          "voorstellen · voortgaan · voorlezen"],
+            ["weg-",         "away",                        "weggaan · weglopen · wegrijden"],
+          ]
+        },
+        { title: "Werkwoordsfamilies — zelfde prefix, ander werkwoord",
+          rows: [
+            ["prefix",   "komen",                    "gaan",                  "stappen",                   "lopen"],
+            ["aan-",     "aankomen (arrive)",         "aangaan (go towards)",  "aanstappen (step on)",      "aanlopen (walk to)"],
+            ["af-",      "afkomen (come down/off)",   "afgaan (go down)",      "afstappen (get off)",       "aflopen (walk down)"],
+            ["in-",      "inkomen (come in)",         "ingaan (enter)",        "instappen (get on/in)",     "inlopen (walk in)"],
+            ["mee-",     "meekomen (come along)",     "meegaan (go along)",    "meestappen (step along)",   "meelopen (walk along)"],
+            ["op-",      "opkomen (come up)",         "opgaan (go up)",        "opstappen (step up / leave)","oplopen (walk up)"],
+            ["over-",    "overkomen (come over)",     "overgaan (go over)",    "overstappen (transfer)",    "overlopen (overflow)"],
+            ["terug-",   "terugkomen (come back)",    "teruggaan (go back)",   "terugstappen (step back)",  "terugloopen (walk back)"],
+            ["uit-",     "uitkomen (come out)",       "uitgaan (go out)",      "uitstappen (get out)",      "uitlopen (lead/walk out)"],
+            ["weg-",     "wegkomen (get away)",       "weggaan (go away)",     "wegstappen (step away)",    "weglopen (walk away)"],
+          ]
+        },
+      ],
     },
   };
   const t = tables[topicId];
@@ -6604,7 +7088,7 @@ let topicWordDeck     = [];
 let topicWordIdx      = 0;
 let topicWordMode     = "flip";
 let topicWordAnswered = false;
-let topicWordLang     = "en"; // "en" = English front, "nl" = Dutch front
+let topicWordLang     = "nl"; // "nl" = Dutch front (default), "en" = English front
 
 function showTopicWords() {
   const topic = GRAMMAR_TOPICS.find(t => t.id === currentGrammarTopic);
@@ -6697,7 +7181,8 @@ document.querySelectorAll(".twm-btn").forEach(btn =>
 );
 document.getElementById("twb-lang-toggle").addEventListener("click", () => {
   topicWordLang = topicWordLang === "en" ? "nl" : "en";
-  document.getElementById("twb-lang-toggle").textContent = topicWordLang === "en" ? "EN → NL" : "NL → EN";
+  // Button shows DESTINATION (where you can switch to next)
+  document.getElementById("twb-lang-toggle").textContent = topicWordLang === "en" ? "NL → EN" : "EN → NL";
   topicWordIdx = 0;
   renderTopicWordCard();
 });
@@ -6940,6 +7425,7 @@ function selectGrammarTopic(topicId) {
   practiceBtn.textContent = topic.practiceMode === "possessive" ? "Table" : "Practice";
   document.getElementById("topic-tab-words").style.display = topic.wordRows ? "" : "none";
   document.getElementById("topic-tab-passage").style.display = topic.passages ? "" : "none";
+  document.getElementById("topic-tab-families").style.display = topicId === "separable-verbs" ? "" : "none";
   document.querySelectorAll(".topic-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === "overview"));
   document.getElementById("grammar-topic-detail").classList.add("visible");
   setTopicTab("overview");
@@ -7004,6 +7490,13 @@ function setTopicTab(tab) {
     showBox(null);
     document.getElementById("topic-overview-content").innerHTML = getTopicOverviewHtml(currentGrammarTopic);
     document.getElementById("topic-overview-content").style.display = "";
+  } else if (tab === "families") {
+    showBox(null);
+    document.getElementById("topic-overview-content").innerHTML = renderSepFamiliesTab();
+    document.getElementById("topic-overview-content").style.display = "";
+    sepVerbIdx = 0; sepLevel = "review"; sepCardIdx = 0;
+    sepQueue = getSepCells(0);
+    setTimeout(renderSepContent, 0);
   } else if (tab === "words") {
     document.getElementById("topic-overview-content").style.display = "none";
     showBox("topic-words-box");
