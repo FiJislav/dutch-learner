@@ -670,6 +670,7 @@ body.light .footer button:hover { color: #1a1a2e; border-color: #888; }
       <option value="Ch 9">Ch 9: Bij de huisarts</option>
       <option value="Ch 10">Ch 10: Bij de fietsenmaker</option>
       <option value="Ch 11">Ch 11: Op een verjaardag</option>
+      <option value="Ch 12">Ch 12: Naar de Evenementenhal</option>
     </optgroup>
     <optgroup label="Grammar">
       <option value="grammar-practice">Grammar practice</option>
@@ -1426,6 +1427,72 @@ const DECK = [
   { id:"w918", type:"word", subcat:"zinnen", dutch:"Wat lekker!",                               english:"How nice! / Lovely!",                   note:"Reactie — positief", tag:"Ch 11", sentences:[] },
   { id:"w919", type:"word", subcat:"zinnen", dutch:"Wat interessant!",                          english:"How interesting!",                      note:"Reactie — positief", tag:"Ch 11", sentences:[] },
   { id:"w920", type:"word", subcat:"zinnen", dutch:"Wat vervelend!",                            english:"How annoying! / What a nuisance!",      note:"Reactie — negatief", tag:"Ch 11", sentences:[] },
+
+  // ── Ch 12: Naar de Evenementenhal ──
+  { id:"w921", pos:"noun-het", type:"word", dutch:"het station",                  english:"train station",              note:"", tag:"Ch 12", sentences:[] },
+  { id:"w922", pos:"adj",      type:"word", dutch:"bekend",                       english:"known",                      note:"", tag:"Ch 12", sentences:[] },
+  { id:"w923", pos:"noun-de",  type:"word", dutch:"de voorbijganger",             english:"passer-by",                  note:"voorbijgangers (pl)", tag:"Ch 12", sentences:[] },
+  { id:"w924", pos:"noun-de",  type:"word", dutch:"de buschauffeur",              english:"bus driver",                 note:"", tag:"Ch 12", sentences:[] },
+  { id:"w925", pos:"noun-de",  type:"word", dutch:"de bus",                       english:"bus",                        note:"", tag:"Ch 12", sentences:[] },
+  { id:"w926", pos:"noun-de",  type:"word", dutch:"de chauffeur",                 english:"driver",                     note:"", tag:"Ch 12", sentences:[] },
+  { id:"w927", pos:"verb",     type:"word", dutch:"lopen",                        english:"to walk",                    note:"", tag:"Ch 12", sentences:[] },
+  { id:"w928", pos:"adv",      type:"word", dutch:"te",                           english:"too",                        note:"te groot = too big", tag:"Ch 12", sentences:[] },
+  { id:"w929", pos:"adv",      type:"word", dutch:"zeker",                        english:"certainly",                  note:"", tag:"Ch 12", sentences:[] },
+  { id:"w930", pos:"prep",     type:"word", dutch:"vanaf",                        english:"from",                       note:"vanaf hier = from here", tag:"Ch 12", sentences:[] },
+  { id:"w931", pos:"noun-de",  type:"word", dutch:"de tram",                      english:"tram",                       note:"", tag:"Ch 12", sentences:[] },
+  { id:"w932", pos:"noun-de",  type:"word", dutch:"de lijn",                      english:"line (number)",              note:"lijn 5 = tram line 5", tag:"Ch 12", sentences:[] },
+  { id:"w933", pos:"verb",     type:"word", dutch:"hebt geluk (geluk hebben)",    english:"to be lucky",                note:"geluk = luck", tag:"Ch 12", sentences:[] },
+  { id:"w934", pos:"verb",     type:"word", dutch:"komt aan (aankomen)",          english:"to arrive",                  note:"separable verb", tag:"Ch 12", sentences:[] },
+  { id:"w935", pos:"adv",      type:"word", dutch:"net",                          english:"just",                       note:"net aangekomen = just arrived", tag:"Ch 12", sentences:[] },
+  { id:"w936", pos:"adv",      type:"word", dutch:"direct",                       english:"straightaway",               note:"", tag:"Ch 12", sentences:[] },
+  { id:"w937", pos:"verb",     type:"word", dutch:"instappen",                    english:"to get in / to board",       note:"separable: stap in", tag:"Ch 12", sentences:[] },
+  { id:"w938", pos:"noun-het", type:"word", dutch:"het stuk",                     english:"short distance",             note:"een stukje = a short way", tag:"Ch 12", sentences:[] },
+  { id:"w939", pos:"noun-de",  type:"word", dutch:"de ingang",                    english:"entrance",                   note:"", tag:"Ch 12", sentences:[] },
+  { id:"w940", pos:"verb",     type:"word", dutch:"over ... steken (oversteken)", english:"to cross",                   note:"U steekt de straat over.", tag:"Ch 12", sentences:[] },
+  { id:"w941", pos:"noun-de",  type:"word", dutch:"de balie",                     english:"information desk",           note:"", tag:"Ch 12", sentences:[] },
+  { id:"w942", pos:"noun-de",  type:"word", dutch:"de hal",                       english:"hall / foyer",               note:"", tag:"Ch 12", sentences:[] },
+  { id:"w943", pos:"noun-de",  type:"word", dutch:"de portier",                   english:"porter",                     note:"", tag:"Ch 12", sentences:[] },
+  { id:"w944", pos:"adv",      type:"word", dutch:"boven",                        english:"upstairs / above",           note:"", tag:"Ch 12", sentences:[] },
+  { id:"w945", pos:"verb",     type:"word", dutch:"ga op (opgaan)",               english:"to go up",                   note:"U gaat de trap op.", tag:"Ch 12", sentences:[] },
+  { id:"w946", pos:"noun-de",  type:"word", dutch:"de trap",                      english:"stairs",                     note:"trappen (pl)", tag:"Ch 12", sentences:[] },
+  { id:"w947", pos:"adv",      type:"word", dutch:"rechtdoor",                    english:"straight ahead",             note:"", tag:"Ch 12", sentences:[] },
+  { id:"w948", pos:"prep",     type:"word", dutch:"tot",                          english:"as far as / until",          note:"tot het eind = to the end", tag:"Ch 12", sentences:[] },
+  { id:"w949", pos:"verb",     type:"word", dutch:"herkent (herkennen)",          english:"to recognize",               note:"", tag:"Ch 12", sentences:[] },
+  { id:"w950", pos:"adv",      type:"word", dutch:"linksaf",                      english:"to the left",                note:"gaat u linksaf = turn left", tag:"Ch 12", sentences:[] },
+  { id:"w951", pos:"noun-het", type:"word", dutch:"het eind",                     english:"end",                        note:"aan het eind van de straat", tag:"Ch 12", sentences:[] },
+  { id:"w952", pos:"adv",      type:"word", dutch:"rechts",                       english:"on the right",               note:"", tag:"Ch 12", sentences:[] },
+  { id:"w953", pos:"verb",     type:"word", dutch:"neemt mee (meenemen)",         english:"to take along",              note:"separable: neem mee", tag:"Ch 12", sentences:[] },
+  { id:"w954", pos:"noun-de",  type:"word", dutch:"de plattegrond",               english:"map / floor plan",           note:"", tag:"Ch 12", sentences:[] },
+  { id:"w955", pos:"noun-het", type:"word", dutch:"toiletten (het toilet)",       english:"toilets",                    note:"toilet (sg), toiletten (pl)", tag:"Ch 12", sentences:[] },
+  { id:"w956", pos:"adv",      type:"word", dutch:"beneden",                      english:"downstairs / below",         note:"", tag:"Ch 12", sentences:[] },
+  { id:"w957", pos:"noun-de",  type:"word", dutch:"de hoek",                      english:"corner",                     note:"om de hoek = around the corner", tag:"Ch 12", sentences:[] },
+  { id:"w958", pos:"verb",     type:"word", dutch:"ga ... om (omgaan)",           english:"to turn",                    note:"U gaat om de hoek.", tag:"Ch 12", sentences:[] },
+  { id:"w959", pos:"verb",     type:"word", dutch:"ga ... af (afgaan)",           english:"to go down",                 note:"U gaat de trap af.", tag:"Ch 12", sentences:[] },
+  { id:"w960", pos:"verb",     type:"word", dutch:"uitlopen",                     english:"to walk down / to lead out",  note:"", tag:"Ch 12", sentences:[] },
+  { id:"w961", pos:"adv",      type:"word", dutch:"vanzelf",                      english:"as a matter of course / automatically", note:"", tag:"Ch 12", sentences:[] },
+  { id:"w962", pos:"noun-het", type:"word", dutch:"bordjes (het bordje)",         english:"signs",                      note:"bordje (sg)", tag:"Ch 12", sentences:[] },
+  { id:"w963", pos:"verb",     type:"word", dutch:"volgen",                       english:"to follow",                  note:"Volg de bordjes.", tag:"Ch 12", sentences:[] },
+  { id:"w964", pos:"adj",      type:"word", dutch:"makkelijker (makkelijk)",      english:"easier",                     note:"makkelijk = easy", tag:"Ch 12", sentences:[] },
+
+  // Ch 12 phrases — de weg vragen (asking for directions)
+  { id:"w965", type:"word", subcat:"zinnen", dutch:"Mag ik u iets vragen?",                                              english:"May I ask you something?",                                         note:"de weg vragen", tag:"Ch 12", sentences:[] },
+  { id:"w966", type:"word", subcat:"zinnen", dutch:"Bent u hier bekend?",                                                 english:"Do you know your way around here?",                                note:"de weg vragen", tag:"Ch 12", sentences:[] },
+  { id:"w967", type:"word", subcat:"zinnen", dutch:"Weet u waar … is?",                                                   english:"Do you know where … is?",                                          note:"de weg vragen", tag:"Ch 12", sentences:[] },
+  { id:"w968", type:"word", subcat:"zinnen", dutch:"Ik zoek …",                                                           english:"I'm looking for …",                                                note:"de weg vragen", tag:"Ch 12", sentences:[] },
+
+  // Ch 12 phrases — de weg wijzen (giving directions)
+  { id:"w969", type:"word", subcat:"zinnen", dutch:"U gaat hier rechtdoor.",                                              english:"You go straight ahead here.",                                       note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w970", type:"word", subcat:"zinnen", dutch:"U steekt de straat over.",                                            english:"You cross the street.",                                             note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w971", type:"word", subcat:"zinnen", dutch:"U gaat linksaf / rechtsaf.",                                          english:"You turn left / right.",                                            note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w972", type:"word", subcat:"zinnen", dutch:"Aan het eind van de straat gaat u linksaf / rechtsaf.",              english:"At the end of the street you turn left / right.",                   note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w973", type:"word", subcat:"zinnen", dutch:"U neemt de eerste / tweede / derde straat rechts / links.",          english:"You take the 1st / 2nd / 3rd street on the right / left.",          note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w974", type:"word", subcat:"zinnen", dutch:"Het restaurant is aan de rechterkant.",                               english:"The restaurant is on the right side.",                               note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w975", type:"word", subcat:"zinnen", dutch:"De toiletten zijn aan de linkerkant.",                                english:"The toilets are on the left side.",                                  note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w976", type:"word", subcat:"zinnen", dutch:"De tram stopt tegenover de ingang.",                                  english:"The tram stops opposite the entrance.",                             note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w977", type:"word", subcat:"zinnen", dutch:"U gaat de trap op naar boven.",                                       english:"You go up the stairs.",                                             note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w978", type:"word", subcat:"zinnen", dutch:"U gaat de trap af naar beneden.",                                     english:"You go down the stairs.",                                           note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w979", type:"word", subcat:"zinnen", dutch:"U gaat in die richting.",                                             english:"You go in that direction.",                                         note:"de weg wijzen", tag:"Ch 12", sentences:[] },
+  { id:"w980", type:"word", subcat:"zinnen", dutch:"Volg de bordjes.",                                                    english:"Follow the signs.",                                                 note:"de weg wijzen", tag:"Ch 12", sentences:[] },
 
   // ── Ch 6: In een restaurant ──
   { id:"w166", pos:"noun-de", type:"word", dutch:"de vriendin",            english:"(girl)friend",                 note:"", tag:"Ch 6", sentences:[] },
